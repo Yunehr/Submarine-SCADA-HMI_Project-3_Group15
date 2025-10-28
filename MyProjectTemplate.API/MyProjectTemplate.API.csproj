@@ -1,13 +1,19 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
-  <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
 
-  <ItemGroup>
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
-  </ItemGroup>
+		<!-- SPA proxy: automatically starts the Vite dev server when launching the API in VS -->
+		<!-- Update the relative path to the client if your folder layout differs -->
+		<SpaProxyLaunchCommand>npm run dev --prefix ../MyProjectTemplate.Client/myprojecttemplate.client.client</SpaProxyLaunchCommand>
+		<SpaProxyServerUrl>https://localhost:60773</SpaProxyServerUrl>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+		<PackageReference Include="Microsoft.AspNetCore.SpaProxy" Version="8.0.0" />
+	</ItemGroup>
 
 </Project>

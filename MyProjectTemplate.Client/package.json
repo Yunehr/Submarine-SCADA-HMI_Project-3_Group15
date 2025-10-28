@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "metro-config": "^0.83.3",
+    "react-native-web": "^0.21.2"
+  }
+}

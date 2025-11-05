@@ -1,10 +1,12 @@
 using System.IO;
+using FileReader;
 
 namespace DeviceMonitor
 {
     public class OxygenMonitor
     {
         private double ppmPercentage;
+        private int currentDataLine = 0;
         public double PpmPercentage
         {
             get => ppmPercentage;
@@ -22,7 +24,22 @@ namespace DeviceMonitor
                 {
                     ppmPercentage = value;
                 }
-            } 
+            }
+        }
+        public int CurrentDataLine
+        {
+            get => currentDataLine;
+            set
+            {
+                if (value < 0)
+                {
+                    currentDataLine = 0;
+                }
+                else
+                {
+                    currentDataLine = value;
+                }
+            }
         }
 
         public void UpdateOxygenFromFile(string fp)
@@ -33,6 +50,13 @@ namespace DeviceMonitor
             {
                 PpmPercentage = value;
             }
+        }
+
+        public void TakeOxygenReading(string fp)
+        {
+            var fr = new FileReader.FileReader();
+            PpmPercentage = fr.ReadDoubleFromNextLine(fp, CurrentDataLine);
+            CurrentDataLine++;
         }
     }
 }

@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-  <None Update="TestData\OxygenData.txt">
+  <None Update="TestData\**\*.*">
     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
   </None>
   </ItemGroup>

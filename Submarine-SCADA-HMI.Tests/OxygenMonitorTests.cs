@@ -22,6 +22,34 @@ public class OxygenMonitorTests
     }
 
     [TestMethod]
+    public void SetNegativeOxygen_ReturnZero()  // oxygen levels should have a floor of zero
+    {
+        // Arrange
+        var oxygenMonitor = new OxygenMonitor();
+        oxygenMonitor.PpmPercentage = -5.0;
+
+        // Act
+        var result = oxygenMonitor.PpmPercentage;
+
+        // Assert
+        Assert.AreEqual(0.0, result);
+    }
+
+    [TestMethod]
+    public void SetOxygenAbove100_Return100()
+    {
+        // Arrange
+        var oxygenMonitor = new OxygenMonitor();
+        oxygenMonitor.PpmPercentage = 150.0;    // composition above 100% is not possible
+
+        // Act
+        var result = oxygenMonitor.PpmPercentage;
+
+        // Assert
+        Assert.AreEqual(100.0, result); 
+    }
+
+    [TestMethod]
     public void GetOxygenFromFile()
     {
         // Arrange

@@ -1,7 +1,9 @@
-﻿namespace Submarine_SCADA_HMI.Tests;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+namespace Submarine_SCADA_HMI.Tests;
 
 [TestClass]
-public sealed class Test1
+public class Test1
 {
     [TestMethod]
     public void TestMethod1()

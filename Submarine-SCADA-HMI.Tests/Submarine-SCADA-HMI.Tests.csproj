@@ -21,4 +21,10 @@
     <ProjectReference Include="..\MyProjectTemplate.API\MyProjectTemplate.API.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+  <None Update="TestData\**\*.*">
+    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+  </None>
+  </ItemGroup>
+
 </Project>

@@ -117,9 +117,9 @@
 
 /* two items side by side when there is room; shrink and wrap when not */
 .gauge-item {
-    flex: 1 1 320px; /* grow, shrink, base width */
-    max-width: 50%; /* prefer two side-by-side */
-    min-width: 20%; /* avoid becoming too small */
+    flex: 1 1; /* grow, shrink, base width */
+    max-width: 100%; /* prefer two side-by-side */
+    min-width: 50%; /* avoid becoming too small */
     display: flex;
     justify-content: center;
     align-items: center;

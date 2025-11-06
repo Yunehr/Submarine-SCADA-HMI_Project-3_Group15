@@ -32,27 +32,29 @@ export default function LifeSupportPanel() {
     //if (!items || items.length === 0) return <div>No data</div>;
 
     return (
-        <div className="gauge-row">
-            <div className="gauge-item">
-                <CustomGauge
-                    value={21}
-                    min={16} max={25}
-                    dLow={18} wLow={19}
-                    wHigh={22} dHigh={23}
-                    labelType="%"
-                />
-            </div>
+        <div>
+            <div className="gauge-row">
+                <div className="gauge-item"> {/*O2/CO2 Gauges*/}
+                    <CustomGauge
+                        value={24}
+                        min={16} max={25}
+                        dLow={18} wLow={19}
+                        wHigh={22} dHigh={23}
+                        labelType="%"
+                    />
+                    <CustomGauge
+                        value={450}
+                        min={300} max={2500}
+                        wLow={400} dLow={301}
+                        wHigh={1000} dHigh={2000}
+                        labelType="ppm"
+                        showLow={false}
+                    />
+                </div>
 
-            <div className="gauge-item">
-                <CustomGauge
-                value={450}
-                min={300} max={2500}
-                wLow={400} dLow={301}
-                wHigh={1000} dHigh={2000}
-                labelType="ppm"
-                showLow={false}
-                />
+
             </div>
         </div>
+        
     );
 }

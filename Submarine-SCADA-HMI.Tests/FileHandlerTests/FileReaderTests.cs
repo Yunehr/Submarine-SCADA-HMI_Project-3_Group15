@@ -1,5 +1,5 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using FileReader;
+using FileHandler;
 
 namespace Submarine_SCADA_HMI.Tests;
 
@@ -11,7 +11,7 @@ public class FileReaderTests
     public void ReadStringFromNextLine_ValidString_ReturnsString()
     {
         // Arrange
-        var fr = new FileReader.FileReader();
+        var fr = new FileReader();
         string fp = "TestData/TestFileReaderData.txt";
 
         // Act
@@ -26,7 +26,7 @@ public class FileReaderTests
     public void ReadStringFromNextLine_InvalidLine_ThrowsFileNotFoundException()
     {
         // Arrange
-        var fr = new FileReader.FileReader();
+        var fr = new FileReader();
         string testFilePath = "TestData/TestFileReaderData.txt";
 
         // Act
@@ -35,13 +35,13 @@ public class FileReaderTests
         // Assert is handled by ExpectedException
     }
 
-    
+
     // ReadDoubleFromNextLine Tests
     [TestMethod]
     public void ReadDoubleFromNextLine_ValidDouble_ReturnsDouble()
     {
         // Arrange
-        var fr = new FileReader.FileReader();
+        var fr = new FileReader();
         string fp = "TestData/TestFileReaderData.txt";
 
         // Act
@@ -55,7 +55,7 @@ public class FileReaderTests
     public void ReadDouble_GetZeroLine_ReturnsZero()
     {
         // Arrange
-        var fr = new FileReader.FileReader();
+        var fr = new FileReader();
         string fp = "TestData/TestFileReaderData.txt";
 
         // Act
@@ -69,7 +69,7 @@ public class FileReaderTests
     public void ReadNegativeDouble_ReturnsNegativeDouble()
     {
         // Arrange
-        var fr = new FileReader.FileReader();
+        var fr = new FileReader();
         string fp = "TestData/TestFileReaderData.txt";
 
         // Act
@@ -83,7 +83,7 @@ public class FileReaderTests
     public void ReadDoubleGreaterThan100_ReturnsGreaterThan100()
     {
         // Arrange
-        var fr = new FileReader.FileReader();
+        var fr = new FileReader();
         string fp = "TestData/TestFileReaderData.txt";
 
         // Act
@@ -98,7 +98,7 @@ public class FileReaderTests
     public void ReadDoubleFromNextLine_InvalidDouble_ThrowsFormatException()
     {
         // Arrange
-        var fr = new FileReader.FileReader();
+        var fr = new FileReader();
         string testFilePath = "TestData/TestFileReaderData.txt";
 
         // Act

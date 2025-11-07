@@ -1,5 +1,5 @@
 using System.IO;
-using FileReader;
+using FileHandler;
 
 namespace DeviceMonitor
 {
@@ -54,7 +54,7 @@ namespace DeviceMonitor
 
         public void TakeOxygenReading(string fp)
         {
-            var fr = new FileReader.FileReader();
+            var fr = new FileHandler.FileReader();
             PpmPercentage = fr.ReadDoubleFromNextLine(fp, CurrentDataLine);
             CurrentDataLine++;
         }

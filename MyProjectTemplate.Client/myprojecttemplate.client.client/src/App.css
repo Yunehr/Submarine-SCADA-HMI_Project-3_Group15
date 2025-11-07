@@ -105,3 +105,38 @@
     border-radius: 4px;
     background: transparent;
 }
+
+/* gauge layout */
+.gauge-row {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    flex-wrap: wrap; /* wrap on narrow screens */
+    padding: 0.5rem 0;
+}
+
+/* two items side by side when there is room; shrink and wrap when not */
+.gauge-item {
+    flex: 1 1; /* grow, shrink, base width */
+    max-width: 100%; /* prefer two side-by-side */
+    min-width: 50%; /* avoid becoming too small */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+/* wrapper inside the flex item so the gauge can center and scale */
+.gauge-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* ensure rendered SVG does not overflow its container */
+.gauge-item .gauge-wrapper svg,
+.gauge-item .gauge-wrapper canvas {
+    max-width: 100%;
+    height: auto;
+}

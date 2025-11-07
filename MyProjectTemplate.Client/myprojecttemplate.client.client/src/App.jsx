@@ -20,12 +20,6 @@ function Controlls() { // temporary for proof of concept, this will be a separat
 
 
 // Additional small demo components to show top/bottom split
-function ExtraPanel() {
-    return <div className="panel">Extra / Logs</div>;
-}
-function CompactStatus() {
-    return <div className="panel">Compact Status</div>;
-}
 function WeaponsPanel() {
     return <div className="panel">Weapons Controls</div>;
 }

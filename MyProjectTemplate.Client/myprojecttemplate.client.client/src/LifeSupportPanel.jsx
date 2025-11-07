@@ -33,6 +33,7 @@ export default function LifeSupportPanel() {
 
     return (
         <div>
+            Life Support
             <div className="gauge-row">
                 <div className="gauge-item"> {/*O2/CO2 Gauges*/}
                     <CustomGauge
@@ -51,8 +52,15 @@ export default function LifeSupportPanel() {
                         showLow={false}
                     />
                 </div>
-
-
+            </div>
+            <div className="gauge-row">
+                O2 Toggle | Scrubber Toggle
+            </div>
+            <div className="gauge-row">
+                Pressure Gauges
+            </div>
+            <div className="gauge-row">
+                Climate Control Panel
             </div>
         </div>
         

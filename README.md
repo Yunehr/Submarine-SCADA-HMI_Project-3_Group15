@@ -13,3 +13,8 @@ npm install
 npm run dev
 ```
 2. Run the project template API normally
+---
+## Credits
+- Created a custom component with the aid of GaugeComponent From; [react-gauge-compoent By: antoniolago](https://github.com/antoniolago/react-gauge-component?tab=readme-ov-file)
+
+

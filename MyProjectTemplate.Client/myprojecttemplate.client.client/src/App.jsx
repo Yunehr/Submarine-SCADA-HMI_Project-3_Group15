@@ -2,7 +2,7 @@
 // Keep this component small in templates; split layout, routes, and pages as the app grows.
 
 import React from 'react';
-import MyComponent from './MyComponent';
+import LifeSupportPanel from './LifeSupportPanel';
 import './App.css'; // Example: add app-level styles here.
 
 function WarningPanel() { // temporary for proof of concept, this will be a separate file
@@ -17,9 +17,7 @@ function Map() { // temporary for proof of concept, this will be a separate file
 function Controlls() { // temporary for proof of concept, this will be a separate file
     return <div className="panel">Console / Status (bottom)</div>;
 }
-function LifeSupportPanel() { // temporary for proof of concept, this will be a separate file
-    return <div className="panel">Life Support </div>;
-}
+
 
 // Additional small demo components to show top/bottom split
 function ExtraPanel() {

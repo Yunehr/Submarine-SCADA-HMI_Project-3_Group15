@@ -1,5 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
 using MyProjectTemplate.API.Controllers;
+
+using Microsoft.EntityFrameworkCore; // Remember to press tools --> NuGet Package Manager --> Package Manager Console --> type the below
+using MyProjectTemplate.API.Data;   // Install-Package Microsoft.EntityFrameworkCore.Tools
+                                   // Install - Package Pomelo.EntityFrameworkCore.MySql - Version 9.0.0
+
 // Program.cs - Application startup for the API project.
 // This file configures services (MVC controllers, Swagger, CORS) and the request pipeline.
 // Keep this file minimal in templates; move heavier configuration to extension methods in larger apps.
@@ -7,9 +12,19 @@ using MyProjectTemplate.API.Controllers;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 // Register MVC controllers (attribute routed controllers live under Controllers/)
 builder.Services.AddControllers();
+
+// Add EF Core + MySQL
+// This is how we will tell the ASP.NET Core dependency injection (DI) system: “Whenever something in our app asks for an AppDbContext, create one for it automatically.”
+builder.Services.AddDbContext<AppDbContext>(options => {
+    // This line fetches our connection string from appsettings.json.
+    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+    // This line auto configures MySQL database given the connection string 
+    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+});
+
 
 // Add OpenAPI/Swagger generation for development and testing.
 // In production you may want to restrict or disable the swagger endpoint.

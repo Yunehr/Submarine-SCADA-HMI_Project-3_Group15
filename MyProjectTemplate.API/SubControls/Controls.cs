@@ -1,4 +1,4 @@
-﻿//sebastian solorzano -- pr3j group 15 (sebastian, sam, evan, ryan) -- controls
+﻿//sebastian solorzano -- pr3j group 15 (sebastian, sam, evan, ryan) -- CSCN72030 f25
 //submarine controls
 
 //do i need includes here? no clue
@@ -16,8 +16,6 @@ namespace MyProjectTemplate.API.SubControls //capitals? iunno
         private ISternPlate stnp;
         private IBallast ball;
 
-        //public direction vector
-        //public magnitude
 
         //constructor
         public Controls()
@@ -34,6 +32,9 @@ namespace MyProjectTemplate.API.SubControls //capitals? iunno
             prop.TurnOn();
         }
 
+        public void Thrust(double offset){
+            prop.Offset = offset;
+        }
         public void Turn(double Offset) {
             rudd.Offset = Offset; 
             //doing this is kinda ugly, but there's no point in making a function for it when this is literally the entire purpose of a setter

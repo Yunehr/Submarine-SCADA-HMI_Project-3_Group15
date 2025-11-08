@@ -1,4 +1,4 @@
-﻿//sebastian solorzano -- pr3j group 15 (sebastian, sam, evan, ryan) -- controls
+﻿//sebastian solorzano -- pr3j group 15 (sebastian, sam, evan, ryan) -- CSCN72030 f25
 //interfaces for sub control elements (propeller, rudder, etc.)
 
 namespace MyProjectTemplate.API.SubControls

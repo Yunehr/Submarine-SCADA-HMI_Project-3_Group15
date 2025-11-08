@@ -1,4 +1,4 @@
-﻿//sebastian solorzano -- pr3j group 15 (sebastian, sam, evan, ryan) -- controls
+﻿//sebastian solorzano -- pr3j group 15 (sebastian, sam, evan, ryan) -- CSCN72030 f25
 //interface for submarine controls
 
 //this is basically like a .h file, except even more fragmented
@@ -10,14 +10,14 @@ namespace MyProjectTemplate.API.SubControls
 {
     public interface IControls
     {
-       // float direction { get; } //sum of xz and xy direction vectors, 
-        void PowerOn(); //diagram said put this in prop, but the other 2 are dependant on it so its prolly fine
+        public void PowerOn(); //diagram said put this in prop, but the other 2 are dependant on it so its prolly fine
         //besides, if it wasn't here, how could the outside access it?
 
         //not sure if these should be void? whatever
-        void Turn(double offset);
-        void Pitch(double offset);
-        void AdjBuoyancy(double offset);
+        public void Thrust(double offset);
+        public void Turn(double offset);
+        public void Pitch(double offset);
+        public void AdjBuoyancy(double offset);
 
         public double[] CalcVelocity();
 

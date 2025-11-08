@@ -5,13 +5,13 @@ using DeviceMonitor;
 namespace Submarine_SCADA_HMI.Tests;
 
 [TestClass]
-public class AirReserveTests
+public class AirReserveMonitorTests
 {
     [TestMethod]
     public void SetAirReserve()
     {
         // Arrange
-        var airReserve = new AirReserve();
+        var airReserve = new AirReserveMonitor();
         airReserve.ReservePercentage = 75.0;
 
         // Act
@@ -25,7 +25,7 @@ public class AirReserveTests
     public void SetNegativeAirReserve_ReturnZero() // Air reserve should have a floor of zero
     {
         // Arrange
-        var airReserve = new AirReserve();
+        var airReserve = new AirReserveMonitor();
         airReserve.ReservePercentage = -20.0;
 
         // Act
@@ -39,7 +39,7 @@ public class AirReserveTests
     public void SetAirReserveAbove100_Return100()
     {
         // Arrange
-        var airReserve = new AirReserve();
+        var airReserve = new AirReserveMonitor();
         airReserve.ReservePercentage = 150.0;    // reserve above 100% is not possible
 
         // Act
@@ -55,7 +55,7 @@ public class AirReserveTests
     public void TakeAirReserveReading_FromFile()
     {
         // Arrange
-        var airReserve = new AirReserve();
+        var airReserve = new AirReserveMonitor();
         string fp = "TestData/TestAirReserveData.txt";
 
         // Act
@@ -69,7 +69,7 @@ public class AirReserveTests
     public void TakeAirReserveReading_ZeroReading()
     {
         // Arrange
-        var airResereve = new AirReserve();
+        var airResereve = new AirReserveMonitor();
         string fp = "TestData/TestAirReserveData.txt";
 
         // Act
@@ -85,7 +85,7 @@ public class AirReserveTests
     public void TakeNegativeAirReserveReading_ReturnsZero()
     {
         // Arrange
-        var airResereve = new AirReserve();
+        var airResereve = new AirReserveMonitor();
         string fp = "TestData/TestAirReserveData.txt";
 
         // Act
@@ -102,7 +102,7 @@ public class AirReserveTests
     public void TakeAbove100AirReserveReading_Returns100()
     {
         // Arrange
-        var airResereve = new AirReserve();
+        var airResereve = new AirReserveMonitor();
         string fp = "TestData/TestAirReserveData.txt";
 
         // Act
@@ -120,7 +120,7 @@ public class AirReserveTests
     public void LogAirReserveReading_AppendToFile()
     {
         // Arrange
-        var airReserve = new AirReserve();
+        var airReserve = new AirReserveMonitor();
         string fp = "TestData/TestLogAirReserveData.txt";
         airReserve.ReservePercentage = 85.0;
         string reading = airReserve.ReservePercentage.ToString();

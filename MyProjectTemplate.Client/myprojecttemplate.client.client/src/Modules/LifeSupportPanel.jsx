@@ -1,8 +1,10 @@
-// Life Support Panel, Displaying various gauges and buttons representing overall health of
+﻿// Life Support Panel, Displaying various gauges and buttons representing overall health of
 
 //import React, { useEffect, useState } from 'react';      //un comment when link to API backend is created
-import CustomGauge from './CustomGague';
-import './App.css';
+import CustomGauge from '../Components/CustomGauge';
+//import ToggleButton from './Components/Button-Toggle'
+import VerticalSwitch from '../Components/VerticleSwitch'
+import '../App.css';
 
 export default function LifeSupportPanel() {
     //const [items, setItems] = useState(null);          //un comment when link to API backend is created
@@ -37,6 +39,7 @@ export default function LifeSupportPanel() {
             <div className="gauge-row">
                 <div className="gauge-item"> {/*O2/CO2 Gauges*/}
                     <CustomGauge
+                        label="O₂"
                         value={24}
                         min={16} max={25}
                         dLow={18} wLow={19}
@@ -44,6 +47,7 @@ export default function LifeSupportPanel() {
                         labelType="%"
                     />
                     <CustomGauge
+                        label="CO₂"
                         value={450}
                         min={300} max={2500}
                         wLow={400} dLow={301}
@@ -53,11 +57,19 @@ export default function LifeSupportPanel() {
                     />
                 </div>
             </div>
-            <div className="gauge-row">
-                O2 Toggle | Scrubber Toggle
+
+            <div className="gauge-row switch-row">
+                <VerticalSwitch label="O2 Valve" />
+                <VerticalSwitch label="Scrubber" />
             </div>
+            Pressure Gauges
             <div className="gauge-row">
-                Pressure Gauges
+                
+                <div className="gauge-item">
+                    <CustomGauge label="temp1" />
+                    <CustomGauge label="temp2" />
+                </div>
+                
             </div>
             <div className="gauge-row">
                 Climate Control Panel

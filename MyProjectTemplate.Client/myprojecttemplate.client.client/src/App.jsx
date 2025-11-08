@@ -2,8 +2,8 @@
 // Keep this component small in templates; split layout, routes, and pages as the app grows.
 
 import React from 'react';
-import LifeSupportPanel from './LifeSupportPanel';
-import './App.css'; // Example: add app-level styles here.
+import LifeSupportPanel from './Modules/LifeSupportPanel';
+import './App.css';
 
 function WarningPanel() { // temporary for proof of concept, this will be a separate file
     return <div className="panel">Warning Light</div>;

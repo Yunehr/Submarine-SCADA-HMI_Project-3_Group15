@@ -79,7 +79,7 @@ public class OxygenMonitorTests
         // Assert
         Assert.AreEqual(100.0, result, 1e-9);
     }
-    
+
     [TestMethod]
     public void TakeOxygenReadingNegativeDoubleFromFile_ReturnZero()
     {
@@ -95,5 +95,23 @@ public class OxygenMonitorTests
 
         // Assert
         Assert.AreEqual(0.0, result, 1e-9);
+    }
+
+    [TestMethod]
+    public void LogOxygenReading_AppendsToFile()
+    {
+        // Arrange
+        var oxygenMonitor = new OxygenMonitor();
+        string fp = "TestData/TestLogOxygenData.txt";
+        double reading = 21.0;
+        oxygenMonitor.PpmPercentage = reading;
+
+        // Act
+        oxygenMonitor.LogOxygenReading(fp);
+        var lastLine = File.ReadLines(fp).Last();
+
+        //Assert
+        Assert.AreEqual(reading.ToString(), lastLine);
+
     }
 }

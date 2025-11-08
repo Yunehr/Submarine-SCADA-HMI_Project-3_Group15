@@ -42,6 +42,11 @@ namespace DeviceMonitor
             }
         }
 
+        public void ResetDataLine()
+        {
+            CurrentDataLine = 0;
+        }
+
         public void UpdateOxygenFromFile(string fp)
         {
             // Reading double value from a file and updating PpmPercentage
@@ -54,9 +59,16 @@ namespace DeviceMonitor
 
         public void TakeOxygenReading(string fp)
         {
-            var fr = new FileHandler.FileReader();
+            var fr = new FileReader();
             PpmPercentage = fr.ReadDoubleFromNextLine(fp, CurrentDataLine);
             CurrentDataLine++;
         }
+
+        public void LogOxygenReading(string fp)
+        {
+            var fw = new FileWriter();
+            fw.AppendDoubleToFile(fp, PpmPercentage);
+        }
+        
     }
 }

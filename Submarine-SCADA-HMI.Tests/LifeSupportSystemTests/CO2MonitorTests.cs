@@ -50,16 +50,65 @@ public class CO2MonitorTests
     }
 
     [TestMethod]
-    public void GetCO2FromFile()
+    public void TakeReadingCO2FromFile()
     {
         // Arrange
         var co2Monitor = new CO2Monitor();
-        co2Monitor.UpdateCO2FromFile("TestData/TestCO2Data.txt");
+        co2Monitor.TakeCO2Reading("TestData/TestCO2Data.txt");
 
         // Act
         var result = co2Monitor.PpmPercentage;
 
         // Assert
         Assert.AreEqual(4.0, result, 1e-9);
+    }
+
+    [TestMethod]
+    public void TakeReadingNegativeCO2FromFile_ReturnZero()
+    {
+        // Arrange
+        var co2Monitor = new CO2Monitor();
+        co2Monitor.UpdateCO2FromFile("TestData/TestCO2Data.txt"); // first line is 4.0
+        co2Monitor.UpdateCO2FromFile("TestData/TestCO2Data.txt"); // second line is -4.0
+
+        // Act
+        var result = co2Monitor.PpmPercentage;
+
+        // Assert
+        Assert.AreEqual(0.0, result, 1e-9);
+    }
+
+    [TestMethod]
+    public void TakeReadingCO2Above100FromFile_Return100()
+    {
+        // Arrange
+        var co2Monitor = new CO2Monitor();
+        co2Monitor.TakeCO2Reading("TestData/TestCO2Data.txt"); // first line is 4.0
+        co2Monitor.TakeCO2Reading("TestData/TestCO2Data.txt"); // second line is -4.0
+        co2Monitor.TakeCO2Reading("TestData/TestCO2Data.txt"); // third line is 120
+
+        // Act
+        var result = co2Monitor.PpmPercentage;
+
+        // Assert
+        Assert.AreEqual(100.0, result, 1e-9);
+    }
+
+    [TestMethod]
+    public void LogCO2ReadingToFile_AppendsToFile()
+    {
+        // Arrange
+        var co2Monitor = new CO2Monitor();
+        string fp = "TestData/TestLogCO2Data.txt";
+        double reading = 21.0;
+        co2Monitor.PpmPercentage = reading;
+
+        // Act
+        co2Monitor.LogCo2Reading(fp);
+        var lastLine = File.ReadLines(fp).Last();
+
+        //Assert
+        Assert.AreEqual(reading.ToString(), lastLine);
+
     }
 }

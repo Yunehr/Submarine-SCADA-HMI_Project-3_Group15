@@ -42,10 +42,7 @@ namespace DeviceMonitor
             }
         }
 
-        public void ResetDataLine()
-        {
-            CurrentDataLine = 0;
-        }
+        public void ResetDataLine() {currentDataLine = 0;}
 
         public void UpdateOxygenFromFile(string fp)
         {

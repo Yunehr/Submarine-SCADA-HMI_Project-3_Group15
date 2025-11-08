@@ -2,7 +2,7 @@ using FileHandler;
 
 namespace DeviceMonitor
 {
-    public class AirReserve
+    public class AirReserveMonitor
     {
         private double rerservePercentage;
         private int currentDataLine = 0;

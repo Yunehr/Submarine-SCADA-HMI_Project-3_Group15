@@ -1,8 +1,8 @@
 import React from 'react';
 import GaugeComponent from 'react-gauge-component';
-import './App.css';
+import '../App.css';
 
-const CustomGauge = ({ grad = false, value = 40, min = 0, max = 100, dLow = 20, wLow = 30, wHigh = 70, dHigh = 80, labelType = "", showLow = true, showHigh = true, showMinMax = false }) => {
+const CustomGauge = ({ label = "", grad = false, value = 40, min = 0, max = 100, dLow = 20, wLow = 30, wHigh = 70, dHigh = 80, labelType = "", showLow = true, showHigh = true, showMinMax = false }) => {
     const v = value;
 
     return (
@@ -53,7 +53,7 @@ const CustomGauge = ({ grad = false, value = 40, min = 0, max = 100, dLow = 20, 
                     valueLabel: {
                         formatTextValue: value => value + labelType,
                         style: {
-                            fontSize: 20,
+                            fontSize: 25,
                             fill: "#345243",
                             textShadow: false
                         }
@@ -71,6 +71,7 @@ const CustomGauge = ({ grad = false, value = 40, min = 0, max = 100, dLow = 20, 
                 minValue={min}
                 maxValue={max}
             />
+            {label && <div className="gauge-label">{label}</div>}
         </div>
     );
 };

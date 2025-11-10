@@ -16,9 +16,14 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 
 
-// This is how we can use the develop set password instead of commiting it to guthub
+// This is how we can use the database password variable instead of committing it to GitHub
 var baseConn = builder.Configuration.GetConnectionString("DefaultConnection");
-var password = Environment.GetEnvironmentVariable("DB_PASSWORD"); // The power shell command from the json comment
+var password = Environment.GetEnvironmentVariable("DB_PASSWORD"); // The powershell command from the json comment
+
+if (string.IsNullOrEmpty(password))
+{
+    throw new Exception("Missing password in the environment variable DB_PASSWORD"); // remember to do the step listed in the appsetting.json (ask for the password)
+}
 
 // building the final connection string
 var conString = $"{baseConn}password={password};";

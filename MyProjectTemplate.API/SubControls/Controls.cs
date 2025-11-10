@@ -31,13 +31,17 @@ namespace MyProjectTemplate.API.SubControls //capitals? iunno
         {
             prop.TurnOn();
         }
+        public void PowerOff()
+        {
+            prop.TurnOff();
+        }
 
         public void Thrust(double offset){
             prop.Offset = offset;
+            //doing this is kinda ugly, but there's no point in making a function for it when this is literally the entire purpose of a setter
         }
         public void Turn(double Offset) {
             rudd.Offset = Offset; 
-            //doing this is kinda ugly, but there's no point in making a function for it when this is literally the entire purpose of a setter
         }
         public void Pitch(double offset) {
             stnp.Offset = offset;
@@ -51,9 +55,11 @@ namespace MyProjectTemplate.API.SubControls //capitals? iunno
         //I am still unsure whether this should exist here or under navigation or be an attribute instead
         public double[] CalcVelocity()
         {
+            double B = ball.Offset;
+
             //if the sub is off its obviously not moving
-            if (prop.PowerStat == false)
-                return  new double[4] { 0,0,0,0 };
+            if (prop.IsOn == false)
+                return  new double[4] { 0.0,0.0,B,0.0 }; //except for ballast, which is independat of power
 
             //in any other circumstance
 
@@ -61,8 +67,7 @@ namespace MyProjectTemplate.API.SubControls //capitals? iunno
             double phi = rudd.Offset;
             double theta = stnp.Offset;
             double R = prop.Offset;
-            double B = ball.Offset;
-                //consider adding coefficients to these two to represent the actual force they're exerting
+                //consider adding coefficients to R and B to represent the actual force they're exerting
                 //or rather, to translate that force into a speed
                 //to turn the -100 - 100 ranges on both into whatever actual speeds/units we want to use
 

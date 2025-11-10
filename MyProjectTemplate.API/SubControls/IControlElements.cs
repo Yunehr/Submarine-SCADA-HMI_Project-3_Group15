@@ -15,8 +15,9 @@ namespace MyProjectTemplate.API.SubControls
         //represents thrust in whatever units we decide on
         public double Offset { get; set; }      //+forward; -backward
 
-        public bool PowerStat { get;}
+        public bool IsOn { get;}
         public void TurnOn(); //useful if in reality, pretty much just flavor here
+        public void TurnOff();
     }
 
     public interface IRudder

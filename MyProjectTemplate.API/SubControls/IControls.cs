@@ -12,6 +12,8 @@ namespace MyProjectTemplate.API.SubControls
     {
         public void PowerOn(); //diagram said put this in prop, but the other 2 are dependant on it so its prolly fine
         //besides, if it wasn't here, how could the outside access it?
+        public void PowerOff(); //missing in diagram, but we prolly need it no?
+        //could these be one function? I guess?
 
         //not sure if these should be void? whatever
         public void Thrust(double offset);

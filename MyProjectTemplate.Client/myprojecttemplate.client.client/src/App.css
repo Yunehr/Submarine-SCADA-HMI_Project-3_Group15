@@ -167,6 +167,21 @@
     width: 100%;
 }
 
+.center {
+    margin: auto;
+}
+.lower{
+    margin-top: 80px;
+}
+.left {
+    margin-top:8%;
+    margin-left:10px;
+}
+.right {
+    margin-top: 8%;
+    margin-right: 10px;
+}
+
 /* ensure rendered SVG does not overflow its container */
 .gauge-item .gauge-wrapper svg,
 .gauge-item .gauge-wrapper canvas {

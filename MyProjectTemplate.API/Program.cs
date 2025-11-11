@@ -15,16 +15,27 @@ var builder = WebApplication.CreateBuilder(args);
 // Register MVC controllers (attribute routed controllers live under Controllers/)
 builder.Services.AddControllers();
 
+
+// This is how we can use the database password variable instead of committing it to GitHub
+var baseConn = builder.Configuration.GetConnectionString("DefaultConnection");
+var password = Environment.GetEnvironmentVariable("DB_PASSWORD"); // The powershell command from the json comment
+
+if (string.IsNullOrEmpty(password))
+{
+    throw new Exception("Missing password in the environment variable DB_PASSWORD"); // remember to do the step listed in the appsetting.json (ask for the password)
+}
+
+// building the final connection string
+var conString = $"{baseConn}password={password};";
+
 // Add EF Core + MySQL
 // This is how we will tell the ASP.NET Core dependency injection (DI) system: “Whenever something in our app asks for an AppDbContext, create one for it automatically.”
-builder.Services.AddDbContext<AppDbContext>(options => {
-    // This line fetches our connection string from appsettings.json.
-    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
+builder.Services.AddDbContext<AppDbContext>(options =>
+{
     // This line auto configures MySQL database given the connection string 
-    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+    options.UseMySql(conString, ServerVersion.AutoDetect(conString)); // The conString already fetches our connection string from appsettings.json
 });
-
 
 // Add OpenAPI/Swagger generation for development and testing.
 // In production you may want to restrict or disable the swagger endpoint.

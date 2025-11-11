@@ -141,6 +141,22 @@
     text-align: center;
 }
 
+.status-indicator {
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-left: 100px;
+    margin-bottom: -10px
+}
+.off {
+    background-color: #612825; /* Light Off */
+}
+.warning {
+    background-color: #ca0B00; /* Danger/Red */
+    box-shadow: 0 0 8px #F32013; /* Glowing effect */
+}
+
 
 /* wrapper inside the flex item so the gauge can center and scale */
 .gauge-wrapper {

@@ -39,14 +39,17 @@ export default function LifeSupportPanel() {
             <div className="gauge-row">
                 <div className="gauge-item"> {/*O2/CO2 Gauges*/}
                     <CustomGauge
+                        warning={true}
                         label="O₂"
                         value={24}
                         min={16} max={25}
                         dLow={18} wLow={19}
                         wHigh={22} dHigh={23}
                         labelType="%"
+                         
                     />
                     <CustomGauge
+                        warning={false}
                         label="CO₂"
                         value={450}
                         min={300} max={2500}

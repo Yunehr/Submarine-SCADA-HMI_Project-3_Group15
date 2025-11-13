@@ -1,12 +1,16 @@
 ﻿// Life Support Panel, Displaying various gauges and buttons representing overall health of
 
-//import React, { useEffect, useState } from 'react';      //un comment when link to API backend is created
+
+import React, { /*useEffect,*/ useState } from 'react';      //un comment when link to API backend is created
 import '../App.css';
+import VerticalSlider from '../Components/VerticalSlider';
 
 export default function Controls() {
     //const [items, setItems] = useState(null);          //un comment when link to API backend is created
     //const [loading, setLoading] = useState(true);
     //const [error, setError] = useState(null);
+    const [throttle, setThrottle] = useState(0);
+    const [pitch, setPitch] = useState(0);
 
     //useEffect(() => {
     //    let mounted = true;
@@ -30,21 +34,39 @@ export default function Controls() {
     //if (error) return <div style={{ color: 'red' }}>Error: {error}</div>;
     //if (!items || items.length === 0) return <div>No data</div>;
 
+    
+
     return (
         <div>
             Controlls
             <div className="gauge-row">
-                <div className="left">left panel
-                    <div>Stern Plate</div>
-                    Pitch up/down
+                <div className="left">
+                    <VerticalSlider
+                        label="Stern Plate"
+                        min={-90}
+                        max={90}
+                        value={pitch}
+                        onChange={setPitch}
+                        units="°"
+                        height={150}
+                        legendmax="PITCH UP"
+                        legendmin="PITCH DOWN"
+                    />
                 </div>
                 <div className="center">Center Panel
                     <div>Ballast Up/down</div>
                     <div className="lower">Rudder Left/Right</div>
                 </div>
-                <div className="right">right panel
-                    <div>Propellor</div>
-                    fwrd/back
+                <div className="right">
+                    <VerticalSlider
+                        label="Propellor"
+                        min={-100}
+                        max={100}
+                        value={throttle}
+                        onChange={setThrottle}
+                        units="Knot"
+                        height={150}
+                    />
                 </div>
                 
             </div>

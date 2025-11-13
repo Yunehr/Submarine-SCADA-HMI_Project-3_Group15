@@ -3,20 +3,11 @@
 
 import React from 'react';
 import LifeSupportPanel from './Modules/LifeSupportPanel';
+import Controlls from './Modules/ControllsPanel'
+import WarningPanel from './Modules/WarningPanel'
+import ReactorMonitor from './Modules/ReactorMonitorPanel'
+import Map from './Modules/MapPanel'
 import './App.css';
-
-function WarningPanel() { // temporary for proof of concept, this will be a separate file
-    return <div className="panel">Warning Light</div>;
-}
-function ReactorMonitor() { // temporary for proof of concept, this will be a separate file
-    return <div className="panel">Reactor Monitor (components go here)</div>;
-}
-function Map() { // temporary for proof of concept, this will be a separate file
-    return <div className="panel">Map and Controls (top)</div>;
-}
-function Controlls() { // temporary for proof of concept, this will be a separate file
-    return <div className="panel">Console / Status (bottom)</div>;
-}
 
 
 // Additional small demo components to show top/bottom split
@@ -35,11 +26,11 @@ export default function App() {
             <section className="layout-columns">
                 {/* Left-most sidebar with top + bottom */}
                 <div className="sidebar">
-                    <div className="sidebar-top grow-large">
+                    <div className="sidebar-top grow-small">
                         <WarningPanel />
                         {/* place larger items here (maps, charts, large widgets) */}
                     </div>
-                    <div className="sidebar-bottom grow-small">
+                    <div className="sidebar-bottom grow-large">
                         <ReactorMonitor />
                         {/* place smaller, content-sized widgets here */}
                     </div>

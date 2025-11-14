@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using MyProjectTemplate.API.Models;
+using Pomelo.EntityFrameworkCore.MySql.Scaffolding.Internal;
 
-namespace MyProjectTemplate.API.Data;
+namespace MyProjectTemplate.API.Models;
 
 public partial class AppDbContext : DbContext
 {
+    public AppDbContext()
+    {
+    }
+
     public AppDbContext(DbContextOptions<AppDbContext> options)
         : base(options)
     {
@@ -27,16 +30,12 @@ public partial class AppDbContext : DbContext
 
     public virtual DbSet<SubReactorDatum> SubReactorData { get; set; }
 
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
+        => optionsBuilder.UseMySql("server=localhost;port=3306;database=submarinedb;user=root;password=1111", Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.44-mysql"));
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        // This section just converts our TimeData VARCHAR(40)'s into Datetimeoffsets
-        var converter = new DateTimeOffsetToStringConverter();
-
-        modelBuilder.Entity<SubLog>()
-            .Property(x => x.TimeData)
-            .HasConversion(converter);
-        // end of the section
-
         modelBuilder
             .UseCollation("utf8mb4_0900_ai_ci")
             .HasCharSet("utf8mb4");

@@ -16,9 +16,8 @@ namespace MyProjectTemplate.API.Controllers
             _db = db;
         }
 
-        // POST /SubData
-        [HttpPost]
-        public IActionResult CreateSubData([FromBody] SubDatum data) // This will accept a .json representing a SubDatum
+        [HttpPost]         // POST /SubData
+        public IActionResult Create([FromBody] SubDatum data) // This will accept a .json representing a SubDatum
         {
             _db.SubData.Add(data); // Saves that .json data into our database through EF Core
             _db.SaveChanges(); 

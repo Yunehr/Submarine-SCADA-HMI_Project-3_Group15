@@ -2,9 +2,10 @@
 
 //import React, { useEffect, useState } from 'react';      //un comment when link to API backend is created
 import CustomGauge from '../Components/CustomGauge';
-//import ToggleButton from './Components/Button-Toggle'
+import ClimateMonitor from '../Components/ClimateMonitor';
 import VerticalSwitch from '../Components/VerticleSwitch'
 import '../App.css';
+
 
 export default function LifeSupportPanel() {
     //const [items, setItems] = useState(null);          //un comment when link to API backend is created
@@ -75,7 +76,12 @@ export default function LifeSupportPanel() {
                 
             </div>
             <div className="gauge-row">
-                Climate Control Panel
+                <ClimateMonitor
+                    warning={true}
+                    temperature={20} // replace 20 with getTemperature function
+                    humidity={40} // replace 40 with getHumidity function
+                    units="°" // UI breaks if I use ° within the component
+                />
             </div>
         </div>
         

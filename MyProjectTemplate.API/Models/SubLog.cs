@@ -15,7 +15,7 @@ public partial class SubLog
 
     public string? PerformedBy { get; set; }
 
-    public string TimeData { get; set; } = null!;
+    public string? TimeData { get; set; }
 
     public virtual SubDatum Sub { get; set; } = null!;
 }

@@ -27,12 +27,15 @@ namespace MyProjectTemplate.API.Controllers
 
         // [HttpGet] // I might leave out "get all logs in the table" because that could cause problems if the table gets massive
 
-        [HttpGet("range")] // Get logs in a specifc range
-        public IActionResult GetRange([FromQuery] DateTime start, [FromQuery] DateTime end)
+        [HttpGet("range")]
+        public IActionResult GetRange([FromQuery] string start, [FromQuery] string end) // Remember we have to store time in this formate: 2025-01-17 14:30:00
         {
             var logs = _db.SubLogs
-                .Where(log => String.Compare(log.TimeData, start) >= 0 && String.Compare(log.TimeData, end) <= 0)
+                .Where(log =>
+                    string.Compare(log.TimeData, start) >= 0 &&
+                    string.Compare(log.TimeData, end) <= 0)
                 .ToList();
+
             return Ok(logs);
         }
 

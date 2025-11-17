@@ -170,16 +170,19 @@
 .center {
     margin: auto;
 }
+.upper{
+    margin-top: -20px
+}
 .lower{
-    margin-top: 80px;
+    margin-top: 60px;
 }
 .left {
     margin-top:8%;
-    margin-left:30px;
+    margin-left:40px;
 }
 .right {
     margin-top: 8%;
-    margin-right: 10px;
+    margin-right: 40px;
 }
 
 /* ensure rendered SVG does not overflow its container */
@@ -381,4 +384,40 @@
     justify-content: space-between;
     font-size: 11px;
     color: #5f7a8a;
+}
+
+/* Submarine control button */
+.control-button {
+    --btn-size: 80px;
+    width: 100px;
+    height: 40px;
+    border-radius: 10%;
+    background: #d9d5d2;
+    border: 1px solid #2b2b2b;
+    box-shadow: inset 0 0 0 rgba(255,255,255,0.3), inset 0 -3px 6px rgba(0,0,0,0.5), 0 6px 14px rgba(0,0,0,0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 14px;
+    color: #1a1a1a;
+    cursor: pointer;
+    transition: transform 120ms ease, box-shadow 200ms ease, background 200ms ease;
+}
+
+    /* Pressed state (momentary) */
+    .control-button:active {
+        transform: translateY(2px);
+        background: radial-gradient(circle at 30% 30%, #d9d5d2, #a19e9c);
+        color: #1a1a1a;
+        box-shadow: inset 0 0 0 rgba(255,255,255,0.3), inset 0 -3px 6px rgba(0,0,0,0.5), 0 6px 14px rgba(0,0,0,0.45);
+    }
+
+.control-button-label {
+    text-align: center;
+    margin-top: 5px;
+    font-size: 13px;
+    color: #345243;
+    font-weight: 600;
+
 }

@@ -3,7 +3,8 @@
 
 import React, { /*useEffect,*/ useState } from 'react';      //un comment when link to API backend is created
 import '../App.css';
-import VerticalSlider from '../Components/VerticalSlider';
+import VerticalSlider from '../Components/VerticalSlider'; 
+import ButtonControls from '../Components/ControllsButton';
 
 export default function Controls() {
     //const [items, setItems] = useState(null);          //un comment when link to API backend is created
@@ -34,7 +35,24 @@ export default function Controls() {
     //if (error) return <div style={{ color: 'red' }}>Error: {error}</div>;
     //if (!items || items.length === 0) return <div>No data</div>;
 
-    
+
+    // Button handlers — later replace with API calls
+    const handleBallastFill = () => {
+        console.log("Ballast filling..."); // any console log does nothnig in the front end, thus is redundant. Only used as placeholder for API calls/implementations
+        // fetch('/api/ballast/fill', { method: 'POST' }) etc.
+    };
+    const handleBallastEmpty = () => {
+        console.log("Ballast emptying...");
+        // fetch('/api/ballast/empty', { method: 'POST' })
+    };
+    const handleRudderLeft = () => {
+        console.log("Rudder left...");
+        // fetch('/api/rudder/left', { method: 'POST' })
+    };
+    const handleRudderRight = () => {
+        console.log("Rudder right...");
+        // fetch('/api/rudder/right', { method: 'POST' })
+    };
 
     return (
         <div>
@@ -53,9 +71,25 @@ export default function Controls() {
                         legendmin="PITCH DOWN"
                     />
                 </div>
-                <div className="center">Center Panel
-                    <div>Ballast Up/down</div>
-                    <div className="lower">Rudder Left/Right</div>
+                <div className="center">
+                    <div className="upper">
+                        <ButtonControls
+                            label="Ballast (Up/Down)"
+                            handleLeft={handleBallastEmpty}
+                            handleRight={handleBallastFill}
+                        />
+                    </div>
+                    
+                    <div className="lower">
+                        <ButtonControls
+                            label="Rudder"
+                            rLabel="Right"
+                            lLabel="Left"
+                            handleLeft={handleRudderLeft}
+                            handleRight={handleRudderRight}
+                        />
+                    </div>
+                    
                 </div>
                 <div className="right">
                     <VerticalSlider

@@ -61,19 +61,30 @@ export default function LifeSupportPanel() {
                     />
                 </div>
             </div>
-
-            <div className="gauge-row switch-row">
-                <VerticalSwitch label="O2 Valve" />
-                <VerticalSwitch label="Scrubber" />
-            </div>
-            Pressure Gauges
             <div className="gauge-row">
-                
+                <div className="gauge-row switch-row">
+                    <VerticalSwitch label="O2 Valve" />
+                    <VerticalSwitch label="Scrubber" />
+
+                </div>
+                <div className="gauge-item">
+                    <CustomGauge
+                        warning={false}
+                        label="Air Fill"
+                        value={100}
+                        min={0} max={101}
+                        wLow={50} dLow={15}
+                        wHigh={100.8} dHigh={100.9}
+                        labelType="%"
+                        showHigh={false}
+                    />
+                </div>
+            </div>
+            <div className="gauge-row">
                 <div className="gauge-item">
                     <CustomGauge label="temp1" />
                     <CustomGauge label="temp2" />
                 </div>
-                
             </div>
             <div className="gauge-row">
                 <ClimateMonitor

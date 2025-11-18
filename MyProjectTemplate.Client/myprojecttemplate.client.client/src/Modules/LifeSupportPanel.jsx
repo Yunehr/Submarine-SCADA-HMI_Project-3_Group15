@@ -2,9 +2,10 @@
 
 //import React, { useEffect, useState } from 'react';      //un comment when link to API backend is created
 import CustomGauge from '../Components/CustomGauge';
-//import ToggleButton from './Components/Button-Toggle'
+import ClimateMonitor from '../Components/ClimateMonitor';
 import VerticalSwitch from '../Components/VerticleSwitch'
 import '../App.css';
+
 
 export default function LifeSupportPanel() {
     //const [items, setItems] = useState(null);          //un comment when link to API backend is created
@@ -39,14 +40,17 @@ export default function LifeSupportPanel() {
             <div className="gauge-row">
                 <div className="gauge-item"> {/*O2/CO2 Gauges*/}
                     <CustomGauge
+                        warning={true}
                         label="O₂"
                         value={24}
                         min={16} max={25}
                         dLow={18} wLow={19}
                         wHigh={22} dHigh={23}
                         labelType="%"
+                         
                     />
                     <CustomGauge
+                        warning={false}
                         label="CO₂"
                         value={450}
                         min={300} max={2500}
@@ -57,22 +61,38 @@ export default function LifeSupportPanel() {
                     />
                 </div>
             </div>
-
-            <div className="gauge-row switch-row">
-                <VerticalSwitch label="O2 Valve" />
-                <VerticalSwitch label="Scrubber" />
-            </div>
-            Pressure Gauges
             <div className="gauge-row">
-                
+                <div className="gauge-row switch-row">
+                    <VerticalSwitch label="O2 Valve" />
+                    <VerticalSwitch label="Scrubber" />
+
+                </div>
+                <div className="gauge-item">
+                    <CustomGauge
+                        warning={false}
+                        label="Air Fill"
+                        value={100}
+                        min={0} max={101}
+                        wLow={50} dLow={15}
+                        wHigh={100.8} dHigh={100.9}
+                        labelType="%"
+                        showHigh={false}
+                    />
+                </div>
+            </div>
+            <div className="gauge-row">
                 <div className="gauge-item">
                     <CustomGauge label="temp1" />
                     <CustomGauge label="temp2" />
                 </div>
-                
             </div>
             <div className="gauge-row">
-                Climate Control Panel
+                <ClimateMonitor
+                    warning={true}
+                    temperature={20} // replace 20 with getTemperature function
+                    humidity={40} // replace 40 with getHumidity function
+                    units="°" // UI breaks if I use ° within the component
+                />
             </div>
         </div>
         

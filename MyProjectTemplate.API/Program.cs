@@ -1,9 +1,11 @@
-using Microsoft.AspNetCore.Mvc;
-using MyProjectTemplate.API.Controllers;
-
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore; // Remember to press tools --> NuGet Package Manager --> Package Manager Console --> type the below
+using MyProjectTemplate.API.Controllers;
 using MyProjectTemplate.API.Data;   // Install-Package Microsoft.EntityFrameworkCore.Tools
-                                   // Search for sqlite efcore.sqlite and efcore.sqlite.core and download
+                                    // Search for sqlite efcore.sqlite and efcore.sqlite.core and download
+using MyProjectTemplate.API;
+using System;
+using System.Threading;
 
 // Program.cs - Application startup for the API project.
 // This file configures services (MVC controllers, Swagger, CORS) and the request pipeline.
@@ -17,7 +19,7 @@ builder.Services.AddControllers();
 
 
 // Add EF Core + SQlite
-// This is how we will tell the ASP.NET Core dependency injection (DI) system: �Whenever something in our app asks for an AppDbContext, create one for it automatically.�
+// This is how we will tell the ASP.NET Core dependency injection (DI) system: “Whenever something in our app asks for an AppDbContext, create one for it automatically.”
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
     // This is how we can use the database password variable instead of committing it to GitHub
@@ -57,6 +59,44 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
+// --- EventBus + monitors: set these up BEFORE app.Run() ---
+
+var bus = new EventBus();
+
+var o2 = new OxygenMonitor();
+var co2 = new Co2Monitor();
+var air = new AirReserveMonitor();
+
+bus.Register(o2);
+bus.Register(co2);
+bus.Register(air);
+
+// Alarm thresholds
+const double O2_MIN = 21.0;
+const double CO2_MAX = 390;
+
+// Subscribe
+bus.Subscribe(DeviceType.Oxygen, reading =>
+{
+    Console.WriteLine($"O₂: {reading.Value:F2} {reading.Unit}");
+    if (reading.Value < O2_MIN)
+        Console.WriteLine("OXYGEN ALARM!");
+});
+
+bus.Subscribe(DeviceType.CO2, reading =>
+{
+    Console.WriteLine($"CO₂: {reading.Value:F0} {reading.Unit}");
+    if (reading.Value > CO2_MAX)
+        Console.WriteLine("CO₂ ALARM!");
+});
+
+// If your monitors have a Start() method, call it here:
+o2.Start();
+co2.Start();
+air.Start();
+
+Console.WriteLine("Monitors started. API is starting...");
+
 // Development-only middleware: show Swagger UI and OpenAPI docs.
 // Keep these inside the IsDevelopment check to avoid exposing API docs in production.
 if (app.Environment.IsDevelopment())
@@ -76,6 +116,8 @@ app.UseCors("AllowReactApp");
 app.MapControllers();
 
 app.Run();
+
+
 
 // Notes / Where to update:
 // - Ports & URLs: see Properties/launchSettings.json. You can alter those or set environment variables

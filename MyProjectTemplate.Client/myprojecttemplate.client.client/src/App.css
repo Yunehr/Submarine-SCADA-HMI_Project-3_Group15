@@ -150,6 +150,20 @@
     margin-left: 100px;
     margin-bottom: -10px
 }
+.cw-border {
+    width: 47px;
+    height: 47px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, #d9d5d2, #a19e9c);
+    border: 1px solid #d9d5d2;
+    align-content: center;
+}
+.status-indicator-central-warning {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin: auto;
+}
 .status-indicator-cc {
     width: 13px;
     height: 13px;
@@ -161,9 +175,13 @@
 .off {
     background-color: #612825; /* Light Off */
 }
-.warning {
+.danger {
     background-color: #ca0B00; /* Danger/Red */
     box-shadow: 0 0 8px #F32013; /* Glowing effect */
+}
+.warning {
+    background-color: #ffe900; /* Warning/Yellow */
+    box-shadow: 0 0 20px #ffff00; /* Glowing effect */
 }
 
 

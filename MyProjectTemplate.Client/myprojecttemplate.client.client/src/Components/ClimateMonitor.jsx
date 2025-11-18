@@ -4,7 +4,7 @@ import '../App.css';
 export default function ClimateMonitor({ temperature = 22, humidity = 45, units = "°" , warning = false}) {
     return (
         <div className="center">
-            {warning ? <div class="status-indicator-cc warning"></div> : <div class="status-indicator-cc off"></div>}
+            {warning ? <div class="status-indicator-cc danger"></div> : <div class="status-indicator-cc off"></div>}
             <div className="climate-monitor">
                 <div className="climate-header">Climate Control</div>
 

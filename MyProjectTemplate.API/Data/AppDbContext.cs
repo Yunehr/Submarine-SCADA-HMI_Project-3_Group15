@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using MyProjectTemplate.API.Models;
-using Pomelo.EntityFrameworkCore.MySql.Scaffolding.Internal;
+
 
 namespace MyProjectTemplate.API.Data;
 
@@ -31,14 +31,16 @@ public partial class AppDbContext : DbContext
 
     public virtual DbSet<SubReactorDatum> SubReactorData { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseMySql("server=localhost;port=3306;database=submarinedb;user=root;password=DB_PASSWORD", Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.44-mysql"));
+    protected override void OnConfiguring(DbContextOptionsBuilder options) {
+        if (!options.IsConfigured) {
+            options.UseSqlite("Data Source=SubmarineData.sqlite");
+        }
+    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder
-            .UseCollation("utf8mb4_0900_ai_ci")
-            .HasCharSet("utf8mb4");
+            .UseCollation("NOCASE"); // NOCASE, BINARY, RTRIM
 
         modelBuilder.Entity<SubAlarmsDatum>(entity =>
         {

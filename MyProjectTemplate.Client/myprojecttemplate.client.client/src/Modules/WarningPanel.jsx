@@ -3,6 +3,7 @@
 //import React, { useEffect, useState } from 'react';      //un comment when link to API backend is created
 
 import '../App.css';
+import WarningLight from '../Components/WarningLight'
 
 export default function WarningPanel() {
     //const [items, setItems] = useState(null);          //un comment when link to API backend is created
@@ -31,10 +32,24 @@ export default function WarningPanel() {
     //if (error) return <div style={{ color: 'red' }}>Error: {error}</div>;
     //if (!items || items.length === 0) return <div>No data</div>;
 
+    const checkWarning = () => {
+        // check if there is a warning level notice within Sub Systems.
+        // fetch('', { method: 'POST' }) etc.
+        return false;
+    };
+    const checkDanger = () => {
+        // check if there is a Danger level notice within Sub Systems.
+        // fetch('', { method: 'POST' }) etc.
+        return false;
+    };
+
     return (
         <div className="gauge-row">
             <div className="center">
-                <div>warning light</div>               
+                <WarningLight 
+                    warning={checkWarning()}
+                    danger={checkDanger()}
+                />
             </div>
         </div>
 

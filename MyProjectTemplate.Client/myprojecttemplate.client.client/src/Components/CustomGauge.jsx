@@ -7,7 +7,7 @@ const CustomGauge = ({ warning = false, label = "", grad = false, value = 40, mi
 
     return (
         <div className="gauge-wrapper">
-            {warning ? <div class="status-indicator warning"></div> : <div class="status-indicator off"></div>}
+            {warning ? <div class="status-indicator danger"></div> : <div class="status-indicator off"></div>}
             <GaugeComponent
                 type="semicircle"
                 arc={{

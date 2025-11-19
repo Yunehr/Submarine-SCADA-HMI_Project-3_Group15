@@ -1,71 +1,9 @@
-using System.IO;
-using FileHandler;
+using MyProjectTemplate.API.LifeSupportSystems;
 
-namespace DeviceMonitor
+public sealed class OxygenMonitor : MonitorBase
 {
-    public class OxygenMonitor
-    {
-        private double ppmPercentage;
-        private int currentDataLine = 0;
-        public double PpmPercentage
-        {
-            get => ppmPercentage;
-            set
-            {
-                if (value < 0)
-                {
-                    ppmPercentage = 0.0;
-                }
-                else if (value > 100)
-                {
-                    ppmPercentage = 100.0;
-                }
-                else
-                {
-                    ppmPercentage = value;
-                }
-            }
-        }
-        public int CurrentDataLine
-        {
-            get => currentDataLine;
-            set
-            {
-                if (value < 0)
-                {
-                    currentDataLine = 0;
-                }
-                else
-                {
-                    currentDataLine = value;
-                }
-            }
-        }
-
-        public void ResetDataLine() {currentDataLine = 0;}
-
-        public void UpdateOxygenFromFile(string fp)
-        {
-            // Reading double value from a file and updating PpmPercentage
-            string content = File.ReadAllText(fp);
-            if (double.TryParse(content, out double value))
-            {
-                PpmPercentage = value;
-            }
-        }
-
-        public void TakeOxygenReading(string fp)
-        {
-            var fr = new FileReader();
-            PpmPercentage = fr.ReadDoubleFromNextLine(fp, CurrentDataLine);
-            CurrentDataLine++;
-        }
-
-        public void LogOxygenReading(string fp)
-        {
-            var fw = new FileWriter();
-            fw.AppendDoubleToFile(fp, PpmPercentage);
-        }
-        
-    }
+    public override DeviceType DeviceType => DeviceType.Oxygen;
+    public override Unit Unit => Unit.Percent;
+    protected override double SampleSensor() =>
+        20.9 + (Random.Shared.NextDouble() - 0.5) * 0.2;
 }

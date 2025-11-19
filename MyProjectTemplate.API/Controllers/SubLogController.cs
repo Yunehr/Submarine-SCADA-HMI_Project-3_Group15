@@ -3,11 +3,11 @@ using Microsoft.EntityFrameworkCore;
 using MyProjectTemplate.API.Models;
 using MyProjectTemplate.API.Data;
 
-namespace MyProjectTemplate.API.Controllers
+namespace MyProjectTemplate.API.Controllers 
 {
     [ApiController]
     [Route("[controller]")] // Route: /SubLog
-    public class SubLogController : ControllerBase
+    public class SubLogController : ControllerBase // This is still needed as a specific controller as logs are a seperate domain/thing from the devices like alarms and thangs
     {
         private readonly AppDbContext _db;
 
@@ -16,8 +16,8 @@ namespace MyProjectTemplate.API.Controllers
             _db = db;
         }
 
-        [HttpPost]
-        public IActionResult Create([FromBody] SubLog data)
+        [HttpPost("log")]
+        public IActionResult AddLog([FromBody] SubLog data)
         {
             _db.SubLogs.Add(data);
             _db.SaveChanges();
@@ -27,8 +27,8 @@ namespace MyProjectTemplate.API.Controllers
 
         // [HttpGet] // I might leave out "get all logs in the table" because that could cause problems if the table gets massive
 
-        [HttpGet("range")]
-        public IActionResult GetRange([FromQuery] string start, [FromQuery] string end) // Remember we have to store time in this formate: 2025-01-17 14:30:00
+        [HttpGet("logRange")]
+        public IActionResult GetLogRange([FromQuery] string start, [FromQuery] string end) // Remember we have to store time in this formate: 2025-01-17 14:30:00
         {
             var logs = _db.SubLogs
                 .Where(log =>
@@ -39,12 +39,12 @@ namespace MyProjectTemplate.API.Controllers
             return Ok(logs);
         }
 
-        [HttpGet("{id}")] // Get a single log if needed
+        [HttpGet("log/{id}")] // Get a single log if needed
         public IActionResult GetLog(int id)
         {
             var log = _db.SubLogs.Find(id);
-            
-            if (log == null) 
+
+            if (log == null)
                 return NotFound();
 
             return Ok(log);

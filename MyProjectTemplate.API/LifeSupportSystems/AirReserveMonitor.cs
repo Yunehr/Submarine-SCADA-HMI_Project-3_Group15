@@ -3,7 +3,7 @@ using MyProjectTemplate.API.LifeSupportSystems;
 public sealed class AirReserveMonitor : MonitorBase
 {
     public override DeviceType DeviceType => DeviceType.AirReserve;
-    public override Unit Unit => Unit.Bar;
+    public override Unit Unit => Unit.Percent;
     protected override double SampleSensor() =>
         185 + (Random.Shared.NextDouble() - 0.5);
 }

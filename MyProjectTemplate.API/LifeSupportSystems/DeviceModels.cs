@@ -1,6 +1,6 @@
 ﻿using System;
 
-public enum DeviceType { Oxygen, CO2, AirReserve }
+public enum DeviceType { Oxygen, CO2, AirReserve, Pressure, Temperature, Humidity }
 public enum Unit { Ppm, Percent, Bar, Celsius }
 
 

@@ -70,8 +70,21 @@ export default function LifeSupportPanel() {
             <div className="gauge-row">
                 
                 <div className="gauge-item">
-                    <CustomGauge label="temp1" />
-                    <CustomGauge label="temp2" />
+                    <CustomGauge
+                        warning={true}
+                        label="Intern press."
+                        min={0} max={4}
+                        wLow={0.76} dLow={0.4}
+                        wHigh={2} dHigh={3} 
+                        labelType="bar"
+                    />
+                    <CustomGauge
+                        warning={false}
+                        label="Extern press."
+                        min={1} max={40}
+                        wLow={1.2} dLow={1.1}
+                        wHigh={24} dHigh={36}
+                        labelType="bar" />
                 </div>
                 
             </div>

@@ -102,7 +102,7 @@ export default function LifeSupportPanel() {
             </div>
             <div className="gauge-row">
                 <div className="gauge-item">
-                    <CustomGauge label="temp1" />
+                    <CustomGauge label="temp1" /> {/*Implemented in a different branch TODO: move from other branch to this one */}
                     <CustomGauge label="temp2" />
                 </div>
             </div>

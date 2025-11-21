@@ -20,7 +20,7 @@ namespace MyProjectTemplate.API.LifeSupportSystems
             if (_bus.TryGetLatest(deviceType, out var reading))
                 return Ok(reading);
 
-            return Ok(new { deviceType, value = 1, unit = "N/A" }); // an unchanging value of 1 means device not found
+            return Ok(new { deviceType, value = 1, unit = "N/A" });
         }
 
         // POST a command (e.g. switch toggles)

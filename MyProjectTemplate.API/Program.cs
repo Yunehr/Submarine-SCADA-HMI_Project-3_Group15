@@ -109,7 +109,7 @@ bus.Subscribe(DeviceType.CO2, reading =>
         Console.WriteLine("CO₂ ALARM!");
 });
 
-bus.Subscribe(DeviceType.AirReserve, reading =>
+bus.Subscribe(DeviceType.AirReserve, reading =>  // Currently in Air Reserve, the value can go greater than 100%. In every UI test I have run so far I cannot see any value changes due to AirReserve being > 100
 {
     Console.WriteLine($"Air Reserve: {reading.Value:F2} {reading.Unit}");
     if (reading.Value < AIR_RESERVE_MIN)

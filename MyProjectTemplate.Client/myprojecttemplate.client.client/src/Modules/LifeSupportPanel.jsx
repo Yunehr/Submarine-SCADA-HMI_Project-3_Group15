@@ -10,6 +10,8 @@ import '../App.css';
 export default function LifeSupportPanel() {
     const [o2, setO2] = useState(null);
     const [co2, setCo2] = useState(null);
+    const [air, setAir] = useState(null);
+    const [Pressure, setPressure] = useState(null);
     const [climate, setClimate] = useState({ temp: null, humidity: null });
     const [error, setError] = useState(null);
 
@@ -35,12 +37,15 @@ export default function LifeSupportPanel() {
                 safeFetch('/api/lifesupport/Oxygen'),
                 safeFetch('/api/lifesupport/CO2'),
                 safeFetch('/api/lifesupport/AirReserve'),
+                safeFetch('/api/lifesupport/Pressure'),
                 safeFetch('/api/lifesupport/Temperature'),
                 safeFetch('/api/lifesupport/Humidity')
             ])
-                .then(([o2Data, co2Data, tempData, humidityData]) => {
+                .then(([o2Data, co2Data, airData, pressureData, tempData, humidityData]) => {
                     if (o2Data) setO2(o2Data);
                     if (co2Data) setCo2(co2Data);
+                    if (airData) setAir(airData);
+                    if (pressureData) setPressure(pressureData);
                     if (tempData && humidityData) {
                         setClimate({ temp: tempData.value, humidity: humidityData.value });
                     }
@@ -89,9 +94,9 @@ export default function LifeSupportPanel() {
                 </div>
                 <div className="gauge-item">
                     <CustomGauge
-                        warning={false}
+                        warning={air && (air.value < 50)}
                         label="Air Fill"
-                        value={100}
+                        value={air ? air.value : 0}
                         min={0} max={101}
                         wLow={50} dLow={15}
                         wHigh={100.8} dHigh={100.9}
@@ -102,8 +107,25 @@ export default function LifeSupportPanel() {
             </div>
             <div className="gauge-row">
                 <div className="gauge-item">
-                    <CustomGauge label="temp1" /> {/*Implemented in a different branch TODO: move from other branch to this one */}
-                    <CustomGauge label="temp2" />
+                    <div className="gauge-item">
+                        <CustomGauge
+                            warning={Pressure && (Pressure.value > 0.76 || co2.value < 2)}
+                            label="Internal."
+                            value={Pressure ? Pressure.value : 0}
+                            min={0} max={4}
+                            wLow={0.76} dLow={0.4}
+                            wHigh={2} dHigh={3}
+                            labelType="bar"
+                        />
+                        <CustomGauge
+                            warning={Pressure && (Pressure.value < 1.2 || co2.value > 24)}
+                            label="External."
+                            value={Pressure ? Pressure.value : 0}
+                            min={1} max={40}
+                            wLow={1.2} dLow={1.1}
+                            wHigh={24} dHigh={36}
+                            labelType="bar" />
+                    </div>
                 </div>
             </div>
             <div className="gauge-row">

@@ -109,7 +109,7 @@ export default function LifeSupportPanel() {
                 <div className="gauge-item">
                     <div className="gauge-item">
                         <CustomGauge
-                            warning={Pressure && (Pressure.value > 0.76 || co2.value < 2)}
+                            warning={Pressure && (Pressure.value < 0.76 || Pressure.value > 2)}
                             label="Internal."
                             value={Pressure ? Pressure.value : 0}
                             min={0} max={4}
@@ -118,9 +118,9 @@ export default function LifeSupportPanel() {
                             labelType="bar"
                         />
                         <CustomGauge
-                            warning={Pressure && (Pressure.value < 1.2 || co2.value > 24)}
+                            warning={Pressure && ((Pressure.value + 15) < 1.2 || (Pressure.value + 15) > 24)}
                             label="External."
-                            value={Pressure ? Pressure.value : 0}
+                            value={Pressure ? (Pressure.value + 15) : 0}
                             min={1} max={40}
                             wLow={1.2} dLow={1.1}
                             wHigh={24} dHigh={36}

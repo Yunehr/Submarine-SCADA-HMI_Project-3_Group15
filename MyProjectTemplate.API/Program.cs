@@ -35,6 +35,10 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Registers EventBus as a singleton so controllers can use it
+builder.Services.AddSingleton<IEventBus, EventBus>();   // replaces var bus = newEventBus();
+
+
 // CORS configuration:
 // - This sample adds a named policy "AllowReactApp" that whitelists origins used by the local client (Vite).
 // - Update the origins below to match the URLs your client will run on.
@@ -61,7 +65,7 @@ var app = builder.Build();
 
 // --- EventBus + monitors: set these up BEFORE app.Run() ---
 
-var bus = new EventBus();
+var bus = app.Services.GetRequiredService<IEventBus>();
 
 var o2 = new OxygenMonitor();
 var co2 = new Co2Monitor();
@@ -88,6 +92,7 @@ const double TEMP_MIN = 15.0;
 const double HUMIDITY_MAX = 60.0;
 const double HUMIDITY_MIN = 20.0;
 
+Console.WriteLine("Monitors started. API is starting...");
 
 // Subscribe
 bus.Subscribe(DeviceType.Oxygen, reading =>
@@ -104,7 +109,7 @@ bus.Subscribe(DeviceType.CO2, reading =>
         Console.WriteLine("CO₂ ALARM!");
 });
 
-bus.Subscribe(DeviceType.AirReserve, reading =>
+bus.Subscribe(DeviceType.AirReserve, reading =>  // Currently in Air Reserve, the value can go greater than 100%. In every UI test I have run so far I cannot see any value changes due to AirReserve being > 100
 {
     Console.WriteLine($"Air Reserve: {reading.Value:F2} {reading.Unit}");
     if (reading.Value < AIR_RESERVE_MIN)

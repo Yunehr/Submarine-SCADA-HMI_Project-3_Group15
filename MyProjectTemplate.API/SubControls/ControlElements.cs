@@ -16,7 +16,7 @@ namespace MyProjectTemplate.API.SubControls
     public abstract class ControlElement
     {
         //you can't do #define in c# so this is the equivalent?
-        public virtual double OffsetLimit { get; } = 100.0; //defining the range as +-100 is just most convenient
+        protected virtual double OffsetLimit { get; } = 100.0; //defining the range as +-100 is just most convenient
 
         //offset basically refers to the component's value, so 0 is neutral, +- are doing something in either direction
         private double _offset; //I don't know what this means but I think I need it
@@ -38,24 +38,30 @@ namespace MyProjectTemplate.API.SubControls
 
     public class Propeller : ControlElement, IPropeller
     {
-        public bool PowerStat { get; private set; }
+        public bool IsOn { get; private set; }
 
         //contructor
         public Propeller()
         {
-            PowerStat = false; //off (didn't want to make a whole enum)
+            IsOn = false; //off (didn't want to make a whole enum)
             Offset = 0.0; //neutral
         }
 
         //turns the propeller on (basically for flavor)
+        //not just setters because one would assume on a real machine it would be more involved (and thus require actual functions)
         public void TurnOn()
         {
-            PowerStat = true;
+            IsOn = true;
+        }
+
+        public void TurnOff()
+        {
+            IsOn = false;
         }
     }
 
     public class Rudder : ControlElement, IRudder {
-        public override double OffsetLimit { get; } = (Math.PI / 2);
+        protected override double OffsetLimit { get; } = (Math.PI / 2);
         //setting less arbitrary limits on rudder angle. basically limits to 180 degrees in front of sub
         //since it wouldn't make sensee for rudder direction to point the sub backwards
 
@@ -66,7 +72,7 @@ namespace MyProjectTemplate.API.SubControls
     }
 
     public class SternPlate : ControlElement, ISternPlate {
-        public override double OffsetLimit { get; } = (Math.PI / 2);
+        protected override double OffsetLimit { get; } = (Math.PI / 2);
         //same as above
 
         public SternPlate(){

@@ -2,11 +2,12 @@ import React from 'react';
 import GaugeComponent from 'react-gauge-component';
 import '../App.css';
 
-const CustomGauge = ({ label = "", grad = false, value = 40, min = 0, max = 100, dLow = 20, wLow = 30, wHigh = 70, dHigh = 80, labelType = "", showLow = true, showHigh = true, showMinMax = false }) => {
+const CustomGauge = ({ warning = false, label = "", grad = false, value = 40, min = 0, max = 100, dLow = 20, wLow = 30, wHigh = 70, dHigh = 80, labelType = "", showLow = true, showHigh = true, showMinMax = false }) => {
     const v = value;
 
     return (
         <div className="gauge-wrapper">
+            {warning ? <div class="status-indicator danger"></div> : <div class="status-indicator off"></div>}
             <GaugeComponent
                 type="semicircle"
                 arc={{

@@ -82,7 +82,7 @@
 
 /* Center split into two stacked sections */
 .center-top {
-    flex: 2 1 60%; /* larger top area */
+    flex: 2 1 50%; /* larger top area */
     background: #ffffff;
     padding: 0.75rem;
     border-radius: 6px;
@@ -91,7 +91,7 @@
 }
 
 .center-bottom {
-    flex: 1 1 40%; /* smaller bottom area */
+    flex: 1 1 50%; /* smaller bottom area */
     background: #fbfbfd;
     padding: 0.75rem;
     border-radius: 6px;
@@ -124,13 +124,14 @@
     justify-content: center;
     align-items: center;
     box-sizing: border-box;
+    margin-top: 2px;
 }
 .gauge-row.switch-row {
     display: flex;
     justify-content: center;
-    margin-left: -15px;
-    margin-top:5px;
-    gap: 90px;
+    margin-left: 5px;
+    margin-top:10px;
+    gap: 0px;
 }
 
 .gauge-label {
@@ -141,6 +142,48 @@
     text-align: center;
 }
 
+.status-indicator {
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-left: 100px;
+    margin-bottom: -10px
+}
+.cw-border {
+    width: 47px;
+    height: 47px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, #d9d5d2, #a19e9c);
+    border: 1px solid #d9d5d2;
+    align-content: center;
+}
+.status-indicator-central-warning {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin: auto;
+}
+.status-indicator-cc {
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-left: 196px;
+    margin-bottom: -24px
+}
+.off {
+    background-color: #612825; /* Light Off */
+}
+.danger {
+    background-color: #ca0B00; /* Danger/Red */
+    box-shadow: 0 0 8px #F32013; /* Glowing effect */
+}
+.warning {
+    background-color: #ffe900; /* Warning/Yellow */
+    box-shadow: 0 0 20px #ffff00; /* Glowing effect */
+}
+
 
 /* wrapper inside the flex item so the gauge can center and scale */
 .gauge-wrapper {
@@ -149,6 +192,24 @@
     align-items: center; /* center horizontally */
     justify-content: center;
     width: 100%;
+}
+
+.center {
+    margin: auto;
+}
+.upper{
+    margin-top: -20px
+}
+.lower{
+    margin-top: 60px;
+}
+.left {
+    margin-top:8%;
+    margin-left:40px;
+}
+.right {
+    margin-top: 8%;
+    margin-right: 40px;
 }
 
 /* ensure rendered SVG does not overflow its container */
@@ -238,6 +299,60 @@
             box-shadow: 0 6px 18px rgba(255,43,43,0.25), inset 0 1px 0 rgba(255,255,255,0.9);
         }
 
+
+/* Old-school green submarine climate monitor */
+.climate-monitor {
+    background: #bcb9b6; /* matches vertical-switch off casing */
+    border: 1px solid rgba(0,0,0,0.4);
+    border-radius: 8px;
+    padding: 5px;
+    box-shadow: inset 0 2px 6px rgba(0,0,0,0.4), 0 6px 14px rgba(0,0,0,0.45);
+    color: #345243; /* retro green text */
+    font-family: "Courier New", monospace;
+}
+
+.climate-header {
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: 0.05em;
+    margin-bottom: 5px;
+    text-align: center;
+    color: #2b2b2b;
+}
+
+.climate-row {
+    display: flex;
+    gap: 10px;
+    justify-content: space-around;
+}
+
+.climate-gauge {
+    flex: 1 1 50%;
+    height: 30px;
+    background: radial-gradient(circle at 30% 30%, #00ff6a, #00cc55);
+    border-radius: 6px;
+    padding: 0.75rem;
+    box-shadow: inset 0 0 6px rgba(0,0,0,0.6);
+}
+
+.climate-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #2b2b2b;
+    margin-top: -4px;
+    margin-bottom: 3px;
+    text-shadow: 0 0 4px rgba(0,255,102,0.4);
+}
+
+.climate-value {
+    font-size: 18px;
+    font-weight: 700;
+    color: #2b2b2b;
+    text-align:center;
+    text-shadow: 0 0 6px rgba(0,255,102,0.6);
+}
+
+
 /* Controls row layout (for examples) */
 .controls-row {
     display: flex;
@@ -245,4 +360,145 @@
     gap: 1rem;
     margin-top: 1rem;
     flex-wrap: wrap;
+}
+
+
+/* Vertical Slider */
+.gauge-label-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-top: -50px;
+}
+.vertical-gauge-label {
+    margin-top: 0px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #345243;
+    text-align: center;
+}
+
+.gauge-readout {
+    font-size: 14px;
+    color: #345243;
+    font-weight: 500;
+}
+
+.gauge-body {
+    padding: 8px;
+    background: #f0f4f8;
+    border-radius: 20px;
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,0.03);
+}
+
+.gauge-casing {
+    position: relative;
+    width: 10px;
+    margin: 0 auto;
+    background: #dfe6ec;
+    border-radius: 10px;
+    border: 1px solid #b0beca;
+    
+}
+
+.gauge-track {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(180deg, #1e2a33, #0f1a22);
+    border-radius: 6px;
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.05);
+}
+
+.gauge-input {
+    position: absolute;
+    left: 18px;
+    bottom: 60px;
+    transform: translateX(-97px) rotate(-90deg);
+    width: 165px;
+    height: 25px;
+    background: transparent;
+    appearance: none;
+    z-index: 1;
+}
+
+
+    .gauge-input::-webkit-slider-thumb {
+        appearance: none;
+        width: 22px;
+        height: 22px;
+        background: #cbd5e1;
+        border-radius: 6px;
+        border: 1px solid #334155;
+        box-shadow: 0 3px 8px rgba(0,0,0,0.35);
+        cursor: grab;
+    }
+
+
+.gauge-tick {
+    position: absolute;
+    left: 26px;
+    transform: translateY(50%);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.gauge-tick-line {
+    width: 10px;
+    height: 1px;
+    background: #8aa0af;
+}
+
+.gauge-tick-label {
+    font-size: 11px;
+    color: #5f7a8a;
+}
+
+.gauge-legends {
+    position: absolute;
+    right: 30px;
+    top: -5px;
+    bottom: -5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    font-size: 11px;
+    color: #5f7a8a;
+}
+
+/* Submarine control button */
+.control-button {
+    --btn-size: 80px;
+    width: 100px;
+    height: 40px;
+    border-radius: 10%;
+    background: #d9d5d2;
+    border: 1px solid #2b2b2b;
+    box-shadow: inset 0 0 0 rgba(255,255,255,0.3), inset 0 -3px 6px rgba(0,0,0,0.5), 0 6px 14px rgba(0,0,0,0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 14px;
+    color: #1a1a1a;
+    cursor: pointer;
+    transition: transform 120ms ease, box-shadow 200ms ease, background 200ms ease;
+}
+
+    /* Pressed state (momentary) */
+    .control-button:active {
+        transform: translateY(2px);
+        background: radial-gradient(circle at 30% 30%, #d9d5d2, #a19e9c);
+        color: #1a1a1a;
+        box-shadow: inset 0 0 0 rgba(255,255,255,0.3), inset 0 -3px 6px rgba(0,0,0,0.5), 0 6px 14px rgba(0,0,0,0.45);
+    }
+
+.control-button-label {
+    text-align: center;
+    margin-top: 5px;
+    font-size: 13px;
+    color: #345243;
+    font-weight: 600;
+
 }

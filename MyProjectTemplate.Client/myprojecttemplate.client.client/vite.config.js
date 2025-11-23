@@ -68,8 +68,8 @@ export default defineConfig({
     },
     server: {
         proxy: {
-            // Forward requests that start with /weatherforecast to the API target.
-            '^/weatherforecast': {
+            // Forward requests that start with /api to the API target.
+            '^/api': {
                 target,
                 secure: false // disable SSL verification for local dev certs
             }

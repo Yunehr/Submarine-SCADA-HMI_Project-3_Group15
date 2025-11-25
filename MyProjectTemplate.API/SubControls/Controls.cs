@@ -44,9 +44,9 @@ namespace MyProjectTemplate.API.SubControls //capitals? iunno
         }
 
         //accepting deg rather than rad since it makes it easier for everyone else
-        public void Turn(double Offset) {
+        public void Turn(double offset) {
             offset = (offset * Math.PI) / 180.0;
-            rudd.Offset = Offset; 
+            rudd.Offset = offset; 
         }
         public void Pitch(double offset) {
             offset = (offset * Math.PI) / 180.0;

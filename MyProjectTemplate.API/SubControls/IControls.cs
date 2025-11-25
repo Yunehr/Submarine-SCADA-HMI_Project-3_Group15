@@ -16,10 +16,10 @@ namespace MyProjectTemplate.API.SubControls
         //could these be one function? I guess?
 
         //not sure if these should be void? whatever
-        public void Thrust(double offset);
-        public void Turn(double offset);
-        public void Pitch(double offset);
-        public void AdjBuoyancy(double offset);
+        public void Thrust(double offset); //range -+100
+        public void Turn(double offset); //range -+90
+        public void Pitch(double offset); //range -+90
+        public void AdjBuoyancy(double offset); //range -+90
 
         public double[] CalcVelocity();
 

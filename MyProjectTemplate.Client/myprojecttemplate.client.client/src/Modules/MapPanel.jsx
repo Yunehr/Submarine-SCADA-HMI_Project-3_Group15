@@ -33,7 +33,9 @@ export default function Map() {
 
     return (
         <div className="map-console-screen">
-            
+            <div className="map-console-label">
+                Depth:   Position:   
+            </div>
         </div>
         
 

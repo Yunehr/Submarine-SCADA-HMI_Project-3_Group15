@@ -33,9 +33,10 @@ namespace MyProjectTemplate.API.Controllers
             
             ThresholdSet? t = r.DeviceType switch {
                 DeviceType.Oxygen => _thresh.Oxygen,
-                DeviceType.Humidity => _thresh.Humidity,
                 DeviceType.CO2 => _thresh.CO2,
                 DeviceType.Pressure => _thresh.Pressure,
+                DeviceType.Humidity => _thresh.Humidity,
+                DeviceType.Temperature => _thresh.Temperature,
                 DeviceType.AirReserve => _thresh.AirReserve,
                 _ => null
             };

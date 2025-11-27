@@ -1,9 +1,30 @@
-﻿/* app shell */
+﻿/* Main submarine background theme */
 .app-root {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    background: linear-gradient(180deg, #9b9a97 0%, #6f6d6b 100%); /* submarine grey gradient */
+    color: #2b2b2b;
+}
+
+/* Panels now sit on top of the grey casing */
+.panel,
+.center-top,
+.center-bottom,
+.sidebar-top,
+.sidebar-bottom {
+    background: linear-gradient(180deg, #bcb9b6 0%, #8f8c8a 100%); /* matches casing theme */
+    border-radius: 6px;
+    box-shadow: inset 0 2px 6px rgba(0,0,0,0.4), 0 6px 14px rgba(0,0,0,0.45);
+    color: #2b2b2b;
+}
+
+.panel-frame {
+    border: 2px solid rgba(0,0,0,0.3);
+    border-radius: 8px;
+    padding: 0.5rem;
+    box-shadow: inset 0 1px 2px rgba(255,255,255,0.1), inset 0 -1px 2px rgba(0,0,0,0.3);
 }
 
 .app-header {
@@ -29,7 +50,6 @@
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
-    background: #f5f5f7;
     padding: 0.75rem;
     box-sizing: border-box;
     border-radius: 6px;
@@ -43,8 +63,6 @@
     padding: 0.5rem;
     border-radius: 6px;
     overflow: auto;
-    box-shadow: 0 0 0 1px rgba(0,0,0,0.03) inset;
-    background: #ffffff;
 }
 
     /* sensible defaults for sizing; you can mix/use classes per-sidebar-region */
@@ -83,7 +101,6 @@
 /* Center split into two stacked sections */
 .center-top {
     flex: 2 1 50%; /* larger top area */
-    background: #ffffff;
     padding: 0.75rem;
     border-radius: 6px;
     overflow: hidden;
@@ -92,11 +109,21 @@
 
 .center-bottom {
     flex: 1 1 50%; /* smaller bottom area */
-    background: #fbfbfd;
     padding: 0.75rem;
     border-radius: 6px;
     overflow: auto;
     box-shadow: 0 0 0 1px rgba(0,0,0,0.02) inset;
+}
+
+.center-top, /* Color Scheme */
+.center-bottom,
+.sidebar-top,
+.sidebar-bottom {
+    background: linear-gradient(180deg, #bcb9b6 0%, #8f8c8a 100%);
+    border-radius: 6px;
+    border: 1px solid #334155;
+    box-shadow: inset 0 2px 6px rgba(0,0,0,0.4), 0 6px 14px rgba(0,0,0,0.45);
+    color: #2b2b2b;
 }
 
 /* small helper panel style used by example components */
@@ -138,7 +165,7 @@
     margin-top: -50px;
     font-size: 14px;
     font-weight: 600;
-    color: #345243;
+    color: black;
     text-align: center;
 }
 
@@ -155,7 +182,7 @@
     height: 47px;
     border-radius: 50%;
     background: radial-gradient(circle at 30% 30%, #d9d5d2, #a19e9c);
-    border: 1px solid #d9d5d2;
+    border: 1px solid rgba(0,0,0,0.4);
     align-content: center;
 }
 .status-indicator-central-warning {
@@ -233,7 +260,7 @@
 
 .switch-label {
     font-size: 13px;
-    color: #345243;
+    color: black;
     font-weight: 600;
 }
 
@@ -374,21 +401,22 @@
     margin-top: 0px;
     font-size: 14px;
     font-weight: 600;
-    color: #345243;
+    color: black;
     text-align: center;
 }
 
 .gauge-readout {
     font-size: 14px;
-    color: #345243;
+    color: black;
     font-weight: 500;
 }
 
 .gauge-body {
     padding: 8px;
-    background: #f0f4f8;
+    background: #d9d5d2;
+    border: 1px solid #2b2b2b;
     border-radius: 20px;
-    box-shadow: inset 0 0 0 1px rgba(0,0,0,0.03);
+    box-shadow: inset 0 2px 6px rgba(0,0,0,0.4), 0 6px 14px rgba(0,0,0,0.45);
 }
 
 .gauge-casing {
@@ -427,7 +455,7 @@
         appearance: none;
         width: 22px;
         height: 22px;
-        background: #cbd5e1;
+        background: radial-gradient(circle at 30% 30%, #d9d5d2, #a19e9c);
         border-radius: 6px;
         border: 1px solid #334155;
         box-shadow: 0 3px 8px rgba(0,0,0,0.35);
@@ -447,12 +475,12 @@
 .gauge-tick-line {
     width: 10px;
     height: 1px;
-    background: #8aa0af;
+    background: black;
 }
 
 .gauge-tick-label {
     font-size: 11px;
-    color: #5f7a8a;
+    color: black;
 }
 
 .gauge-legends {
@@ -464,7 +492,7 @@
     flex-direction: column;
     justify-content: space-between;
     font-size: 11px;
-    color: #5f7a8a;
+    color: black;
 }
 
 /* Submarine control button */
@@ -498,7 +526,7 @@
     text-align: center;
     margin-top: 5px;
     font-size: 13px;
-    color: #345243;
+    color: black;
     font-weight: 600;
 
 }
@@ -547,6 +575,7 @@
     width: 220px;
     height: 220px;
     margin: auto;
+    margin-top: 2rem;
     background: linear-gradient(180deg, #bcb9b6 0%, #8f8c8a 100%);
     border: 1px solid rgba(0,0,0,0.6);
     border-radius: 10px;

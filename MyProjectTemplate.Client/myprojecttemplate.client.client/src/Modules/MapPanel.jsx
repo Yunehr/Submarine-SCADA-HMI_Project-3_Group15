@@ -32,9 +32,12 @@ export default function Map() {
     //if (!items || items.length === 0) return <div>No data</div>;
 
     return (
-        <div>
-            Map
+        <div className="map-console-screen">
+            <div className="map-console-label">
+                Depth:   Position:   
+            </div>
         </div>
+        
 
     );
 }

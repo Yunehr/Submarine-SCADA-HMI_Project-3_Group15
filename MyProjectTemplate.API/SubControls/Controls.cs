@@ -4,6 +4,8 @@
 //do i need includes here? no clue
 
 //how do namespaces work? no clue
+using System;
+
 namespace MyProjectTemplate.API.SubControls //capitals? iunno
 {
 
@@ -38,12 +40,16 @@ namespace MyProjectTemplate.API.SubControls //capitals? iunno
 
         public void Thrust(double offset){
             prop.Offset = offset;
-            //doing this is kinda ugly, but there's no point in making a function for it when this is literally the entire purpose of a setter
+                //doing this is kinda ugly, but there's no point in making a function for it when this is literally the entire purpose of a setter
         }
-        public void Turn(double Offset) {
-            rudd.Offset = Offset; 
+
+        //accepting deg rather than rad since it makes it easier for everyone else
+        public void Turn(double offset) {
+            offset = (offset * Math.PI) / 180.0;
+            rudd.Offset = offset; 
         }
         public void Pitch(double offset) {
+            offset = (offset * Math.PI) / 180.0;
             stnp.Offset = offset;
         }
         public void AdjBuoyancy(double offset) {

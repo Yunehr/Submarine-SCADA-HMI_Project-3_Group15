@@ -38,7 +38,7 @@ export default function App() {
 
                 {/* Center column split into two sections (top / bottom) */}
                 <main className="centerbar">
-                    <div className="center-top">
+                    <div className="map-console-background">
                         <Map />
                         {/* Place maps, toolbars, or top controls here */}
                     </div>

@@ -1,40 +1,37 @@
-// Life Support Panel, Displaying various gauges and buttons representing overall health of
+﻿import React, { useState } from "react";
+import "../App.css";
 
-//import React, { useEffect, useState } from 'react';      //un comment when link to API backend is created
+export default function ScramPanel({ warning = false, danger = false }) {
+    const [coverOpen, setCoverOpen] = useState(false);
 
-import '../App.css';
+    const toggleCover = () => {
+        setCoverOpen(!coverOpen);
+    };
 
-export default function ReactorMonitor() {
-    //const [items, setItems] = useState(null);          //un comment when link to API backend is created
-    //const [loading, setLoading] = useState(true);
-    //const [error, setError] = useState(null);
+    const handleScramClick = () => {
+        // Insert your shutdown logic here
+    };
 
-    //useEffect(() => {
-    //    let mounted = true;
-    //    // The Vite dev server proxies /lifesupportpanel to the API (see vite.config.js).       //TODO: Create API link in vite.config.js and MyProjectTemplate.API
-    //    fetch('/weatherforecast')                                                               //... : Update to reference /lifesupportpanel
-    //        .then((res) => {
-    //            if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    //            return res.json();
-    //        })
-    //        .then((json) => mounted && setItems(json))
-    //        .catch((err) => mounted && setError(err.message))
-    //        .finally(() => mounted && setLoading(false));
-
-    //    // Cleanup pattern prevents setting state after unmount
-    //    return () => {
-    //        mounted = false;
-    //    };
-    //}, []);
-
-    //if (loading) return <div>Loading...</div>;
-    //if (error) return <div style={{ color: 'red' }}>Error: {error}</div>;
-    //if (!items || items.length === 0) return <div>No data</div>;
+    const lightClass = danger ? "scram-light danger" : warning ? "scram-light warning" : "scram-light off";
 
     return (
-        <div>
-        reactor Monitor
-        </div>
+        <div className="scram-panel">
+            {/* Corner lights */}
+            <div className={`${lightClass} top-left`} />
+            <div className={`${lightClass} top-right`} />
+            <div className={`${lightClass} bottom-left`} />
+            <div className={`${lightClass} bottom-right`} />
 
+            {/* Cover */}
+            <div
+                className={`scram-cover ${coverOpen ? "open" : "closed"}`}
+                onClick={toggleCover}
+            ></div>
+
+            {/* SCRAM Button */}
+            <button className="scram-button" onClick={handleScramClick}>
+                SCRAM
+            </button>
+        </div>
     );
 }

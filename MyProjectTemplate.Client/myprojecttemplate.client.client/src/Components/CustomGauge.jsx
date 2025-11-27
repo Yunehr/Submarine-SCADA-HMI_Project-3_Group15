@@ -64,7 +64,13 @@ const CustomGauge = ({ warning = false, label = "", grad = false, value = 40, mi
                         hideMinMax: !showMinMax,
                         defaultTickValueConfig: {
                             formatTextValue: value => value + labelType,
-                            style: { fontSize: 8 },
+                            style: {
+                                fontSize: 8,
+                                fill: "#345243"
+                            }
+                        },
+                        defaultTickLineConfig: {
+                            color: "#345243"
                         }
                     }
                 }}

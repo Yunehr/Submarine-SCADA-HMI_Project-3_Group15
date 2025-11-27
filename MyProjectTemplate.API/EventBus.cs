@@ -10,14 +10,18 @@ namespace MyProjectTemplate.API
         void Register(IDevice device);
         void Unregister(Guid deviceId);
         IDisposable Subscribe(DeviceType topic, Action<DeviceReading> handler);
-        bool TryGetLatest(DeviceType topic, out DeviceReading reading);
+        //bool TryGetLatest(DeviceType topic, out DeviceReading reading);
+        bool TryGetLatest(Guid deviceId, out DeviceReading reading);
+
     }
 
     public sealed class EventBus : IEventBus
     {
         private readonly object _lock = new();
         private readonly Dictionary<DeviceType, List<Action<DeviceReading>>> _subs = new();
-        private readonly Dictionary<DeviceType, DeviceReading> _latest = new();
+        //private readonly Dictionary<DeviceType, DeviceReading> _latest = new();
+        private readonly Dictionary<Guid, DeviceReading> _latestByDevice = new();
+
         private readonly Dictionary<Guid, IDevice> _devices = new();
 
         public void Register(IDevice device)
@@ -62,15 +66,21 @@ namespace MyProjectTemplate.API
             });
         }
 
-        public bool TryGetLatest(DeviceType topic, out DeviceReading reading)
-            => _latest.TryGetValue(topic, out reading);
+        public bool TryGetLatest(Guid deviceId, out DeviceReading reading)
+        {
+            lock (_lock)
+            {
+                return _latestByDevice.TryGetValue(deviceId, out reading);
+            }
+        }
+            //=> _latest.TryGetValue(topic, out reading);
 
         private void OnReading(object? sender, DeviceReading reading)
         {
             List<Action<DeviceReading>> targets;
             lock (_lock)
             {
-                _latest[reading.DeviceType] = reading;
+                _latestByDevice[reading.DeviceId] = reading;
                 if (!_subs.TryGetValue(reading.DeviceType, out targets!))
                     return;
                 targets = targets.ToList();

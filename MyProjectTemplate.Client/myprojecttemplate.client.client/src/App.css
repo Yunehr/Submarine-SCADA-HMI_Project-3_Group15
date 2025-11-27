@@ -539,3 +539,111 @@
     text-align: center;
     text-shadow: 0 0 6px rgba(0,255,102,0.6);
 }
+
+/* Submarine Reactor Scram Button */
+/* Reactor Scram Panel */
+.scram-panel {
+    position: relative;
+    width: 220px;
+    height: 220px;
+    margin: auto;
+    background: linear-gradient(180deg, #bcb9b6 0%, #8f8c8a 100%);
+    border: 1px solid rgba(0,0,0,0.6);
+    border-radius: 10px;
+    box-shadow: inset 0 2px 6px rgba(0,0,0,0.4), 0 6px 14px rgba(0,0,0,0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Corner warning lights */
+.scram-light {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(0,0,0,0.4);
+}
+
+    .scram-light.warning {
+        background-color: #ffe900;
+        box-shadow: 0 0 20px #ffff00;
+    }
+
+    .scram-light.danger {
+        background-color: #ca0B00;
+        box-shadow: 0 0 12px #F32013;
+    }
+
+    /* Positioning lights */
+    .scram-light.top-left {
+        top: 8px;
+        left: 8px;
+    }
+
+    .scram-light.top-right {
+        top: 8px;
+        right: 8px;
+    }
+
+    .scram-light.bottom-left {
+        bottom: 8px;
+        left: 8px;
+    }
+
+    .scram-light.bottom-right {
+        bottom: 8px;
+        right: 8px;
+    }
+
+/* Button cover with 3D and transparency */
+.scram-cover {
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    background: rgba(60, 60, 60, 0.6); /* semi-transparent */
+    border-radius: 8px;
+    border: 2px solid #222;
+    backdrop-filter: blur(2px); /* glass-like effect */
+    box-shadow: inset 0 4px 8px rgba(255,255,255,0.15), inset 0 -4px 8px rgba(0,0,0,0.6), 0 6px 14px rgba(0,0,0,0.7);
+    cursor: pointer;
+    transition: transform 0.6s ease, opacity 0.4s ease;
+    z-index: 2;
+    transform-origin: top;
+}
+
+    /* Cover open state (hinged upward) */
+    .scram-cover.open {
+        transform: rotateX(120deg) translateY(-20px);
+        opacity: 0.5;
+        z-index: 0;
+    }
+
+    /* Cover closed state */
+    .scram-cover.closed {
+        transform: rotateX(0deg);
+        opacity: 1;
+        z-index: 2;
+    }
+
+
+/* SCRAM button */
+.scram-button {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, #ff4d4d, #8b0000);
+    border: 2px solid #2b2b2b;
+    box-shadow: inset 0 -4px 8px rgba(0,0,0,0.6), 0 6px 14px rgba(0,0,0,0.45);
+    font-weight: 700;
+    font-size: 18px;
+    color: #fff;
+    cursor: pointer;
+    transition: transform 120ms ease, box-shadow 200ms ease;
+    z-index: 1;
+}
+
+    .scram-button:active {
+        transform: translateY(2px);
+        box-shadow: inset 0 -2px 6px rgba(0,0,0,0.6), 0 4px 10px rgba(0,0,0,0.45);
+    }

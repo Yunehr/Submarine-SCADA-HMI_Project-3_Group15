@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore; // Remember to press tools --> NuGet Package Manager --> Package Manager Console --> type the below
 using MyProjectTemplate.API.Controllers;
+using MyProjectTemplate.API.Services; 
 using MyProjectTemplate.API.Data;   // Install-Package Microsoft.EntityFrameworkCore.Tools
                                     // Search for sqlite efcore.sqlite and efcore.sqlite.core and download
 using MyProjectTemplate.API;
@@ -13,6 +14,9 @@ using MyProjectTemplate.API.LifeSupportSystems;
 // Keep this file minimal in templates; move heavier configuration to extension methods in larger apps.
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.Configure<DeviceThresholds>(
+    builder.Configuration.GetSection("DeviceThresholds")); // This gets the device thresholds from the appsettings.json
 
 // Add services to the container.
 // Register MVC controllers (attribute routed controllers live under Controllers/)

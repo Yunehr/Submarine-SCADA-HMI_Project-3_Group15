@@ -145,12 +145,13 @@ namespace MyProjectTemplate.API.Migrations
                         .HasColumnType("INTEGER")
                         .HasColumnName("LogID");
 
-                    b.Property<string>("ActionTaken")
-                        .HasMaxLength(200)
+                    b.Property<string>("Level")
+                        .HasMaxLength(50)
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Command")
-                        .HasColumnType("json");
+                    b.Property<string>("Message")
+                        .HasMaxLength(500)
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("PerformedBy")
                         .HasMaxLength(100)

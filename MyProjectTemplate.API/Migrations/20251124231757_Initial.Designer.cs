@@ -11,8 +11,8 @@ using MyProjectTemplate.API.Data;
 namespace MyProjectTemplate.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251118184646_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20251124231757_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -148,12 +148,13 @@ namespace MyProjectTemplate.API.Migrations
                         .HasColumnType("INTEGER")
                         .HasColumnName("LogID");
 
-                    b.Property<string>("ActionTaken")
-                        .HasMaxLength(200)
+                    b.Property<string>("Level")
+                        .HasMaxLength(50)
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Command")
-                        .HasColumnType("json");
+                    b.Property<string>("Message")
+                        .HasMaxLength(500)
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("PerformedBy")
                         .HasMaxLength(100)

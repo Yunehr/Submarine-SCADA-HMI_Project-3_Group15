@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace MyProjectTemplate.API.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -96,8 +96,8 @@ namespace MyProjectTemplate.API.Migrations
                     LogID = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     SubID = table.Column<Guid>(type: "TEXT", nullable: false),
-                    ActionTaken = table.Column<string>(type: "TEXT", maxLength: 200, nullable: true),
-                    Command = table.Column<string>(type: "json", nullable: true),
+                    Level = table.Column<string>(type: "TEXT", maxLength: 50, nullable: true),
+                    Message = table.Column<string>(type: "TEXT", maxLength: 500, nullable: true),
                     PerformedBy = table.Column<string>(type: "TEXT", maxLength: 100, nullable: true),
                     TimeData = table.Column<string>(type: "TEXT", maxLength: 40, nullable: true)
                 },

@@ -1,7 +1,7 @@
 ﻿//sebastian solorzano -- pr3j group 15 (sebastian, sam, evan, ryan) -- CSCN72030 f25
 //interfaces for sub control elements (propeller, rudder, etc.)
 
-namespace MyProjectTemplate.API.SubControls
+namespace MyProjectTemplate.API.SubSubController.SubControls
 {
     //putting all four of them in this file because they're so small and I hate having like 18 files
     //if we were making a real submarine, the implementations of these would call the servos or hydraulics or whatever

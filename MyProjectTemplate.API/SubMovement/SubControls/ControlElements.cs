@@ -3,9 +3,9 @@
 //these exist in place of something that physically interacts with a real sub
 
 
-using System; //for math
+using System;
 
-namespace MyProjectTemplate.API.SubControls
+namespace MyProjectTemplate.API.SubSubController.SubControls
 {
 
     //I don't want to make 7 different files when they all practically do one thing
@@ -24,8 +24,8 @@ namespace MyProjectTemplate.API.SubControls
           set{  //setting (somewhat) arbitrary limits on component magnitudes. the gui will also have limits, but I just wanted to be sure
                 if (value > OffsetLimit)
                     _offset = OffsetLimit;
-                else if (value < (-OffsetLimit)) //extra brackets because I always want to make sure when working with negatives
-                    _offset = (-OffsetLimit);
+                else if (value < -OffsetLimit) //extra brackets because I always want to make sure when working with negatives
+                    _offset = -OffsetLimit;
                 else
                     _offset = value;
             }
@@ -61,7 +61,7 @@ namespace MyProjectTemplate.API.SubControls
     }
 
     public class Rudder : ControlElement, IRudder {
-        protected override double OffsetLimit { get; } = (Math.PI / 2);
+        protected override double OffsetLimit { get; } = Math.PI / 2;
         //setting less arbitrary limits on rudder angle. basically limits to 180 degrees in front of sub
         //since it wouldn't make sensee for rudder direction to point the sub backwards
 
@@ -72,7 +72,7 @@ namespace MyProjectTemplate.API.SubControls
     }
 
     public class SternPlate : ControlElement, ISternPlate {
-        protected override double OffsetLimit { get; } = (Math.PI / 2);
+        protected override double OffsetLimit { get; } = Math.PI / 2;
         //same as above
 
         public SternPlate(){

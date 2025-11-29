@@ -6,7 +6,7 @@
 //do i need includes here? no clue
 
 //how do namespaces work? no clue
-namespace MyProjectTemplate.API.SubControls 
+namespace MyProjectTemplate.API.SubSubController.SubControls 
 {
     public interface IControls
     {

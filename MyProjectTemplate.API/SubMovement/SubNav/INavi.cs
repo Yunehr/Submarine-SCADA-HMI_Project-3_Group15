@@ -1,9 +1,9 @@
 ﻿//sebastian solorzano -- pr3j group 15 (sebastian, sam, evan, ryan) -- CSCN72030 f25
 //interf for nav
 
-namespace MyProjectTemplate.API.SubNav //still not sure how namespaces work but everything has its folder so it probably works
+namespace MyProjectTemplate.API.SubSubController.SubNav //still not sure how namespaces work but everything has its folder so it probably works
 {
-    public interface INavigation
+    public interface INavi
     {
         //xy define the horizontal plane
         public double X { get; }

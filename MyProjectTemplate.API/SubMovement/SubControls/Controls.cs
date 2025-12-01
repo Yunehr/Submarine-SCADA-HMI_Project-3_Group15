@@ -6,7 +6,7 @@
 //how do namespaces work? no clue
 using System;
 
-namespace MyProjectTemplate.API.SubControls //capitals? iunno
+namespace MyProjectTemplate.API.SubSubController.SubControls //capitals? iunno
 {
 
     //ugghhh how do permissions work
@@ -45,11 +45,11 @@ namespace MyProjectTemplate.API.SubControls //capitals? iunno
 
         //accepting deg rather than rad since it makes it easier for everyone else
         public void Turn(double offset) {
-            offset = (offset * Math.PI) / 180.0;
+            offset = offset * Math.PI / 180.0;
             rudd.Offset = offset; 
         }
         public void Pitch(double offset) {
-            offset = (offset * Math.PI) / 180.0;
+            offset = offset * Math.PI / 180.0;
             stnp.Offset = offset;
         }
         public void AdjBuoyancy(double offset) {

@@ -13,7 +13,8 @@ namespace MyProjectTemplate.API.LifeSupportSystems
         private readonly Dictionary<string, IDevice> _devices;
 
         // Alarm thresholds
-        private const double O2_MIN = 21.0;
+        private const double O2_MIN = 19.5;
+        private const double O2_MAX = 23.5;
         private const double CO2_MAX = 390;
         private const double AIR_RESERVE_MIN = 40.0;
         private const double INT_PRESSURE_MAX = 1.2;
@@ -25,6 +26,9 @@ namespace MyProjectTemplate.API.LifeSupportSystems
         private const double TEMP_MIN = 15.0;
         private const double HUMIDITY_MAX = 60.0;
         private const double HUMIDITY_MIN = 20.0;
+        // Fuel Rod Integrity Min Threshold
+        private const double FUEL_ROD_INTEGRITY_MIN = 50.0;
+        private const double FUEL_ROD_INTEGRITY_CRITICAL = 30.0;
 
         public LifeSupportController(
             IEventBus bus,
@@ -160,6 +164,51 @@ namespace MyProjectTemplate.API.LifeSupportSystems
             AirReserveMonitor.resetAirReserveLevel();
 
             return Ok(new { status = "Air Reserve Reset activated" });
+        }
+
+        [HttpPost("SCRAM Reactor")]
+        public IActionResult SCRAMReactor()
+        {
+            // Reset reactor output to 0
+            var reactorOutputMonitor = (ReactorOutputMonitor)_devices["ReactorOutput"];
+            reactorOutputMonitor.SCRAMReactorOutput();
+
+            var coolantMonitor = (CoolantMonitor)_devices["Coolant"];
+            coolantMonitor.SCRAMCoolantLevel();
+
+            var fuelRodMonitor = (FuelRodMonitor)_devices["FuelRod"];
+            fuelRodMonitor.SCRAMFuelRodIntegrity();
+
+            var radiationMonitor = (RadMonitor)_devices["Radiation"];
+            radiationMonitor.SCRAMRadiationLevel();
+
+            // This one requires more refactoring than time permits to get the 
+            // different temp devices to be set separately
+            // var reactorTempMonitor = (TemperatureMonitor)_devices["ReactorTemp"];
+            // reactorTempMonitor.SCRAMReactorTemperature();
+
+            var batteryMonitor = (BatteryMonitor)_devices["Battery"];
+            batteryMonitor.SCRAMBatteryDisconnect();
+
+            return Ok(new { status = "Reactor SCRAM activated" });
+        }
+
+        [HttpPost("Reactor Critical Scenario")]
+        public IActionResult ReactorCriticalScenario()
+        {
+            // var reactorOutputMonitor = (ReactorOutputMonitor)_devices["ReactorOutput"];
+            // reactorOutputMonitor.ReactorOutputSpike();
+
+            // var coolantMonitor = (CoolantMonitor)_devices["Coolant"];
+            // coolantMonitor.CoolantLevelDrop();
+
+            var fuelRodMonitor = (FuelRodMonitor)_devices["FuelRod"];
+            fuelRodMonitor.FuelRodIntegrityDrop();
+
+            // var radiationMonitor = (RadMonitor)_devices["Radiation"];
+            // radiationMonitor.RadiationLevelSpike();
+
+            return Ok(new { status = "Reactor Critical Scenario activated" });
         }
 
         // Ryan's OG stuff below

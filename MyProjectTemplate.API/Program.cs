@@ -79,6 +79,12 @@ var intPressure = new PressureMonitor();
 var exPressure = new PressureMonitor();
 var temperature = new TemperatureMonitor();
 var humidity = new HumidityMonitor();
+var reactorOutput = new ReactorOutputMonitor();
+var coolantMonitor = new CoolantMonitor();
+var fuelRodMonitor = new FuelRodMonitor();
+var radiationMonitor = new RadMonitor();
+var batteryMonitor = new BatteryMonitor();
+var reactorTemp = new TemperatureMonitor();
 
 bus.Register(o2);
 bus.Register(co2);
@@ -87,6 +93,12 @@ bus.Register(intPressure);
 bus.Register(exPressure);
 bus.Register(temperature);
 bus.Register(humidity);
+bus.Register(reactorOutput);
+bus.Register(coolantMonitor);
+bus.Register(fuelRodMonitor);
+bus.Register(radiationMonitor);
+bus.Register(batteryMonitor);
+bus.Register(reactorTemp);
 
 var areaNames = new Dictionary<Guid, string>
 {
@@ -96,7 +108,13 @@ var areaNames = new Dictionary<Guid, string>
     [intPressure.Id] = "Internal Pressure",
     [exPressure.Id]  = "External Pressure",
     [temperature.Id] = "Main Cabin Temperature",
-    [humidity.Id]    = "Main Cabin Humidity"
+    [humidity.Id]    = "Main Cabin Humidity",
+    [reactorOutput.Id] = "Reactor Output",
+    [coolantMonitor.Id] = "Reactor Coolant Level",
+    [fuelRodMonitor.Id] = "Reactor Fuel Rod Integrity",
+    [radiationMonitor.Id] = "Reactor Radiation Level",
+    [batteryMonitor.Id] = "Battery Charge Level",
+    [reactorTemp.Id] = "Reactor Temperature"
 };
 
 var devices = new Dictionary<string, IDevice>
@@ -107,7 +125,13 @@ var devices = new Dictionary<string, IDevice>
     ["IntPressure"]  = intPressure,
     ["ExPressure"]   = exPressure,
     ["Temperature"]  = temperature,
-    ["Humidity"]     = humidity
+    ["Humidity"]     = humidity,
+    ["ReactorOutput"] = reactorOutput,
+    ["Coolant"]      = coolantMonitor,
+    ["FuelRod"]      = fuelRodMonitor,
+    ["Radiation"]    = radiationMonitor,
+    ["Battery"]      = batteryMonitor,
+    ["ReactorTemp"]  = reactorTemp
 };
 
 var controller = new LifeSupportController(bus, areaNames, devices);

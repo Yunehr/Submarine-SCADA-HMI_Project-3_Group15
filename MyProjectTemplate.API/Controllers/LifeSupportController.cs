@@ -11,6 +11,7 @@ namespace MyProjectTemplate.API.LifeSupportSystems
     public class LifeSupportController : ControllerBase
     {
         private readonly IEventBus _bus;
+        private readonly AppDbContext _db;
         private readonly Dictionary<Guid, string> _areaNames;
         private readonly Dictionary<string, IDevice> _devices;
 
@@ -34,11 +35,13 @@ namespace MyProjectTemplate.API.LifeSupportSystems
 
         public LifeSupportController(IEventBus bus,
                              Dictionary<Guid, string> areaNames,
-                             Dictionary<string, IDevice> devices)
+                             Dictionary<string, IDevice> devices,
+                             AppDbContext db)
         {
             _bus = bus;
             _areaNames = areaNames;
             _devices = devices;
+            _db = db;
         }
 
         public void SetupSubscriptions()
@@ -100,6 +103,14 @@ namespace MyProjectTemplate.API.LifeSupportSystems
                         Console.WriteLine($"{label} - BELOW SAFE MINIMUM!");
                 }
             });
+
+            //_db.SubAlarmsData.Add(new SubAlarmsDatum
+            //{
+            //    Message = "Oxygen below safe minimum",
+            //    Severity = "Danger",
+            //    Timestamp = DateTime.UtcNow
+            //});
+            //_db.SaveChanges();
         }
 
         private string GetLabel(Guid deviceId, string fallback)
@@ -230,12 +241,12 @@ namespace MyProjectTemplate.API.LifeSupportSystems
             return NotFound();
         }
 
-        //[HttpGet("alarms")]
-        //public IActionResult GetAlarms()
-        //{
-        //    //var alarms = _db.SubAlarmsData.ToList(); // needs fixing _db does not exist in current context
-        //    return Ok(alarms);
-        //}
+        [HttpGet("alarms")]
+        public IActionResult GetAlarms()
+        {
+            var alarms = _db.SubAlarmsData.ToList(); // needs fixing _db does not exist in current context
+            return Ok(alarms);
+        }
 
     }
 

@@ -58,11 +58,14 @@ builder.Services.AddCors(options =>
         policy =>
         {
             policy.WithOrigins(
-                    "https://localhost:60773", // Vite dev server origin
-                    "http://localhost:60773",  // if you ever run without https
-                    "https://localhost:7048",  // API HTTPS url
-                    "http://localhost:5225"    // API HTTP url (launchSettings)
-                )
+                "http://localhost:5173",
+                "https://localhost:5173",
+                "https://localhost:60773",
+                "http://localhost:60773",
+                "https://localhost:7048",
+                "http://localhost:5225"
+            )
+
                 .AllowAnyHeader()
                 .AllowAnyMethod();
             // .AllowCredentials() // add if you need cookies/Windows auth between client and API
@@ -70,11 +73,8 @@ builder.Services.AddCors(options =>
         });
 });
 
-var app = builder.Build();
-
 // --- EventBus + monitors: set these up BEFORE app.Run() ---
 
-var bus = app.Services.GetRequiredService<IEventBus>();
 
 var o2 = new OxygenMonitor();
 var co2 = new Co2Monitor();
@@ -90,6 +90,47 @@ var radiationMonitor = new RadMonitor();
 var batteryMonitor = new BatteryMonitor();
 var reactorTemp = new TemperatureMonitor();
 
+
+var areaNames = new Dictionary<Guid, string>
+{
+    [o2.Id] = "O2 Main Cabin",
+    [co2.Id] = "CO2 Main Cabin",
+    [air.Id] = "Air Reserve Tank",
+    [intPressure.Id] = "Internal Pressure",
+    [exPressure.Id] = "External Pressure",
+    [temperature.Id] = "Main Cabin Temperature",
+    [humidity.Id] = "Main Cabin Humidity",
+    [reactorOutput.Id] = "Reactor Output",
+    [coolantMonitor.Id] = "Reactor Coolant Level",
+    [fuelRodMonitor.Id] = "Reactor Fuel Rod Integrity",
+    [radiationMonitor.Id] = "Reactor Radiation Level",
+    [batteryMonitor.Id] = "Battery Charge Level",
+    [reactorTemp.Id] = "Reactor Temperature"
+};
+
+var devices = new Dictionary<string, IDevice>
+{
+    ["O2"] = o2,
+    ["Co2"] = co2,
+    ["Air"] = air,
+    ["IntPressure"] = intPressure,
+    ["ExPressure"] = exPressure,
+    ["Temperature"] = temperature,
+    ["Humidity"] = humidity,
+    ["ReactorOutput"] = reactorOutput,
+    ["Coolant"] = coolantMonitor,
+    ["FuelRod"] = fuelRodMonitor,
+    ["Radiation"] = radiationMonitor,
+    ["Battery"] = batteryMonitor,
+    ["ReactorTemp"] = reactorTemp
+};
+
+builder.Services.AddSingleton(areaNames);
+builder.Services.AddSingleton(devices);
+
+var app = builder.Build();
+
+var bus = app.Services.GetRequiredService<IEventBus>();
 bus.Register(o2);
 bus.Register(co2);
 bus.Register(air);
@@ -104,10 +145,14 @@ bus.Register(radiationMonitor);
 bus.Register(batteryMonitor);
 bus.Register(reactorTemp);
 
+
+
 // This forces in a sub (just a one time thang currently)
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    var controller = new LifeSupportController(bus, areaNames, devices, db);
+    controller.SetupSubscriptions();
 
     // Pick a fixed SubId so readings can reference it
     var subId = Guid.Parse("11111111-1111-1111-1111-111111111111");
@@ -142,42 +187,42 @@ foreach (DeviceType type in Enum.GetValues<DeviceType>())
     });
 }
 
-var areaNames = new Dictionary<Guid, string>
-{
-    [o2.Id]          = "O2 Main Cabin",
-    [co2.Id]         = "CO2 Main Cabin",
-    [air.Id]         = "Air Reserve Tank",
-    [intPressure.Id] = "Internal Pressure",
-    [exPressure.Id]  = "External Pressure",
-    [temperature.Id] = "Main Cabin Temperature",
-    [humidity.Id]    = "Main Cabin Humidity",
-    [reactorOutput.Id] = "Reactor Output",
-    [coolantMonitor.Id] = "Reactor Coolant Level",
-    [fuelRodMonitor.Id] = "Reactor Fuel Rod Integrity",
-    [radiationMonitor.Id] = "Reactor Radiation Level",
-    [batteryMonitor.Id] = "Battery Charge Level",
-    [reactorTemp.Id] = "Reactor Temperature"
-};
+//var areaNames = new Dictionary<Guid, string>
+//{
+//    [o2.Id]          = "O2 Main Cabin",
+//    [co2.Id]         = "CO2 Main Cabin",
+//    [air.Id]         = "Air Reserve Tank",
+//    [intPressure.Id] = "Internal Pressure",
+//    [exPressure.Id]  = "External Pressure",
+//    [temperature.Id] = "Main Cabin Temperature",
+//    [humidity.Id]    = "Main Cabin Humidity",
+//    [reactorOutput.Id] = "Reactor Output",
+//    [coolantMonitor.Id] = "Reactor Coolant Level",
+//    [fuelRodMonitor.Id] = "Reactor Fuel Rod Integrity",
+//    [radiationMonitor.Id] = "Reactor Radiation Level",
+//    [batteryMonitor.Id] = "Battery Charge Level",
+//    [reactorTemp.Id] = "Reactor Temperature"
+//};
 
-var devices = new Dictionary<string, IDevice>
-{
-    ["O2"]           = o2,
-    ["Co2"]          = co2,
-    ["Air"]          = air,
-    ["IntPressure"]  = intPressure,
-    ["ExPressure"]   = exPressure,
-    ["Temperature"]  = temperature,
-    ["Humidity"]     = humidity,
-    ["ReactorOutput"] = reactorOutput,
-    ["Coolant"]      = coolantMonitor,
-    ["FuelRod"]      = fuelRodMonitor,
-    ["Radiation"]    = radiationMonitor,
-    ["Battery"]      = batteryMonitor,
-    ["ReactorTemp"]  = reactorTemp
-};
+//var devices = new Dictionary<string, IDevice>
+//{
+//    ["O2"]           = o2,
+//    ["Co2"]          = co2,
+//    ["Air"]          = air,
+//    ["IntPressure"]  = intPressure,
+//    ["ExPressure"]   = exPressure,
+//    ["Temperature"]  = temperature,
+//    ["Humidity"]     = humidity,
+//    ["ReactorOutput"] = reactorOutput,
+//    ["Coolant"]      = coolantMonitor,
+//    ["FuelRod"]      = fuelRodMonitor,
+//    ["Radiation"]    = radiationMonitor,
+//    ["Battery"]      = batteryMonitor,
+//    ["ReactorTemp"]  = reactorTemp
+//};
 
-var controller = new LifeSupportController(bus, areaNames, devices);
-controller.SetupSubscriptions();
+//var controller = new LifeSupportController(bus, areaNames, devices);
+//controller.SetupSubscriptions();
 
 // Alarm thresholds
 // const double O2_MIN = 21.0;

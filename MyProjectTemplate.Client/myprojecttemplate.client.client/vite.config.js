@@ -47,12 +47,6 @@ if (!fs.existsSync(certFilePath) || !fs.existsSync(keyFilePath)) {
     }
 }
 
-// Proxy target selection logic:
-// - If ASPNETCORE_HTTPS_PORT is set (common when SPA proxying is configured), use it.
-// - Otherwise fall back to ASPNETCORE_URLS or a hard-coded API HTTPS URL.
-// Update the fallback if your API uses a different port.
-const target = env.ASPNETCORE_HTTPS_PORT ? `https://localhost:${env.ASPNETCORE_HTTPS_PORT}` :
-    env.ASPNETCORE_URLS ? env.ASPNETCORE_URLS.split(';')[0] : 'https://localhost:7048';
 
 // Export Vite config. Typical adjustments:
 // - Change server.port to use a different local port.
@@ -67,19 +61,16 @@ export default defineConfig({
         }
     },
     server: {
-        proxy: {
-            // Forward requests that start with /api to the API target.
-            '^/api': {
-                target,
-                secure: false // disable SSL verification for local dev certs
+        server: {
+            proxy: {
+                '/api': 'https://localhost:7048'  //  backend port
+            },
+            port: 60773, //  frontend port
+            https: {
+                key: fs.readFileSync(keyFilePath),
+                cert: fs.readFileSync(certFilePath),
             }
-        },
-        // Default Vite dev port for this template. Override by setting DEV_SERVER_PORT in env.
-        port: parseInt(env.DEV_SERVER_PORT || '60773'),
-        https: {
-            // Read the certificate exported by dotnet dev-certs so browser doesn't complain.
-            key: fs.readFileSync(keyFilePath),
-            cert: fs.readFileSync(certFilePath),
         }
+
     }
 });

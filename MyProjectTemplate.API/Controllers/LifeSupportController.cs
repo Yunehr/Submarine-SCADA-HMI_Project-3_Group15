@@ -118,7 +118,7 @@ namespace MyProjectTemplate.API.LifeSupportSystems
         public IActionResult ActivateScrubber()
         {
             // Reset CO2 level
-            var co2Monitor = (Co2Monitor)_devices["CO2Monitor"];
+            var co2Monitor = (Co2Monitor)_devices["CO2"];
             co2Monitor.resetCo2Level(); 
 
             // Simulate pressure drop
@@ -126,7 +126,7 @@ namespace MyProjectTemplate.API.LifeSupportSystems
             pressureMonitor.PressureDrop();
 
             // Halve oxygen level
-            var oxygenMonitor = (OxygenMonitor)_devices["OxygenMonitor"];
+            var oxygenMonitor = (OxygenMonitor)_devices["O2"];
             oxygenMonitor.HalveOxygenLevel();
 
             return Ok(new { status = "Scrubber activated" });
@@ -140,7 +140,7 @@ namespace MyProjectTemplate.API.LifeSupportSystems
             pressureMonitor.resetPressureLevel();
 
             // decrease air reserve by 10%
-            var AirReserveMonitor = (AirReserveMonitor)_devices["AirReserveMonitor"];
+            var AirReserveMonitor = (AirReserveMonitor)_devices["Air"];
             AirReserveMonitor.AirReserveDropBy10();
 
             return Ok(new { status = "Pressurization activated" });
@@ -150,7 +150,7 @@ namespace MyProjectTemplate.API.LifeSupportSystems
         public IActionResult OxygenGeneratio()
         {
             // Reset oxygen level
-            var oxygenMonitor = (OxygenMonitor)_devices["OxygenMonitor"];
+            var oxygenMonitor = (OxygenMonitor)_devices["O2"];
             oxygenMonitor.resetOxygenLevel();
 
             return Ok(new { status = "Oxygen Generation activated" });
@@ -160,7 +160,7 @@ namespace MyProjectTemplate.API.LifeSupportSystems
         public IActionResult ResetAirReserve()
         {
             // Reset air reserve level
-            var AirReserveMonitor = (AirReserveMonitor)_devices["AirReserveMonitor"];
+            var AirReserveMonitor = (AirReserveMonitor)_devices["Air"];
             AirReserveMonitor.resetAirReserveLevel();
 
             return Ok(new { status = "Air Reserve Reset activated" });
@@ -230,6 +230,68 @@ namespace MyProjectTemplate.API.LifeSupportSystems
         //    Console.WriteLine($"Command received: {command.DeviceType} -> {command.Action}");
         //    return Ok(new { status = "accepted" });
         //}
+
+        // fix attempt
+        [HttpGet("Oxygen")]
+        public IActionResult GetOxygen()
+        {
+            var oxygenMonitor = (OxygenMonitor)_devices["O2"];
+            if (_bus.TryGetLatest(oxygenMonitor.Id, out var reading))
+                return Ok(reading);
+
+            return Ok(new { oxygenMonitor, value = 1, unit = "N/A" });
+        }
+
+        [HttpGet("CO2")]
+        public IActionResult GetCO2()
+        {
+            var co2Monitor = (Co2Monitor)_devices["CO2"];
+            if (_bus.TryGetLatest(co2Monitor.Id, out var reading))
+                return Ok(reading);
+
+            return Ok(new { co2Monitor, value = 1, unit = "N/A" });
+        }
+
+        [HttpGet("AirReserve")]
+        public IActionResult GetAirReserve()
+        {
+            var airMonitor = (AirReserveMonitor)_devices["Air"];
+            if (_bus.TryGetLatest(airMonitor.Id, out var reading))
+                return Ok(reading);
+
+            return NotFound();
+        }
+
+        [HttpGet("Pressure")]
+        public IActionResult GetPressure()
+        {
+            var pressureMonitor = (PressureMonitor)_devices["IntPressure"];
+            if (_bus.TryGetLatest(pressureMonitor.Id, out var reading))
+                return Ok(reading);
+
+            return NotFound();
+        }
+
+        [HttpGet("Temperature")]
+        public IActionResult GetTemperature()
+        {
+            var tempMonitor = (TemperatureMonitor)_devices["Temperature"];
+            if (_bus.TryGetLatest(tempMonitor.Id, out var reading))
+                return Ok(reading);
+
+            return NotFound();
+        }
+
+        [HttpGet("Humidity")]
+        public IActionResult GetHumidity()
+        {
+            var humidityMonitor = (HumidityMonitor)_devices["Humidity"];
+            if (_bus.TryGetLatest(humidityMonitor.Id, out var reading))
+                return Ok(reading);
+
+            return NotFound();
+        }
+
     }
 
     public record DeviceCommand(DeviceType DeviceType, string Action);

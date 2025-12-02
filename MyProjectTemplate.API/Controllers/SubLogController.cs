@@ -20,14 +20,12 @@ namespace MyProjectTemplate.API.Controllers
         private readonly DeviceThresholds _thresh;
         private readonly DeviceLoggingService _loggingService;
 
-
-        private readonly List<IDisposable> subs = new();
-
-        public SubLogController(AppDbContext db, Logger logger, IOptions<DeviceThresholds> thresholds) {
+        public SubLogController(AppDbContext db, Logger logger, 
+            IOptions<DeviceThresholds> thresholds, DeviceLoggingService loggingService) {
             _db = db;
             _logger = logger;
             _thresh = thresholds.Value;
-            _loggingService = new DeviceLoggingService(_logger, thresholds);
+            _loggingService = loggingService;
         }
 
 

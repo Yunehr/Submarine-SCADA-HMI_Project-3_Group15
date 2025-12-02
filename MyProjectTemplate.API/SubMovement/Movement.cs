@@ -1,10 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using MyProjectTemplate.API.SubMovement;
 using MyProjectTemplate.API.SubSubController.SubControls;
 using MyProjectTemplate.API.SubSubController.SubNav;
 
 namespace MyProjectTemplate.API.SubSubController
 {
-    public class Movement
+    public class Movement:IMovement
     {
         private IControls helm;
         private INavi navi;
@@ -67,7 +68,7 @@ namespace MyProjectTemplate.API.SubSubController
         }
 
 
-        public void Runstart()
+        public void RunStart()
         {
             if (clock != null) 
                 return; //clocks running, dont do nothin

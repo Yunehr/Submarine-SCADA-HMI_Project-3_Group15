@@ -1,10 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MyProjectTemplate.API.SubMovement;
 using MyProjectTemplate.API.SubSubController;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace MyProjectTemplate.API.Controllers
 {
+
+
     [Route("api/[controller]")]
     [ApiController]
     public class MovementController : ControllerBase
@@ -18,6 +21,8 @@ namespace MyProjectTemplate.API.Controllers
         //as for updating controls, who knows
         //i couldn't figure out how to get the POST to work
 
+        private IMovement mov;
+
         /*
         [HttpPost("ration")]
         public IActionResult SetRationLevel([FromBody] RationLevelRequest request)
@@ -27,21 +32,33 @@ namespace MyProjectTemplate.API.Controllers
         }
         */
 
-        private Movement mov;
 
         // GET: api/<MovementController>
-        [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
+        [HttpGet("Xpos")]
+        public double GetXPos()
+        { 
+            return mov.GetPosX();
         }
 
-        // GET api/<MovementController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet("Ypos")]
+        public double GetYPos()
         {
-            return "value";
+            return 13.0;//mov.GetPosY();
         }
+
+        [HttpGet("Zpos")]
+        public double GetZPos()
+        {
+            return 43.4;// mov.GetPosZ();
+        }
+
+        // GET: api/<MovementController>
+        [HttpGet("speed")]
+        public double SpeedGet()
+        {
+            return 12.9;// mov.GetSpeed();
+        }
+
 
         // POST api/<MovementController>
         [HttpPost]

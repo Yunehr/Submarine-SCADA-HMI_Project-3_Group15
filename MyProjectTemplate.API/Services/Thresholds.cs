@@ -9,7 +9,8 @@
     public class DeviceThresholds {
         public ThresholdSet Oxygen { get; set; }
         public ThresholdSet CO2 { get; set; }
-        public ThresholdSet Pressure { get; set; }
+        public ThresholdSet inPressure { get; set; }
+        public ThresholdSet exPressure { get; set; }
         public ThresholdSet Humidity { get; set; }
         public ThresholdSet Temperature { get; set; }
         public ThresholdSet AirReserve { get; set; }

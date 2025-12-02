@@ -11,7 +11,7 @@ namespace MyProjectTemplate.API.Services {
             _db = db;
         }
 
-        public void Log(Guid subId, string level, string message, string performedBy = "SYSTEM") {
+        public void Log(Guid subId, Guid deviceId, string level, string message, string performedBy = "SYSTEM") {
             var log = new SubLog {
                 SubId = subId,
                 Level = level,
@@ -25,8 +25,8 @@ namespace MyProjectTemplate.API.Services {
         }
 
         // Creating different level logs
-        public void Info(Guid id, string msg) => Log(id, "INFO", msg);
-        public void Warning(Guid id, string msg) => Log(id, "WARNING", msg);
-        public void Danger(Guid id, string msg) => Log(id, "DANGER", msg);
+        public void Info(Guid deviceId, string msg) => Log(Guid.Parse("11111111-1111-1111-1111-111111111111"), deviceId, "INFO", msg);
+        public void Warning(Guid deviceId, string msg) => Log(Guid.Parse("11111111-1111-1111-1111-111111111111"), deviceId, "WARNING", msg);
+        public void Danger(Guid deviceId, string msg) => Log(Guid.Parse("11111111-1111-1111-1111-111111111111"), deviceId, "DANGER", msg);
     }
 }

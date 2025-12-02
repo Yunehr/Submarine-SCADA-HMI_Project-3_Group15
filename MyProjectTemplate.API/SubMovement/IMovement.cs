@@ -9,18 +9,22 @@ namespace MyProjectTemplate.API.SubMovement
 {
     public interface IMovement
     {
+
+        //commands to be called:
         public void Power(bool on);
-
-        public double GetSpeed();
-
-        //gets your current position
-        //call this every tick or whatever
-        public double[] GetPos();
-
         public void ChangeVel(double mag, double xyoff, double zoff, double buoy);
 
-        //call this once every {time increment}
-        //otherwise you'll be moving too fast/slow
-        public void UpdatePos();
+
+        //returns
+        public double GetSpeed();
+            //call the following every 'frame' to update your gui
+        public double GetPosX();
+        public double GetPosY();
+        public double GetPosZ();
+
+
+        //looper:
+        public void RunStart();
+        //this also handles constalnty updating the position, but that's private
     }
 }

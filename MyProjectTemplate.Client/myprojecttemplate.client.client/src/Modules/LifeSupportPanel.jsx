@@ -75,11 +75,11 @@ export default function LifeSupportPanel() {
                          
                     />
                     <CustomGauge
-                        warning={ co2 && (co2.value < 400 || co2.value > 1000)}
+                        warning={ co2 && (co2.value < 0 || co2.value > 1000)}
                         label="CO₂"
                         value={co2 ? co2.value : 0}
-                        min={300} max={2500}
-                        wLow={400} dLow={301}
+                        min={0} max={2500}
+                        wLow={0.2} dLow={0.1}
                         wHigh={1000} dHigh={2000}
                         labelType="ppm"
                         showLow={false}
@@ -90,7 +90,6 @@ export default function LifeSupportPanel() {
                 <div className="gauge-row switch-row">
                     <VerticalSwitch label="O2 Valve" />
                     <VerticalSwitch label="Scrubber" />
-
                 </div>
                 <div className="gauge-item">
                     <CustomGauge
@@ -129,6 +128,7 @@ export default function LifeSupportPanel() {
                 </div>
             </div>
             <div className="gauge-row">
+                <div className="vs-pressurize"><VerticalSwitch label="Pressurize" /></div>
                 <ClimateMonitor
                     warning={climate.temp < 15 || climate.temp > 23 || climate.humidity < 35 || climate.humidity > 55}
                     temperature={climate.temp ?  Number(climate.temp).toFixed(2) : 0}

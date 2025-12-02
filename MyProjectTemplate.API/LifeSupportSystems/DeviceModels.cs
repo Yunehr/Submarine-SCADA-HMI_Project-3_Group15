@@ -1,7 +1,8 @@
 ﻿using System;
 
-public enum DeviceType { Oxygen, CO2, AirReserve, Pressure, Temperature, Humidity }
-public enum Unit { Ppm, Percent, Bar, Celsius }
+public enum DeviceType { Oxygen, CO2, AirReserve, Pressure, Temperature, Humidity, 
+                        FuelRod, Coolant, Rad, Reactor, Battery }
+public enum Unit { Ppm, Percent, Bar, Celsius, Rads, Megawatts }
 
 
 namespace MyProjectTemplate.API.LifeSupportSystems

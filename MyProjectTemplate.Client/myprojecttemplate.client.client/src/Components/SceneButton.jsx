@@ -4,10 +4,10 @@ import "../App.css";
 export default function SceneButton({ label = "Scenario" }) {
     // Map labels to backend endpoints
     const endpointMap = {
-        "Scene 1": "/api/lifesupport/SCRAM Reactor",
-        "Scene 2": "/api/lifesupport/Reactor Critical Scenario",
-        "Scene 3": "/api/lifesupport/Pressurize",
-        "Scene 4": "/api/lifesupport/ReplenishAirReserve"
+        "Scene 1": "/api/lifesupport/Oxygen Low",
+        "Scene 2": "/api/lifesupport/Pressure Loss",
+        "Scene 3": "/api/lifesupport/CO2 Spike",
+        //"Scene 4": "/api/lifesupport/Reactor Critical Scenario"
     };
 
     const handleClick = () => {

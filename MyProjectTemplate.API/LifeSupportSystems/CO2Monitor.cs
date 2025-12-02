@@ -8,7 +8,7 @@ public sealed class Co2Monitor : MonitorBase
     protected override double SampleSensor()
     {
         var value = _currentLevel;
-        _currentLevel += 2; // Simulate CO2 increase each sample
+        _currentLevel += 5; // Simulate CO2 increase each sample
         return value;
     }
 
@@ -19,6 +19,6 @@ public sealed class Co2Monitor : MonitorBase
 
     public void Co2Spike()
     {
-        _currentLevel = 500; // Simulate CO2 spike to 1000 ppm
+        _currentLevel = 1200; // Simulate CO2 spike to 1200 ppm
     }
 }

@@ -108,11 +108,8 @@ namespace MyProjectTemplate.API.LifeSupportSystems
                 : fallback;
         }
 
-        public void CO2SpikeScenaario()
-        {
-            var co2Monitor = (Co2Monitor)_devices["CO2Monitor"];
-            co2Monitor.Co2Spike();
-        }
+        
+        // Correction Buttons
 
         [HttpPost("scrubber")]
         public IActionResult ActivateScrubber()
@@ -193,6 +190,37 @@ namespace MyProjectTemplate.API.LifeSupportSystems
             return Ok(new { status = "Reactor SCRAM activated" });
         }
 
+        // Scenario 1
+        [HttpPost("Oxygen Low")]
+        public IActionResult LowOxygenScenario()
+        {
+            var oxygenMonitor = (OxygenMonitor)_devices["O2"];
+            oxygenMonitor.HalveOxygenLevel();
+
+            return Ok(new {status = "Low Oxygen Scenario activated"});
+        }
+
+        // Scenario 2
+        [HttpPost("Pressure Loss")]
+        public IActionResult PressureLoss()
+        {
+            var intPressure = (PressureMonitor)_devices["IntPressure"];
+            intPressure.PressureDrop();
+
+            return Ok(new { status = "Loss of Pressure Scenario activated" });
+        }
+
+        // Scenario 3
+        [HttpPost("CO2 Spike")]
+        public IActionResult CO2SpikeScenario()
+        {
+            var co2Monitor = (Co2Monitor)_devices["CO2"];
+            co2Monitor.Co2Spike();
+
+            return Ok(new { status = "CO2 Spike Scenario activated" });
+        }
+
+        // Scenario 4
         [HttpPost("Reactor Critical Scenario")]
         public IActionResult ReactorCriticalScenario()
         {
@@ -210,6 +238,8 @@ namespace MyProjectTemplate.API.LifeSupportSystems
 
             return Ok(new { status = "Reactor Critical Scenario activated" });
         }
+
+        // Scen
 
         // Ryan's OG stuff below
         // GET latest reading for a device

@@ -22,6 +22,9 @@ builder.Services.Configure<DeviceThresholds>(
 // Register MVC controllers (attribute routed controllers live under Controllers/)
 builder.Services.AddControllers();
 
+// Register the Device Logger as a singleton so it can be used throughout the whole app
+builder.Services.AddSingleton<DeviceLoggingService>();
+
 
 // Add EF Core + SQlite
 // This is how we will tell the ASP.NET Core dependency injection (DI) system: “Whenever something in our app asks for an AppDbContext, create one for it automatically.”
@@ -87,6 +90,17 @@ bus.Register(intPressure);
 bus.Register(exPressure);
 bus.Register(temperature);
 bus.Register(humidity);
+
+
+// Subscribing the Device Logger Service to ALL device types
+var alerts = app.Services.GetRequiredService<DeviceLoggingService>();
+
+foreach (DeviceType type in Enum.GetValues<DeviceType>())
+{
+    bus.Subscribe(type, reading => alerts.HandleReading(reading)); // subscribe the logging service to device types and call a function when a change occurs
+}
+
+Console.WriteLine("Logging service subscribed.");
 
 var areaNames = new Dictionary<Guid, string>
 {

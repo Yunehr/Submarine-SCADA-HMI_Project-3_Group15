@@ -90,7 +90,6 @@ export default function LifeSupportPanel() {
                 <div className="gauge-row switch-row">
                     <VerticalSwitch label="O2 Valve" />
                     <VerticalSwitch label="Scrubber" />
-
                 </div>
                 <div className="gauge-item">
                     <CustomGauge
@@ -129,6 +128,7 @@ export default function LifeSupportPanel() {
                 </div>
             </div>
             <div className="gauge-row">
+                <div className="vs-pressurize"><VerticalSwitch label="Pressurize" /></div>
                 <ClimateMonitor
                     warning={climate.temp < 15 || climate.temp > 23 || climate.humidity < 35 || climate.humidity > 55}
                     temperature={climate.temp ?  Number(climate.temp).toFixed(2) : 0}

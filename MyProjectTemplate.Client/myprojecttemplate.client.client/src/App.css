@@ -326,6 +326,10 @@
             box-shadow: 0 6px 18px rgba(255,43,43,0.25), inset 0 1px 0 rgba(255,255,255,0.9);
         }
 
+.vs-pressurize {
+    margin-top: 30px;
+}
+
 
 /* Old-school green submarine climate monitor */
 .climate-monitor {
@@ -673,6 +677,40 @@
 }
 
     .scram-button:active {
+        transform: translateY(2px);
+        box-shadow: inset 0 -2px 6px rgba(0,0,0,0.6), 0 4px 10px rgba(0,0,0,0.45);
+    }
+
+/* Scenario Buttons */
+.scene-panel {
+    position: relative;
+    width: 20px;
+    height: 20px;
+    margin: auto;
+    background: linear-gradient(180deg, #bcb9b6 0%, #8f8c8a 100%);
+    border: 1px solid rgba(0,0,0,0.6);
+    border-radius: 10px;
+    box-shadow: inset 0 2px 6px rgba(0,0,0,0.4), 0 6px 14px rgba(0,0,0,0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.scene-button {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, #ff4d4d, #8b0000);
+    border: 2px solid #2b2b2b;
+    box-shadow: inset 0 -4px 8px rgba(0,0,0,0.6), 0 6px 14px rgba(0,0,0,0.45);
+    font-weight: 700;
+    font-size: 18px;
+    color: #fff;
+    cursor: pointer;
+    transition: transform 120ms ease, box-shadow 200ms ease;
+    z-index: 1;
+}
+    .scene-button::after active {
         transform: translateY(2px);
         box-shadow: inset 0 -2px 6px rgba(0,0,0,0.6), 0 4px 10px rgba(0,0,0,0.45);
     }

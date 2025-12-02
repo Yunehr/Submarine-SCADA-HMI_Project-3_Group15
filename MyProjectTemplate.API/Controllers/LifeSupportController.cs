@@ -104,6 +104,64 @@ namespace MyProjectTemplate.API.LifeSupportSystems
                 : fallback;
         }
 
+        public void CO2SpikeScenaario()
+        {
+            var co2Monitor = (Co2Monitor)_devices["CO2Monitor"];
+            co2Monitor.Co2Spike();
+        }
+
+        [HttpPost("scrubber")]
+        public IActionResult ActivateScrubber()
+        {
+            // Reset CO2 level
+            var co2Monitor = (Co2Monitor)_devices["CO2Monitor"];
+            co2Monitor.resetCo2Level(); 
+
+            // Simulate pressure drop
+            var pressureMonitor = (PressureMonitor)_devices["IntPressure"];
+            pressureMonitor.PressureDrop();
+
+            // Halve oxygen level
+            var oxygenMonitor = (OxygenMonitor)_devices["OxygenMonitor"];
+            oxygenMonitor.HalveOxygenLevel();
+
+            return Ok(new { status = "Scrubber activated" });
+        }
+
+        [HttpPost("Pressurize")]
+        public IActionResult Pressurize()
+        {
+            // Reset internal pressure level
+            var pressureMonitor = (PressureMonitor)_devices["IntPressure"];
+            pressureMonitor.resetPressureLevel();
+
+            // decrease air reserve by 10%
+            var AirReserveMonitor = (AirReserveMonitor)_devices["AirReserveMonitor"];
+            AirReserveMonitor.AirReserveDropBy10();
+
+            return Ok(new { status = "Pressurization activated" });
+        }
+
+        [HttpPost("OxygenGeneration")]
+        public IActionResult OxygenGeneratio()
+        {
+            // Reset oxygen level
+            var oxygenMonitor = (OxygenMonitor)_devices["OxygenMonitor"];
+            oxygenMonitor.resetOxygenLevel();
+
+            return Ok(new { status = "Oxygen Generation activated" });
+        }
+
+        [HttpPost("ReplenishAirReserve")]
+        public IActionResult ResetAirReserve()
+        {
+            // Reset air reserve level
+            var AirReserveMonitor = (AirReserveMonitor)_devices["AirReserveMonitor"];
+            AirReserveMonitor.resetAirReserveLevel();
+
+            return Ok(new { status = "Air Reserve Reset activated" });
+        }
+
         // Ryan's OG stuff below
         // GET latest reading for a device
         //[HttpGet("{deviceType}")]

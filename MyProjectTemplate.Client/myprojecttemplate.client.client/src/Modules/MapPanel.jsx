@@ -5,9 +5,9 @@ import React, { useEffect, useState } from 'react';      //un comment when link 
 import '../App.css';
 
 export default function Map() {
-    const [posx, setposx] = useState(null);
-    const [posy, setposy] = useState(null);
-    const [posz, setposz] = useState(null);
+    const [posx, setposx] = useState(0);
+    const [posy, setposy] = useState(0);
+    const [posz, setposz] = useState(0);
     // const [speed, setspeed] = useState(null);
     const [error, setError] = useState(null);
 
@@ -52,11 +52,14 @@ export default function Map() {
     return (
         <div className="map-console-screen">
             <div className="map-console-map">
-                Location: { }
+                {/* Warning Messages can go here, maybe scroll through. EX.  !CO2 nearing danger levels: turn on scrubber to reduce CO2! */}
+            </div>
+            <div className="map-console-depth-label">
+                Depth: {posz}
             </div>
             <div className="map-console-label">
-                Depth:{posz}      Position: {posx}, {posy}  
-            </div>
+                Position: {posx}, {posy} 
+            </div> 
         </div>
         
 

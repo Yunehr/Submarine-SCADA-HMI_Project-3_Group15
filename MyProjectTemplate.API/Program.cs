@@ -138,9 +138,9 @@ var bus = app.Services.GetRequiredService<IEventBus>();
 var mov = app.Services.GetRequiredService<IMovement>();
 
 mov.Power(true); //since power switches have been scoped away
-mov.changeThrust(10);
-mov.changeRudder(2);
-mov.changePitch(-4);
+mov.changeThrust(0);
+mov.changeRudder(0);
+mov.changePitch(0);
 mov.RunStart(); //starts the timer udpating thingy
 
 bus.Register(o2);

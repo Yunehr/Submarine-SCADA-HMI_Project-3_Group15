@@ -7,73 +7,67 @@ import VerticalSlider from '../Components/VerticalSlider';
 import ButtonControls from '../Components/ControllsButton';
 
 export default function Controls() {
-    //const [items, setItems] = useState(null);          //un comment when link to API backend is created
-    //const [loading, setLoading] = useState(true);
-    //const [error, setError] = useState(null);
     const [throttle, setThrottle] = useState(0);
     const [pitch, setPitch] = useState(0);
 
 
-    // Button handlers — later replace with API calls
-    const handleBallastFill = () => {
-        console.log("Ballast filling..."); // any console log does nothnig in the front end, thus is redundant. Only used as placeholder for API calls/implementations
-        // fetch('/api/ballast/fill', { method: 'POST' }) etc.
-    };
-    const handleBallastEmpty = () => {
-        console.log("Ballast emptying...");
-        // fetch('/api/ballast/empty', { method: 'POST' })
-    };
-
-    
-    const handleRudderLeft = () => {
-        console.log("Rudder left...");
-     //   rudder += 10;
-        console.log("Rudder right...");
-       // fetch('/api/movement/Rudder', {
-         //   method: 'POST',
-           // headers: { 'Content-Type': 'application/json' },
-      //      body: JSON.stringify({ rudder })
-       // })
-    };
-
-    const handleRudderRight = () => {
-      //  rudder -= 10;
-        console.log("Rudder right...");
-      //  fetch('/api/movement/Rudder', {
-      //      method: 'POST',
-        //    headers: { 'Content-Type': 'application/json' },
-          //  body: JSON.stringify({ rudder })
-       // })
-    };
-    
-
-    const sendPitch = () => {
+    const sendPitch = (val) => {        // PITCH API call
         fetch('/api/movement/Pitch', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({pitch})
-        })
-        //    .then(res => res.json())
-    }
+            body: JSON.stringify({ value: val })
+        });
+    };
 
-    const sendThrottle = () => {
+    const sendThrottle = (val) => {     // THROTTLE API call
         fetch('/api/movement/Throttle', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(-20)
-        })
-        //    .then(res => res.json())
-    }
+            body: JSON.stringify({ value: val })
+        });
+    };
 
-    const handlePitch = () => {
-        setPitch;
-        sendPitch;
-    }
+    const handlePitch = (val) => {    // PITCH on button click
+        setPitch(val);
+        sendPitch(val);
+    };
 
-    const handleThrottle = () => {
-        setThrottle;
-        sendThrottle;
-    }
+    const handleThrottle = (val) => { // THROTTLE on button click
+        setThrottle(val);
+        sendThrottle(val);
+    };
+
+    const handleRudderLeft = () => {
+        fetch('/api/movement/Rudder', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ value: -10 }) // example left turn
+        });
+    };
+
+    const handleRudderRight = () => {
+        fetch('/api/movement/Rudder', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ value: 10 }) // example right turn
+        });
+    };
+
+    const handleBallastFill = () => {
+        fetch('/api/movement/Ballast/Fill', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ value: -10 }) // decrease balast by 10
+        });
+    };
+
+    const handleBallastEmpty = () => {
+        fetch('/api/movement/Ballast/Empty', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ value: 10 }) // increase balast by 10
+        });
+    };
 
 
     return (

@@ -48,7 +48,7 @@ namespace MyProjectTemplate.API.Controllers
         [HttpGet("Ypos")]
         public double GetYPos()
         {
-            return 13.0;//mov.GetPosY();
+            return mov.GetPosY();
         }
 
         [HttpGet("Zpos")]
@@ -64,19 +64,73 @@ namespace MyProjectTemplate.API.Controllers
             return mov.GetSpeed();
         }
 
-
-        // POST api/<MovementController>
-        [HttpPost]
-        public void Post([FromBody] string value)
+        //Test -- Start
+        public class ControlRequest
         {
+            public double Value { get; set; }
         }
 
-        // PUT api/<MovementController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPost("Throttle")]
+        public IActionResult Throttle([FromBody] ControlRequest request)
         {
+            mov.changeThrust(request.Value);
+            return Ok(new { status = "Throttle updated", value = request.Value });
         }
 
+        [HttpPost("Pitch")]
+        public IActionResult Pitch([FromBody] ControlRequest request)
+        {
+            mov.changePitch(request.Value);
+            return Ok(new { status = "Pitch updated", value = request.Value });
+        }
+
+        [HttpPost("Rudder")]
+        public IActionResult Rudder([FromBody] ControlRequest request)
+        {
+            mov.changeRudder(request.Value);
+            return Ok(new { status = "Rudder updated", value = request.Value });
+        }
+
+        [HttpPost("Ballast")]
+        public IActionResult Ballast([FromBody] ControlRequest request)
+        {
+            mov.changeBallast(request.Value);
+            return Ok(new { status = "Ballast updated", value = request.Value });
+        }
+
+
+        //Test -- End
+
+        //// POST api/<MovementController>
+        //[HttpPost("Pitch")]
+        //public void pitch([FromBody] string value)
+        //{
+        //    double val = double.Parse(value);
+        //    mov.changePitch(val);
+        //}
+
+        //// POST api/<MovementController>
+        //[HttpPost("Throttle")]
+        //public void throttle([FromBody] string value)
+        //{
+        //    double val = double.Parse(value);
+        //    mov.changeThrust(val);
+        //}
+
+        //// POST api/<MovementController>
+        //[HttpPost("Rudder")]
+        //public void rudder([FromBody] string value)
+        //{
+        //    double val = double.Parse(value);
+        //    mov.changeRudder(val);
+        //}
+
+        //// PUT api/<MovementController>/5
+        //[HttpPut("{id}")]
+        //public void Put(int id, [FromBody] string value)
+        //{
 
     }
+
+
 }

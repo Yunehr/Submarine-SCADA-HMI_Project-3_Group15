@@ -137,9 +137,11 @@ var bus = app.Services.GetRequiredService<IEventBus>();
 
 var mov = app.Services.GetRequiredService<IMovement>();
 
-mov.Power(true);
-mov.ChangeVel(10, 0, 0, 0);
-mov.RunStart();
+mov.Power(true); //since power switches have been scoped away
+mov.changeThrust(0);
+mov.changeRudder(0);
+mov.changePitch(0);
+mov.RunStart(); //starts the timer udpating thingy
 
 bus.Register(o2);
 bus.Register(co2);
@@ -197,7 +199,7 @@ foreach (DeviceType type in Enum.GetValues<DeviceType>())
 
 var controller = new LifeSupportController(bus, areaNames, devices);
 
-var conti = new MovementController(mov);
+var movcont = new MovementController(mov);
 
 controller.SetupSubscriptions();
 

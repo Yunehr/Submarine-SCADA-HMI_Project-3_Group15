@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+using MyProjectTemplate.API.Services;
 using System;
 using System.Collections.Generic;
 
@@ -11,77 +13,66 @@ namespace MyProjectTemplate.API.LifeSupportSystems
         private readonly IEventBus _bus;
         private readonly Dictionary<Guid, string> _areaNames;
         private readonly Dictionary<string, IDevice> _devices;
+        private readonly DeviceThresholds _thresh; // Adding the thresholds 
+        private readonly ThresholdsHandlers _handlerService;
 
-        // Alarm thresholds
-        private const double O2_MIN = 19.5;
-        private const double O2_MAX = 23.5;
-        private const double CO2_MAX = 390;
-        private const double AIR_RESERVE_MIN = 40.0;
-        private const double INT_PRESSURE_MAX = 1.2;
-        private const double INT_PRESSURE_MIN = 0.8;
-        private const double EX_PRESSURE_UPPER_WARNING = 24.0;
-        private const double EX_PRESSURE_MAX = 36.0;
-        private const double EX_PRESSURE_MIN = 0.5;
-        private const double TEMP_MAX = 27.0;
-        private const double TEMP_MIN = 15.0;
-        private const double HUMIDITY_MAX = 60.0;
-        private const double HUMIDITY_MIN = 20.0;
-        // Fuel Rod Integrity Min Threshold
-        private const double FUEL_ROD_INTEGRITY_MIN = 50.0;
-        private const double FUEL_ROD_INTEGRITY_CRITICAL = 30.0;
+        // Pressure thresholds (cause its not figured out yet)
+        const double INTERNAL_PRESSURE_MAX = 1.2;
+        const double INTERNAL_PRESSURE_MIN = 0.8;
+        const double EXTERNAL_PRESSURE_UPPER_WARNING = 24.0;
+        const double EXTERNAL_PRESSURE_MAX = 36.0;
+        const double EXTERNAL_PRESSURE_MIN = 0.5;
 
         public LifeSupportController(
             IEventBus bus,
             Dictionary<Guid, string> areaNames,
-            Dictionary<string, IDevice> devices)
+            Dictionary<string, IDevice> devices,
+            IOptions<DeviceThresholds> thresholds
+            )
         {
             _bus = bus;
             _areaNames = areaNames;
             _devices = devices;
+            _thresh = thresholds.Value;
+            _handlerService = new ThresholdsHandlers(thresholds);
         }
 
         public void SetupSubscriptions()
         {
             // Convenience vars so we don’t constantly index the dictionary
-            var intPressure = _devices["IntPressure"];
-            var exPressure  = _devices["ExPressure"];
+            // var intPressure = _devices["IntPressure"];
+            // var exPressure  = _devices["ExPressure"];
+            int alarm = 0;
 
             _bus.Subscribe(DeviceType.Oxygen, reading =>
             {
-                var label = GetLabel(reading.DeviceId, "Unknown O2 Sensor");
+                ThresholdSet? t = _thresh.Oxygen;
+                var label = GetLabel(reading.DeviceId, "O2 Sensor");
                 Console.WriteLine($"{label}: {reading.Value:F2} {reading.Unit}");
 
-                if (reading.Value < O2_MIN)
-                {
-                    Console.WriteLine($"Oxygen ALARM in {label} - BELOW SAFE MINIMUM!");
-                }
+                alarm = _handlerService.HandleReading(reading);
             });
 
             _bus.Subscribe(DeviceType.CO2, reading =>
             {
-                var label = GetLabel(reading.DeviceId, "Unknown CO2 Sensor");
+                var label = GetLabel(reading.DeviceId, "CO2 Sensor");
                 Console.WriteLine($"{label}: {reading.Value:F2} {reading.Unit}");
 
-                if (reading.Value > CO2_MAX)
-                {
-                    Console.WriteLine($"{label} - ABOVE SAFE MAXIMUM!");
-                }
+                alarm = _handlerService.HandleReading(reading);
             });
 
             _bus.Subscribe(DeviceType.AirReserve, reading =>
             {
-                var label = GetLabel(reading.DeviceId, "Unknown Air Reserve Tank Sensor");
+                var label = GetLabel(reading.DeviceId, "Air Reserve Tank Sensor");
                 Console.WriteLine($"{label} O₂: {reading.Value:F2} {reading.Unit}");
 
-                if (reading.Value < AIR_RESERVE_MIN)
-                {
-                    Console.WriteLine($"{label} - BELOW SAFE MINIMUM!");
-                }
+                alarm = _handlerService.HandleReading(reading);
             });
 
+            /*
             _bus.Subscribe(DeviceType.Pressure, reading =>
             {
-                var label = GetLabel(reading.DeviceId, "Unknown Pressure Sensor");
+                var label = GetLabel(reading.DeviceId, "Pressure Sensor");
                 Console.WriteLine($"{label}: {reading.Value:F2} {reading.Unit}");
 
                 if (reading.DeviceId == intPressure.Id)
@@ -98,7 +89,9 @@ namespace MyProjectTemplate.API.LifeSupportSystems
                     else if (reading.Value < EX_PRESSURE_MIN)
                         Console.WriteLine($"{label} - BELOW SAFE MINIMUM!");
                 }
-            });
+            }
+            );
+            */
         }
 
         private string GetLabel(Guid deviceId, string fallback)

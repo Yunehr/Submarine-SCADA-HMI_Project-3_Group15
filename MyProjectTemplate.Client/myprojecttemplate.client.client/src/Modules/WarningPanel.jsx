@@ -3,6 +3,7 @@
 //import React, { useEffect, useState } from 'react';      //un comment when link to API backend is created
 
 import '../App.css';
+import SceneButton from '../Components/SceneButton';
 import WarningLight from '../Components/WarningLight'
 
 export default function WarningPanel() {
@@ -44,12 +45,22 @@ export default function WarningPanel() {
     };
 
     return (
-        <div className="gauge-row">
+        <div>
+            <div className="gauge-row">
+                <div className="center">
+                    <WarningLight 
+                        warning={checkWarning()}
+                        danger={checkDanger()}
+                    />
+                </div>
+            </div>
             <div className="center">
-                <WarningLight 
-                    warning={checkWarning()}
-                    danger={checkDanger()}
-                />
+                <div className="gauge-row">
+                    <SceneButton label="Scene 1"/>
+                    <SceneButton label="Scene 2" />
+                    <SceneButton label="Scene 3" />
+                    <SceneButton label="Scene 4" />
+                </div>
             </div>
         </div>
 

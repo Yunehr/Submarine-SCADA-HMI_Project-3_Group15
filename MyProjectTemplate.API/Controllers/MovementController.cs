@@ -48,7 +48,7 @@ namespace MyProjectTemplate.API.Controllers
         [HttpGet("Ypos")]
         public double GetYPos()
         {
-            return 13.0;//mov.GetPosY();
+            return mov.GetPosY();
         }
 
         [HttpGet("Zpos")]
@@ -66,15 +66,34 @@ namespace MyProjectTemplate.API.Controllers
 
 
         // POST api/<MovementController>
-        [HttpPost]
-        public void Post([FromBody] string value)
+        [HttpPost("Pitch")]
+        public void pitch([FromBody] string value)
         {
+            double val = double.Parse(value);
+            mov.changePitch(val);
+        }
+
+        // POST api/<MovementController>
+        [HttpPost("Throttle")]
+        public void throttle([FromBody] string value)
+        {
+            double val = double.Parse(value);
+            mov.changeThrust(val);
+        }
+
+        // POST api/<MovementController>
+        [HttpPost("Rudder")]
+        public void rudder([FromBody] string value)
+        {
+            double val = double.Parse(value);
+            mov.changeRudder(val);
         }
 
         // PUT api/<MovementController>/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {
+
         }
 
 

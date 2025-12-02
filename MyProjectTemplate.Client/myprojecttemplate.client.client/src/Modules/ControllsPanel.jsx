@@ -13,28 +13,6 @@ export default function Controls() {
     const [throttle, setThrottle] = useState(0);
     const [pitch, setPitch] = useState(0);
 
-    //useEffect(() => {
-    //    let mounted = true;
-    //    // The Vite dev server proxies /lifesupportpanel to the API (see vite.config.js).       //TODO: Create API link in vite.config.js and MyProjectTemplate.API
-    //    fetch('/weatherforecast')                                                               //... : Update to reference /lifesupportpanel
-    //        .then((res) => {
-    //            if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    //            return res.json();
-    //        })
-    //        .then((json) => mounted && setItems(json))
-    //        .catch((err) => mounted && setError(err.message))
-    //        .finally(() => mounted && setLoading(false));
-
-    //    // Cleanup pattern prevents setting state after unmount
-    //    return () => {
-    //        mounted = false;
-    //    };
-    //}, []);
-
-    //if (loading) return <div>Loading...</div>;
-    //if (error) return <div style={{ color: 'red' }}>Error: {error}</div>;
-    //if (!items || items.length === 0) return <div>No data</div>;
-
 
     // Button handlers — later replace with API calls
     const handleBallastFill = () => {
@@ -45,14 +23,58 @@ export default function Controls() {
         console.log("Ballast emptying...");
         // fetch('/api/ballast/empty', { method: 'POST' })
     };
+
+    
     const handleRudderLeft = () => {
         console.log("Rudder left...");
-        // fetch('/api/rudder/left', { method: 'POST' })
-    };
-    const handleRudderRight = () => {
+     //   rudder += 10;
         console.log("Rudder right...");
-        // fetch('/api/rudder/right', { method: 'POST' })
+       // fetch('/api/movement/Rudder', {
+         //   method: 'POST',
+           // headers: { 'Content-Type': 'application/json' },
+      //      body: JSON.stringify({ rudder })
+       // })
     };
+
+    const handleRudderRight = () => {
+      //  rudder -= 10;
+        console.log("Rudder right...");
+      //  fetch('/api/movement/Rudder', {
+      //      method: 'POST',
+        //    headers: { 'Content-Type': 'application/json' },
+          //  body: JSON.stringify({ rudder })
+       // })
+    };
+    
+
+    const sendPitch = () => {
+        fetch('/api/movement/Pitch', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({pitch})
+        })
+        //    .then(res => res.json())
+    }
+
+    const sendThrottle = () => {
+        fetch('/api/movement/Throttle', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(-20)
+        })
+        //    .then(res => res.json())
+    }
+
+    const handlePitch = () => {
+        setPitch;
+        sendPitch;
+    }
+
+    const handleThrottle = () => {
+        setThrottle;
+        sendThrottle;
+    }
+
 
     return (
         <div>
@@ -64,7 +86,7 @@ export default function Controls() {
                         min={-90}
                         max={90}
                         value={pitch}
-                        onChange={setPitch}
+                        onChange={handlePitch}
                         units="°"
                         height={150}
                         legendmax="PITCH UP"
@@ -97,7 +119,7 @@ export default function Controls() {
                         min={-100}
                         max={100}
                         value={throttle}
-                        onChange={setThrottle}
+                        onChange={handleThrottle}
                         units="Knot"
                         height={150}
                     />

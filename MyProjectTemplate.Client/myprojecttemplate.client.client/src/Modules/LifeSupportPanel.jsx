@@ -75,11 +75,11 @@ export default function LifeSupportPanel() {
                          
                     />
                     <CustomGauge
-                        warning={ co2 && (co2.value < 400 || co2.value > 1000)}
+                        warning={ co2 && (co2.value < 0 || co2.value > 1000)}
                         label="CO₂"
                         value={co2 ? co2.value : 0}
-                        min={300} max={2500}
-                        wLow={400} dLow={301}
+                        min={0} max={2500}
+                        wLow={0.2} dLow={0.1}
                         wHigh={1000} dHigh={2000}
                         labelType="ppm"
                         showLow={false}

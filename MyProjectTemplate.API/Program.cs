@@ -92,6 +92,7 @@ bus.Register(exPressure);
 bus.Register(temperature);
 bus.Register(humidity);
 
+// This forces in a sub (just a one time thang currently)
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
@@ -105,7 +106,7 @@ using (var scope = app.Services.CreateScope())
         var sub = new SubDatum
         {
             SubId = subId,
-            SubName = "USS Neptune" // your submarine's name
+            SubName = "USS Neptune"
         };
 
         db.SubData.Add(sub);

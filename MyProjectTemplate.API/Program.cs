@@ -8,6 +8,7 @@ using MyProjectTemplate.API;
 using System;
 using System.Threading;
 using MyProjectTemplate.API.LifeSupportSystems;
+using MyProjectTemplate.API.Models;
 
 // Program.cs - Application startup for the API project.
 // This file configures services (MVC controllers, Swagger, CORS) and the request pipeline.
@@ -23,8 +24,8 @@ builder.Services.Configure<DeviceThresholds>(
 builder.Services.AddControllers();
 
 // Register the Device Logger as a singleton so it can be used throughout the whole app
-builder.Services.AddSingleton<DeviceLoggingService>();
-
+builder.Services.AddScoped<Logger>();
+builder.Services.AddScoped<DeviceLoggingService>();
 
 // Add EF Core + SQlite
 // This is how we will tell the ASP.NET Core dependency injection (DI) system: “Whenever something in our app asks for an AppDbContext, create one for it automatically.”
@@ -91,16 +92,42 @@ bus.Register(exPressure);
 bus.Register(temperature);
 bus.Register(humidity);
 
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
-// Subscribing the Device Logger Service to ALL device types
-var alerts = app.Services.GetRequiredService<DeviceLoggingService>();
+    // Pick a fixed SubId so readings can reference it
+    var subId = Guid.Parse("11111111-1111-1111-1111-111111111111");
+
+    // Check if it already exists
+    if (!db.SubData.Any(s => s.SubId == subId))
+    {
+        var sub = new SubDatum
+        {
+            SubId = subId,
+            SubName = "USS Neptune" // your submarine's name
+        };
+
+        db.SubData.Add(sub);
+        db.SaveChanges();
+        Console.WriteLine("SubDatum added!");
+    }
+    else
+    {
+        Console.WriteLine("SubDatum already exists.");
+    }
+}
+
 
 foreach (DeviceType type in Enum.GetValues<DeviceType>())
 {
-    bus.Subscribe(type, reading => alerts.HandleReading(reading)); // subscribe the logging service to device types and call a function when a change occurs
+    bus.Subscribe(type, reading =>
+    {
+        using var scope = app.Services.CreateScope();
+        var alerts = scope.ServiceProvider.GetRequiredService<DeviceLoggingService>();
+        alerts.HandleReading(reading);
+    });
 }
-
-Console.WriteLine("Logging service subscribed.");
 
 var areaNames = new Dictionary<Guid, string>
 {

@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MyProjectTemplate.API.Data;
+using MyProjectTemplate.API.Models;
 using System;
 using System.Collections.Generic;
 
@@ -30,10 +32,9 @@ namespace MyProjectTemplate.API.LifeSupportSystems
         private const double FUEL_ROD_INTEGRITY_MIN = 50.0;
         private const double FUEL_ROD_INTEGRITY_CRITICAL = 30.0;
 
-        public LifeSupportController(
-            IEventBus bus,
-            Dictionary<Guid, string> areaNames,
-            Dictionary<string, IDevice> devices)
+        public LifeSupportController(IEventBus bus,
+                             Dictionary<Guid, string> areaNames,
+                             Dictionary<string, IDevice> devices)
         {
             _bus = bus;
             _areaNames = areaNames;
@@ -117,20 +118,29 @@ namespace MyProjectTemplate.API.LifeSupportSystems
         [HttpPost("scrubber")]
         public IActionResult ActivateScrubber()
         {
-            // Reset CO2 level
-            var co2Monitor = (Co2Monitor)_devices["CO2Monitor"];
-            co2Monitor.resetCo2Level(); 
-
-            // Simulate pressure drop
-            var pressureMonitor = (PressureMonitor)_devices["IntPressure"];
-            pressureMonitor.PressureDrop();
-
-            // Halve oxygen level
-            var oxygenMonitor = (OxygenMonitor)_devices["OxygenMonitor"];
-            oxygenMonitor.HalveOxygenLevel();
+            var co2Monitor = (Co2Monitor)_devices["CO2"];
+            co2Monitor.resetCo2Level();
 
             return Ok(new { status = "Scrubber activated" });
         }
+
+        [HttpPost("OxygenGeneration")]
+        public IActionResult OxygenGeneration()
+        {
+            var oxygenMonitor = (OxygenMonitor)_devices["OxygenMonitor"];
+            oxygenMonitor.resetOxygenLevel();
+
+            return Ok(new { status = "Oxygen Generation activated" });
+        }
+
+        [HttpPost("scram")]
+        public IActionResult Scram()
+        {
+            // shutdown logic here
+            //...
+            return Ok(new { status = "SCRAM executed" });
+        }
+
 
         [HttpPost("Pressurize")]
         public IActionResult Pressurize()
@@ -144,16 +154,6 @@ namespace MyProjectTemplate.API.LifeSupportSystems
             AirReserveMonitor.AirReserveDropBy10();
 
             return Ok(new { status = "Pressurization activated" });
-        }
-
-        [HttpPost("OxygenGeneration")]
-        public IActionResult OxygenGeneratio()
-        {
-            // Reset oxygen level
-            var oxygenMonitor = (OxygenMonitor)_devices["OxygenMonitor"];
-            oxygenMonitor.resetOxygenLevel();
-
-            return Ok(new { status = "Oxygen Generation activated" });
         }
 
         [HttpPost("ReplenishAirReserve")]
@@ -219,17 +219,24 @@ namespace MyProjectTemplate.API.LifeSupportSystems
         //    if (_bus.TryGetLatest(deviceId, out var reading))
         //        return Ok(reading);
 
-        //    return Ok(new { deviceId, value = 1, unit = "N/A" });
+        [HttpGet("{deviceKey}")]
+        public IActionResult GetLatest(string deviceKey)
+        {
+            if (_devices.TryGetValue(deviceKey, out var device) &&
+                _bus.TryGetLatest(device.Id, out var reading))
+            {
+                return Ok(reading);
+            }
+            return NotFound();
+        }
+
+        //[HttpGet("alarms")]
+        //public IActionResult GetAlarms()
+        //{
+        //    //var alarms = _db.SubAlarmsData.ToList(); // needs fixing _db does not exist in current context
+        //    return Ok(alarms);
         //}
 
-        //// POST a command (e.g. switch toggles)
-        //[HttpPost("command")]
-        //public IActionResult SendCommand([FromBody] DeviceCommand command)
-        //{
-        //    // For now, just log or forward to device
-        //    Console.WriteLine($"Command received: {command.DeviceType} -> {command.Action}");
-        //    return Ok(new { status = "accepted" });
-        //}
     }
 
     public record DeviceCommand(DeviceType DeviceType, string Action);

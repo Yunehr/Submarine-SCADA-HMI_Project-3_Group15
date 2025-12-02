@@ -9,9 +9,10 @@ import ButtonControls from '../Components/ControllsButton';
 export default function Controls() {
     const [throttle, setThrottle] = useState(0);
     const [pitch, setPitch] = useState(0);
+    const [rudder, setRudder] = useState(0);
+    const [ballast, setBallast] = useState(0);
 
-
-    const sendPitch = (val) => {        // PITCH API call
+    const sendPitch = (val) => {
         fetch('/api/movement/Pitch', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -19,7 +20,7 @@ export default function Controls() {
         });
     };
 
-    const sendThrottle = (val) => {     // THROTTLE API call
+    const sendThrottle = (val) => {
         fetch('/api/movement/Throttle', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -27,46 +28,55 @@ export default function Controls() {
         });
     };
 
-    const handlePitch = (val) => {    // PITCH on button click
+    const sendRudder = (val) => {
+        fetch('/api/movement/Rudder', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ value: val })
+        });
+    };
+
+    const sendBallast = (val) => {
+        fetch('/api/movement/Ballast', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ value: val })
+        });
+    };
+
+    // Handlers
+    const handlePitch = (val) => {
         setPitch(val);
         sendPitch(val);
     };
 
-    const handleThrottle = (val) => { // THROTTLE on button click
+    const handleThrottle = (val) => {
         setThrottle(val);
         sendThrottle(val);
     };
 
     const handleRudderLeft = () => {
-        fetch('/api/movement/Rudder', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ value: -10 }) // example left turn
-        });
+        const newVal = rudder - 5;   // decrease by 5 each click
+        setRudder(newVal);
+        sendRudder(newVal);
     };
 
     const handleRudderRight = () => {
-        fetch('/api/movement/Rudder', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ value: 10 }) // example right turn
-        });
+        const newVal = rudder + 5;   // increase by 5 each click
+        setRudder(newVal);
+        sendRudder(newVal);
     };
 
     const handleBallastFill = () => {
-        fetch('/api/movement/Ballast/Fill', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ value: -10 }) // decrease balast by 10
-        });
+        const newVal = ballast + 5; // increase ballast by 5
+        setBallast(newVal);
+        sendBallast(newVal);
     };
 
     const handleBallastEmpty = () => {
-        fetch('/api/movement/Ballast/Empty', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ value: 10 }) // increase balast by 10
-        });
+        const newVal = ballast - 5; // decrease ballast by 5
+        setBallast(newVal);
+        sendBallast(newVal);
     };
 
 

@@ -91,20 +91,13 @@ namespace MyProjectTemplate.API.Controllers
             return Ok(new { status = "Rudder updated", value = request.Value });
         }
 
-        // Add ballast endpoints
-        [HttpPost("Ballast/Fill")]
-        public IActionResult BallastFill([FromBody] ControlRequest request)
+        [HttpPost("Ballast")]
+        public IActionResult Ballast([FromBody] ControlRequest request)
         {
-            mov.changeBallast(request.Value); //Hard Coded to decrease ballast value by 10. might make it 1 later
-            return Ok(new { status = "Ballast filling", value = request.Value });
+            mov.changeBallast(request.Value);
+            return Ok(new { status = "Ballast updated", value = request.Value });
         }
 
-        [HttpPost("Ballast/Empty")]
-        public IActionResult BallastEmpty([FromBody] ControlRequest request)
-        {
-            mov.changeBallast(request.Value); //Hard Coded to increase ballast value by 10. might make it 1 later
-            return Ok(new { status = "Ballast emptying", value = request.Value });
-        }
 
         //Test -- End
 

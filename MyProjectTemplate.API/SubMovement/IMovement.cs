@@ -12,7 +12,11 @@ namespace MyProjectTemplate.API.SubMovement
 
         //commands to be called:
         public void Power(bool on);
-        public void ChangeVel(double mag, double xyoff, double zoff, double buoy);
+        public void changeThrust(double val);
+        public void changeRudder(double val);
+        public void changePitch(double val);
+
+        public void changeBallast(double val);
 
 
         //returns

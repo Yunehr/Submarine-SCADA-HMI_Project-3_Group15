@@ -28,12 +28,24 @@ namespace MyProjectTemplate.API.SubSubController
                 helm.PowerOff();
         }
 
-        public void ChangeVel(double mag, double xyoff, double zoff, double buoy)
-        {         //not sure if things should be changed all at once or together?
-            helm.Thrust(mag);
-            helm.Turn(xyoff);
-            helm.Pitch(zoff);
-            helm.AdjBuoyancy(buoy);
+        public void changeThrust(double val)
+        {
+            helm.Thrust(val);
+        }
+
+        public void changeRudder(double val)
+        {
+            helm.Turn(val);
+        }
+
+        public void changePitch(double val)
+        {
+            helm.Pitch(val);
+        }
+
+        public void changeBallast(double val)
+        {
+            helm.AdjBuoyancy(val);
         }
 
         //returns

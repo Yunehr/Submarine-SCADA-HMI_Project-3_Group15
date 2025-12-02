@@ -4,8 +4,27 @@ public sealed class AirReserveMonitor : MonitorBase
 {
     public override DeviceType DeviceType => DeviceType.AirReserve;
     public override Unit Unit => Unit.Percent;
-    protected override double SampleSensor() =>
-        185 + (Random.Shared.NextDouble() - 0.5);
+    private double _currentLevel = 100.0;
+
+    //TODO: Fix logic to only decrease on reppressurization
+    protected override double SampleSensor()    // incorrect, should only decrease on reppressurization
+    {
+        var value = _currentLevel;
+        //_currentLevel -= 0.05; // Simulate air reserve decrease each sample
+        return value;
+    }
+    public void resetAirReserveLevel()
+    {
+        _currentLevel = 100.0; // Reset to normal air reserve level
+    }
+    public void AirReserveDropBy10()
+    {
+        _currentLevel *= 0.9; // Simulate air reserve drop by 10%
+    }
+    public void AirReserveDropTo20()
+    {
+        _currentLevel = 20; // Simulate air reserve drop to 20%
+    }
 }
 
 

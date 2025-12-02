@@ -9,7 +9,7 @@ export default function ScramPanel({ warning = false, danger = false }) {
     };
 
     const handleScramClick = () => {
-        // Insert your shutdown logic here
+        fetch('/api/lifesupport/scram', { method: 'POST' })
     };
 
     const lightClass = danger ? "scram-light danger" : warning ? "scram-light warning" : "scram-light off";

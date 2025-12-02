@@ -50,5 +50,32 @@ namespace MyProjectTemplate.API.Controllers
         public void Delete(int id)
         {
         }
+
+
+        [HttpPost("rudder")]
+        public IActionResult Rudder([FromBody] string direction)
+        {
+            // update movement state
+            return Ok(new { status = $"Rudder {direction}" });
+        }
+
+        [HttpPost("ballast")]
+        public IActionResult Ballast([FromBody] string action)
+        {
+            return Ok(new { status = $"Ballast {action}" });
+        }
+
+        [HttpPost("throttle")]
+        public IActionResult Throttle([FromBody] int value)
+        {
+            return Ok(new { status = $"Throttle set to {value}" });
+        }
+
+        //[HttpGet("position")]
+        //public IActionResult GetPosition()
+        //{
+        //    return Ok(new { x = mov.X, y = mov.Y, depth = mov.Depth }); // might have to subscribe to Navigation through event bus to get x,y,z Positions to front end 
+        //}
+
     }
 }

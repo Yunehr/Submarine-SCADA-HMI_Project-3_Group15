@@ -9,7 +9,7 @@ export default function VerticalSwitch({ label = 'Master', size = 46 }) {
         setOn(newState);
 
         // Send command to backend
-        fetch('/api/lifesupport/command', {
+        fetch(`/api/lifesupport/${label.toLowerCase()}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({

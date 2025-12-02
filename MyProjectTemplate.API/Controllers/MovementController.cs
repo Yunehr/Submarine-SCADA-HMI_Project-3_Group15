@@ -23,6 +23,11 @@ namespace MyProjectTemplate.API.Controllers
 
         private IMovement mov;
 
+        public MovementController(IMovement mover)
+        {
+            mov = mover;
+        }
+
         /*
         [HttpPost("ration")]
         public IActionResult SetRationLevel([FromBody] RationLevelRequest request)
@@ -49,14 +54,14 @@ namespace MyProjectTemplate.API.Controllers
         [HttpGet("Zpos")]
         public double GetZPos()
         {
-            return 43.4;// mov.GetPosZ();
+            return mov.GetPosZ();
         }
 
         // GET: api/<MovementController>
         [HttpGet("speed")]
         public double SpeedGet()
         {
-            return 12.9;// mov.GetSpeed();
+            return mov.GetSpeed();
         }
 
 

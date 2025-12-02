@@ -55,7 +55,7 @@ export default function Map() {
                 Location: { }
             </div>
             <div className="map-console-label">
-                Depth:{posz}   Position: {posx} {posy}  
+                Depth:{posz}      Position: {posx}, {posy}  
             </div>
         </div>
         

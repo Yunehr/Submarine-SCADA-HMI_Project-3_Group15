@@ -50,6 +50,9 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<IEventBus, EventBus>();   // replaces var bus = newEventBus();
 
 
+builder.Services.AddSingleton<IMovement, Movement>();
+
+
 
 // CORS configuration:
 // - This sample adds a named policy "AllowReactApp" that whitelists origins used by the local client (Vite).
@@ -132,7 +135,11 @@ var app = builder.Build();
 
 var bus = app.Services.GetRequiredService<IEventBus>();
 
+var mov = app.Services.GetRequiredService<IMovement>();
 
+mov.Power(true);
+mov.ChangeVel(10, 0, 0, 0);
+mov.RunStart();
 
 bus.Register(o2);
 bus.Register(co2);
@@ -189,6 +196,9 @@ foreach (DeviceType type in Enum.GetValues<DeviceType>())
 
 
 var controller = new LifeSupportController(bus, areaNames, devices);
+
+var conti = new MovementController(mov);
+
 controller.SetupSubscriptions();
 
 // Alarm thresholds

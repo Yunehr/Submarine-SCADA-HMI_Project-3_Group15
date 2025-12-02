@@ -17,6 +17,16 @@ namespace MyProjectTemplate.API.Controllers
 
         //as for updating controls, who knows
         //i couldn't figure out how to get the POST to work
+
+        /*
+        [HttpPost("ration")]
+        public IActionResult SetRationLevel([FromBody] RationLevelRequest request)
+        {
+            bunkerStatuses.RationStatus = MapRationLevel(request.Level);
+            return Ok(new { bunkerStatuses.RationStatus });
+        }
+        */
+
         private Movement mov;
 
         // GET: api/<MovementController>
@@ -45,10 +55,6 @@ namespace MyProjectTemplate.API.Controllers
         {
         }
 
-        // DELETE api/<MovementController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
+
     }
 }

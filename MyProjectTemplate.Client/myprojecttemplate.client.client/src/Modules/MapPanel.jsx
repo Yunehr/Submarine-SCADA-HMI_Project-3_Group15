@@ -1,13 +1,13 @@
-// Life Support Panel, Displaying various gauges and buttons representing overall health of
+﻿// Life Support Panel, Displaying various gauges and buttons representing overall health of
 
 import React, { useEffect, useState } from 'react';      //un comment when link to API backend is created
 
 import '../App.css';
 
 export default function Map() {
-    const [posx, setposx] = useState(null);
-    const [posy, setposy] = useState(null);
-    const [posz, setposz] = useState(null);
+    const [posx, setposx] = useState(0);
+    const [posy, setposy] = useState(0);
+    const [posz, setposz] = useState(0);
     // const [speed, setspeed] = useState(null);
     const [error, setError] = useState(null);
 
@@ -48,17 +48,47 @@ export default function Map() {
 
     if (error) return <div style={{ color: 'red' }}>Error: {error}</div>;
 
+    // calculate/translatr position to pixal values on map
+    const mapWidth = 22 * 16;  // 22 rem * 16 px 
+    const mapHeight = 12 * 16; // 12 rem * 16 px
+    const dotSize = 10;        // matches CSS width/height
+
+    // Avoid divide-by-zero by checking range
+    const range = 2000; // since posx/posy go from -1000 to +1000
+    const safeRange = range === 0 ? 1 : range;
+
+    // Scale logical coordinates (-1000..1000) to pixel space
+    let pixelX = ((posy + 1000) / safeRange) * mapWidth;
+    let pixelY = (((-posx) + 1000) / safeRange) * mapHeight;
+
+    // Center the dot (subtract half its size)
+    pixelX -= dotSize / 2;
+    pixelY -= dotSize / 2;
+
+    // Clamp to map boundaries
+    const clampedX = Math.min(Math.max(pixelX, 0), mapWidth - dotSize);
+    const clampedY = Math.min(Math.max(pixelY, 0), mapHeight - dotSize);
 
     return (
         <div className="map-console-screen">
+            <div className="map-console-warning-bar">
+                 test
+            </div>
             <div className="map-console-map">
-                Location: { }
+                <div
+                    className="map-submarine"
+                    style={{
+                        left: `${clampedX}px`,
+                        top: `${clampedY}px`
+                    }}
+                />
+            </div>
+            <div className="map-console-depth-label">
+                Depth: {posz}
             </div>
             <div className="map-console-label">
-                Depth:{posz}      Position: {posx}, {posy}  
+                Position: {posy}, {posx}
             </div>
         </div>
-        
-
     );
 }

@@ -59,7 +59,7 @@ export default function WarningPanel() {
                     <SceneButton label="Scene 1"/>
                     <SceneButton label="Scene 2" />
                     <SceneButton label="Scene 3" />
-                    <SceneButton label="Scene 4" />
+                    {/*<SceneButton label="Scene 4" />*/}
                 </div>
             </div>
         </div>

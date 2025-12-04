@@ -50,8 +50,9 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<IEventBus, EventBus>();   // replaces var bus = newEventBus();
 
 
-builder.Services.AddSingleton<IMovement, Movement>();
-
+//builder.Services.AddSingleton<IMovement, Movement>();
+var mov = new Movement();
+builder.Services.AddSingleton<IMovement>(mov);
 
 
 // CORS configuration:
@@ -81,7 +82,7 @@ var o2 = new OxygenMonitor();
 var co2 = new Co2Monitor();
 var air = new AirReserveMonitor();
 var intPressure = new PressureMonitor();
-var exPressure = new PressureMonitor();
+var exPressure = new ExternalPressureMonitor(mov);
 var temperature = new TemperatureMonitor();
 var humidity = new HumidityMonitor();
 var reactorOutput = new ReactorOutputMonitor();
@@ -135,7 +136,7 @@ var app = builder.Build();
 
 var bus = app.Services.GetRequiredService<IEventBus>();
 
-var mov = app.Services.GetRequiredService<IMovement>();
+//var mov = app.Services.GetRequiredService<IMovement>();
 
 mov.Power(true); //since power switches have been scoped away
 mov.changeThrust(0);
@@ -203,73 +204,9 @@ var movcont = new MovementController(mov);
 
 controller.SetupSubscriptions();
 
-// Alarm thresholds
-// const double O2_MIN = 21.0;
-// const double CO2_MAX = 390;
-// const double AIR_RESERVE_MIN = 40.0;
-// const double INTERNAL_PRESSURE_MAX = 1.2;
-// const double INTERNAL_PRESSURE_MIN = 0.8;
-// const double EXTERNAL_PRESSURE_UPPER_WARNING = 24.0;
-// const double EXTERNAL_PRESSURE_MAX = 36.0;
-// const double EXTERNAL_PRESSURE_MIN = 0.5;
-// const double TEMP_MAX = 27.0;
-// const double TEMP_MIN = 15.0;
-// const double HUMIDITY_MAX = 60.0;
-// const double HUMIDITY_MIN = 20.0;
 
 Console.WriteLine("Monitors started. API is starting...");
 
-// Subscribe
-// bus.Subscribe(DeviceType.Oxygen, reading =>
-// {
-//     Console.WriteLine($"O₂: {reading.Value:F2} {reading.Unit}");
-//     if (reading.Value < O2_MIN)
-//         Console.WriteLine("OXYGEN ALARM!");
-// });
-
-// bus.Subscribe(DeviceType.CO2, reading =>
-// {
-//     Console.WriteLine($"CO₂: {reading.Value:F0} {reading.Unit}");
-//     if (reading.Value > CO2_MAX)
-//         Console.WriteLine("CO₂ ALARM!");
-// });
-
-// bus.Subscribe(DeviceType.AirReserve, reading =>  // Currently in Air Reserve, the value can go greater than 100%. In every UI test I have run so far I cannot see any value changes due to AirReserve being > 100
-// {
-//     Console.WriteLine($"Air Reserve: {reading.Value:F2} {reading.Unit}");
-//     if (reading.Value < AIR_RESERVE_MIN)
-//         Console.WriteLine("AIR RESERVE ALARM!");
-// });
-
-// bus.Subscribe(DeviceType.Pressure, reading =>
-// {
-//     Console.WriteLine($"Pressure: {reading.Value:F2} {reading.Unit}");
-//     if (reading.Value > INTERNAL_PRESSURE_MAX || reading.Value < INTERNAL_PRESSURE_MIN)
-//         Console.WriteLine("PRESSURE ALARM!");
-// });
-
-// bus.Subscribe(DeviceType.Temperature, reading =>
-// {
-//     Console.WriteLine($"Temperature: {reading.Value:F2} {reading.Unit}");
-//     if (reading.Value > TEMP_MAX || reading.Value < TEMP_MIN)
-//         Console.WriteLine("TEMPERATURE ALARM!");
-// });
-
-// bus.Subscribe(DeviceType.Humidity, reading =>
-// {
-//     Console.WriteLine($"Humidity: {reading.Value:F2} {reading.Unit}");
-//     if (reading.Value > HUMIDITY_MAX || reading.Value < HUMIDITY_MIN)
-//         Console.WriteLine("HUMIDITY ALARM!");
-// });
-
-// If your monitors have a Start() method, call it here:
-// o2.Start();
-// co2.Start();
-// air.Start();
-// intPressure.Start();
-// exPressure.Start();
-// temperature.Start();
-// humidity.Start();
 
 Console.WriteLine("Monitors started. API is starting...");
 

@@ -25,28 +25,24 @@ namespace MyProjectTemplate.API.SubSubController.SubNav
 
         public void UpdatePos(double Vx, double Vy, double Vz)
         {
-            //would like add coefficients for this so we aren't moving at 100<unit> per frame rather than hour/minute/more reasonable measurment
-            //its all abstract though so it doesn't really matter i guess
-
-
             X += Vx;
-            //we're adding to, not just replacing, so we can't do it like i did in controlelements
-            if (X > maplimit) 
-                X = maplimit;
-            else if (X < -maplimit)
-                X = -maplimit;
-
             Y += Vy;
+            Z += Vz;
+
+            if (X > maplimit)
+                X = maplimit;
+            if (X < (-maplimit))
+                X = (-maplimit);
+
             if (Y > maplimit)
                 Y = maplimit;
-            else if (Y < -maplimit)
-                Y = -maplimit;
+            if (Y < (-maplimit))
+                Y = (-maplimit);
 
-            Z += Vz;
             if (Z > 0.0)
-                Z = 0;
-            else if (X < depthlimit)
-                X = depthlimit;
+                Z = 0.0;
+            if (Z < depthlimit)
+                Z = depthlimit;
 
             //I don't actually know what consequences should occur if we reach the limits, so i'll just leave it like this for now
         }

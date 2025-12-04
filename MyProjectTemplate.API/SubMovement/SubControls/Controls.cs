@@ -44,14 +44,18 @@ namespace MyProjectTemplate.API.SubSubController.SubControls //capitals? iunno
         }
 
         //accepting deg rather than rad since it makes it easier for everyone else
+        //+left -right
         public void Turn(double offset) {
             offset = offset * Math.PI / 180.0;
             rudd.Offset = offset; 
         }
+
+        //+up -down
         public void Pitch(double offset) {
             offset = offset * Math.PI / 180.0;
             stnp.Offset = offset;
         }
+        //+up -down
         public void AdjBuoyancy(double offset) {
             ball.Offset = offset;
         }
@@ -61,7 +65,7 @@ namespace MyProjectTemplate.API.SubSubController.SubControls //capitals? iunno
         //I am still unsure whether this should exist here or under navigation or be an attribute instead
         public double[] CalcVelocity()
         {
-            double B = ball.Offset;
+            double B = ball.Offset/20.0;
 
             //if the sub is off its obviously not moving
             if (prop.IsOn == false)
@@ -72,10 +76,11 @@ namespace MyProjectTemplate.API.SubSubController.SubControls //capitals? iunno
             //for convenience
             double phi = rudd.Offset;
             double theta = stnp.Offset;
-            double R = prop.Offset;
-                //consider adding coefficients to R and B to represent the actual force they're exerting
-                //or rather, to translate that force into a speed
-                //to turn the -100 - 100 ranges on both into whatever actual speeds/units we want to use
+            double R = prop.Offset/10.0;
+                //assuming our units are m/s, then our unmodified speed was 100m/s, or 360km/h
+                //this is obviously too fast. with this, its 10m/s, or 36km/h,
+                //which is coinicdentally the same as an ohio classe's official undertwater speed
+                //made bouyancy a bit weaker because that seems better? pure vibes though
 
 
             // sub's velocity vector = RV, where R is a scalar and V is the unit vector in its direction (direction vector)

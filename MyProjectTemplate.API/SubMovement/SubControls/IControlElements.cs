@@ -22,7 +22,8 @@ namespace MyProjectTemplate.API.SubSubController.SubControls
 
     public interface IRudder
     {
-        //represents the angle offset from the x-axis along the xy plane, in radians
+        //represents the angle you're facing against the world axis
+        //(doing that was easier than actually rotating the sub)
         public double Offset { get; set; }         //+left; -right
     }
 

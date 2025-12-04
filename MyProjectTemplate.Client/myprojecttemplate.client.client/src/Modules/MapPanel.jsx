@@ -41,7 +41,7 @@ export default function Map() {
                         if (poszData) setposz(poszData);
                     })
                     .catch(err => setError(err.message));
-            }, 2000); // poll every 2s
+            }, 500); // poll every 2s
 
             return () => clearInterval(interval);
         }, []);

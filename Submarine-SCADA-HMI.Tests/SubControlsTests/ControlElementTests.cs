@@ -76,7 +76,7 @@ namespace Submarine_SCADA_HMI.Tests.SubControlsTests
             double expected = (Math.PI/2.0);
 
             //act
-            ControlElement ce = new Rudder(); //either rudder or sternp work for this test
+            ControlElement ce = new SternPlate(); //either rudder or sternp work for this test
             ce.Offset = difference;
 
             //assert
@@ -91,7 +91,7 @@ namespace Submarine_SCADA_HMI.Tests.SubControlsTests
             double expected = -(Math.PI/2);
 
             //act
-            ControlElement ce = new Rudder();
+            ControlElement ce = new SternPlate();
             ce.Offset = difference;
 
             //assert

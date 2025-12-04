@@ -19,7 +19,7 @@ namespace MyProjectTemplate.API.SubSubController.SubControls
         protected virtual double OffsetLimit { get; } = 100.0; //defining the range as +-100 is just most convenient
 
         //offset basically refers to the component's value, so 0 is neutral, +- are doing something in either direction
-        private double _offset; //I don't know what this means but I think I need it
+        protected double _offset; //I don't know what this means but I think I need it
         public virtual double Offset { get=>_offset; //not quite sure what this is for but i'm pretty sure I need it
           set{  //setting (somewhat) arbitrary limits on component magnitudes. the gui will also have limits, but I just wanted to be sure
                 if (value > OffsetLimit)
@@ -60,10 +60,25 @@ namespace MyProjectTemplate.API.SubSubController.SubControls
         }
     }
 
+    //okay so rudder now represents the direction you're facing rather than actual rudder
     public class Rudder : ControlElement, IRudder {
-        protected override double OffsetLimit { get; } = Math.PI / 2;
-        //setting less arbitrary limits on rudder angle. basically limits to 180 degrees in front of sub
-        //since it wouldn't make sensee for rudder direction to point the sub backwards
+        protected override double OffsetLimit { get; } = Math.PI * 2;
+        //this should limit it to 360 deg in either direction
+        
+
+        public override double Offset
+        {
+            get => _offset; 
+            set
+            {  //technically I think this isn't necessary cus trig functions work above 360, but I didn't want to deal with stuff like that
+                if (value > OffsetLimit)
+                    _offset = 0;
+                else if (value < -OffsetLimit) 
+                    _offset = 0;
+                else
+                    _offset = value;
+            }
+        }
 
         //constructor! -doesn't really do much
         public Rudder(){

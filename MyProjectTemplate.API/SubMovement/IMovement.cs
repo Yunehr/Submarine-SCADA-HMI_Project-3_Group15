@@ -12,16 +12,16 @@ namespace MyProjectTemplate.API.SubMovement
 
         //commands to be called:
         public void Power(bool on);
-        public void changeThrust(double val);
-        public void changeRudder(double val);
-        public void changePitch(double val);
+        public void changeThrust(double val); //range +-100
+        public void changeRudder(double val); //range +-360; +left -right
+        public void changePitch(double val); //range +-90; +up -down
 
-        public void changeBallast(double val);
+        public void changeBallast(double val); //range +-100; +up -down
 
 
         //returns
         public double GetSpeed();
-            //call the following every 'frame' to update your gui
+            //call the following every 'frame' to update your gui:
         public double GetPosX();
         public double GetPosY();
         public double GetPosZ();

@@ -111,7 +111,7 @@
     flex: 1 1 50%; /* smaller bottom area */
     padding: 0.75rem;
     border-radius: 6px;
-    overflow: auto;
+    overflow: hidden;
     box-shadow: 0 0 0 1px rgba(0,0,0,0.02) inset;
 }
 

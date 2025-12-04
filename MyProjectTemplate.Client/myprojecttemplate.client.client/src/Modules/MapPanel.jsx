@@ -58,8 +58,8 @@ export default function Map() {
     const safeRange = range === 0 ? 1 : range;
 
     // Scale logical coordinates (-1000..1000) to pixel space
-    let pixelX = ((posx + 1000) / safeRange) * mapWidth;
-    let pixelY = ((posy + 1000) / safeRange) * mapHeight;
+    let pixelX = ((posy + 1000) / safeRange) * mapWidth;
+    let pixelY = (((-posx) + 1000) / safeRange) * mapHeight;
 
     // Center the dot (subtract half its size)
     pixelX -= dotSize / 2;
@@ -87,7 +87,7 @@ export default function Map() {
                 Depth: {posz}
             </div>
             <div className="map-console-label">
-                Position: {posx}, {posy}
+                Position: {posy}, {posx}
             </div>
         </div>
     );

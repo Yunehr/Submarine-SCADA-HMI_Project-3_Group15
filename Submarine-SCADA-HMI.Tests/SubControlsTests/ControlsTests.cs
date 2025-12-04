@@ -106,7 +106,7 @@ namespace Submarine_SCADA_HMI.Tests.SubControlsTests
             //act
             ct.PowerOn();
             ct.Thrust(100.0);
-            ct.Pitch(Math.PI / 6); //30 deg up
+            ct.Pitch(30.0); 
             double[] actual = ct.CalcVelocity();
 
             actual[0] = double.Round(actual[0], 8);//amount of precision my calculator gives
@@ -126,7 +126,7 @@ namespace Submarine_SCADA_HMI.Tests.SubControlsTests
             //act
             ct.PowerOn();
             ct.Thrust(100.0);
-            ct.Pitch(-(Math.PI/3));//60 deg down
+            ct.Pitch(-60.0);//60 deg down
             double[] actual = ct.CalcVelocity();
 
             actual[0] = double.Round(actual[0], 8);//amount of precision my calculator gives
@@ -146,7 +146,7 @@ namespace Submarine_SCADA_HMI.Tests.SubControlsTests
             //act
             ct.PowerOn();
             ct.Thrust(100.0);
-            ct.Pitch(Math.PI / 2);
+            ct.Pitch(90.0);
             double[] actual = ct.CalcVelocity();
 
             actual[0] = double.Round(actual[0], 8);//amount of precision my calculator gives
@@ -166,7 +166,7 @@ namespace Submarine_SCADA_HMI.Tests.SubControlsTests
             //act
             ct.PowerOn();
             ct.Thrust(100.0);
-            ct.Turn(Math.PI/4); //45 deg left
+            ct.Turn(45.0); 
             double[] actual = ct.CalcVelocity();
 
             actual[0] = double.Round(actual[0], 8);//amount of precision my calculator gives
@@ -186,7 +186,7 @@ namespace Submarine_SCADA_HMI.Tests.SubControlsTests
             //act
             ct.PowerOn();
             ct.Thrust(100.0);
-            ct.Turn(-(Math.PI/12)); //15 deg right
+            ct.Turn(-15.0); //15 deg right
             double[] actual = ct.CalcVelocity();
 
             actual[0] = double.Round(actual[0], 8);//amount of precision my calculator gives
@@ -206,7 +206,7 @@ namespace Submarine_SCADA_HMI.Tests.SubControlsTests
             //act
             ct.PowerOn();
             ct.Thrust(100.0);
-            ct.Turn(Math.PI /2);
+            ct.Turn(90.0);
             double[] actual = ct.CalcVelocity();
 
             actual[0] = double.Round(actual[0], 8);//amount of precision my calculator gives
@@ -226,8 +226,8 @@ namespace Submarine_SCADA_HMI.Tests.SubControlsTests
             //act
             ct.PowerOn();
             ct.Thrust(100.0);
-            ct.Pitch(Math.PI/6);//30 deg up
-            ct.Turn(Math.PI/3);//60 deg left
+            ct.Pitch(30);
+            ct.Turn(60);
             double[] actual = ct.CalcVelocity();
 
             actual[0] = double.Round(actual[0], 8);//amount of precision my calculator gives
@@ -249,7 +249,7 @@ namespace Submarine_SCADA_HMI.Tests.SubControlsTests
             //act
             ct.PowerOn();
             ct.Thrust(100.0);
-            ct.Pitch(Math.PI / 4); //45 deg up
+            ct.Pitch(45.0);
             ct.AdjBuoyancy(100);
             double[] actual = ct.CalcVelocity();
 

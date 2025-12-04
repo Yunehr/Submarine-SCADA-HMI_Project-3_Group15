@@ -85,7 +85,7 @@ namespace MyProjectTemplate.API.SubSubController
             if (clock != null) 
                 return; //clocks running, dont do nothin
 
-            clock = new System.Timers.Timer(2000);
+            clock = new System.Timers.Timer(1000);
 
             clock.Elapsed += UpdatePos; //basically saying it calls this function everytime the timer ends
 

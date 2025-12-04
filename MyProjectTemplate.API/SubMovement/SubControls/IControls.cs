@@ -17,7 +17,7 @@ namespace MyProjectTemplate.API.SubSubController.SubControls
 
         //not sure if these should be void? whatever
         public void Thrust(double offset); //range -+100
-        public void Turn(double offset); //range -+90
+        public void Turn(double offset); //range -+360
         public void Pitch(double offset); //range -+90
         public void AdjBuoyancy(double offset); //range -+90
 

@@ -56,28 +56,35 @@ export default function Controls() {
     };
 
     const handleRudderLeft = () => {
-        const newVal = rudder - 5;   // decrease by 5 each click
+        let newVal = rudder - 15;   // decrease by 15 each click  // +- 360 (if greatre than 360 then rollover to set to 0)
+        if (newVal <= -360) {
+            newVal = 0; // rollover to 0 if rotation reaches -360 or lower
+        }
         setRudder(newVal);
         sendRudder(newVal);
     };
 
     const handleRudderRight = () => {
-        const newVal = rudder + 5;   // increase by 5 each click
+        let newVal = rudder + 15;   // increase by 15 each click  // +- 360 (if greatre than 360 then rollover to set to 0)
+        if (newVal >= 360) {
+            newVal = 0; // rollover to 0 if rotation reaches 360 or higher
+        }
         setRudder(newVal);
         sendRudder(newVal);
     };
 
-    const handleBallastFill = () => {
-        const newVal = ballast + 5; // increase ballast by 5
+    const handleBallastEmpty = () => {
+        const newVal = Math.min(ballast + 20, 100); // clamp to max 100
         setBallast(newVal);
         sendBallast(newVal);
     };
 
-    const handleBallastEmpty = () => {
-        const newVal = ballast - 5; // decrease ballast by 5
+    const handleBallastFill = () => {
+        const newVal = Math.max(ballast - 20, -100); // clamp to min -100
         setBallast(newVal);
         sendBallast(newVal);
     };
+
 
 
     return (

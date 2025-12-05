@@ -292,10 +292,19 @@ namespace MyProjectTemplate.API.LifeSupportSystems
             return NotFound();
         }
 
-        [HttpGet("Pressure")]
-        public IActionResult GetPressure()
+        [HttpGet("IntPressure")]
+        public IActionResult GetIntPressure()
         {
             var pressureMonitor = (PressureMonitor)_devices["IntPressure"];
+            if (_bus.TryGetLatest(pressureMonitor.Id, out var reading))
+                return Ok(reading);
+
+            return NotFound();
+        }
+        [HttpGet("ExtPressure")]
+        public IActionResult GetExPressure()
+        {
+            var pressureMonitor = (ExternalPressureMonitor)_devices["ExPressure"];
             if (_bus.TryGetLatest(pressureMonitor.Id, out var reading))
                 return Ok(reading);
 

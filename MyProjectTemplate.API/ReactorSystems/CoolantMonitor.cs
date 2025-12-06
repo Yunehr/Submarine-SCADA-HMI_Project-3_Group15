@@ -16,16 +16,24 @@ public sealed class CoolantMonitor : MonitorBase
         }
         else
         {
-            // Simulate coolant level decrease over time
-            var variation = (Random.Shared.NextDouble() - 0.5) * 1.0; // +/- 0.5%
-            //_currentLevel = Math.Max(0, _currentLevel - 0.1 + variation); // Decrease by 0.1% each sample
-            _currentLevel = Math.Max(0, _currentLevel + variation);
+            // // Simulate coolant level variable decrease over time
+            // var variation = (Random.Shared.NextDouble() - 0.5) * 1.0; // +/- 0.5%
+            // //_currentLevel = Math.Max(0, _currentLevel - 0.1 + variation); // Decrease by 0.1% each sample
+            // _currentLevel = Math.Max(0, _currentLevel + variation);
+
+            // Simulate stable level decrease each sample
+            _currentLevel -= 0.2; // Decrease by 0.2% each sample
             return _currentLevel;
         }
+    }
+    public double SampleSensorForTest()
+    {
+        return SampleSensor();
     }
 
     public void SCRAMCoolantLevel()
     {
+        // reactor has been SCRAMmed, set coolant level to max to avoid false alarms
         _isSCRAMmed = true;
         _currentLevel = 100.0;
     }

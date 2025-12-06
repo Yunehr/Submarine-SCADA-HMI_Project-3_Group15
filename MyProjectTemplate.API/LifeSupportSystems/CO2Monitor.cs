@@ -11,6 +11,10 @@ public sealed class Co2Monitor : MonitorBase
         _currentLevel += 5; // Simulate CO2 increase each sample
         return value;
     }
+    public double SampleSensorForTest()
+    {
+        return SampleSensor();
+    }
 
     public void resetCo2Level()
     {

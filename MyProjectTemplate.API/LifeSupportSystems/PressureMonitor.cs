@@ -13,6 +13,10 @@ public sealed class PressureMonitor : MonitorBase
         //_currentLevel -= 0.01;  // Simulate pressure decrease each sample
         return value;
     }
+    public double SampleSensorForTest()
+    {
+        return SampleSensor();
+    }
     public void resetPressureLevel()
     {
         _currentLevel = 1.0; // Reset to normal pressure level

@@ -12,8 +12,6 @@ public sealed class BatteryMonitor : MonitorBase
         if (_isDischarging)
         {
             // Simulate battery charge fluctuations
-            var variation = (Random.Shared.NextDouble() - 0.5) * 2.0; // +/- 1%
-            _currentCharge = Math.Max(0, Math.Min(100, _currentCharge + variation));
             // var variation = (Random.Shared.NextDouble() - 0.5) * 2.0; // +/- 1%
             // _currentCharge = Math.Max(0, Math.Min(100, _currentCharge + variation));
             // or just return for a stable charge reading

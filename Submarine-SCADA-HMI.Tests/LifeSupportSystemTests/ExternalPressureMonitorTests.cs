@@ -31,6 +31,7 @@ namespace Submarine_SCADA_HMI.Tests.LifeSupportSystemTests
         public void Power(bool on) { }
         public void RunStart() { }
         public void RunStop() { }
+        public void TestingRunStartOnce() { }
     }
 
     [TestClass]

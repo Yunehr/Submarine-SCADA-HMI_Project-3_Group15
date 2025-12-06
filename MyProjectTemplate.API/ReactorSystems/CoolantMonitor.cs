@@ -29,4 +29,10 @@ public sealed class CoolantMonitor : MonitorBase
         _isSCRAMmed = true;
         _currentLevel = 100.0;
     }
+
+    public void CoolantLevelDrop()
+    {
+        _currentLevel = 20.0;
+    }
+
 }

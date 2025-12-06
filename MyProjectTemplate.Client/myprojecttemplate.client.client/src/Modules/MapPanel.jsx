@@ -72,7 +72,7 @@ export default function Map() {
     return (
         <div className="map-console-screen">
             <div className="map-console-warning-bar">
-                 test
+                 
             </div>
             <div className="map-console-map">
                 <div

@@ -26,4 +26,9 @@ public sealed class RadMonitor : MonitorBase
         _isSCRAMmed = true;
         _currentLevel = 0.5;
     }
+
+    public void RadiationLevelSpike()
+    {
+        _currentLevel = 6;
+    }
 }

@@ -4,6 +4,8 @@ public sealed class HumidityMonitor : MonitorBase
 {
     public override DeviceType DeviceType => DeviceType.Humidity;
     public override Unit Unit => Unit.Percent;
-    protected override double SampleSensor() =>
-        20.9 + (Random.Shared.NextDouble() - 0.5) * 0.2;
+    protected override double SampleSensor() 
+    {
+        return 45.0 + (Random.Shared.NextDouble() - 0.5) * 5.0; // Simulate humidity around 45% with slight variation
+    }
 }

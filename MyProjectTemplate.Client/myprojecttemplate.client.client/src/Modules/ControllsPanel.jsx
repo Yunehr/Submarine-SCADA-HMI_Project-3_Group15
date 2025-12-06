@@ -7,52 +7,85 @@ import VerticalSlider from '../Components/VerticalSlider';
 import ButtonControls from '../Components/ControllsButton';
 
 export default function Controls() {
-    //const [items, setItems] = useState(null);          //un comment when link to API backend is created
-    //const [loading, setLoading] = useState(true);
-    //const [error, setError] = useState(null);
     const [throttle, setThrottle] = useState(0);
     const [pitch, setPitch] = useState(0);
+    const [rudder, setRudder] = useState(0);
+    const [ballast, setBallast] = useState(0);
 
-    //useEffect(() => {
-    //    let mounted = true;
-    //    // The Vite dev server proxies /lifesupportpanel to the API (see vite.config.js).       //TODO: Create API link in vite.config.js and MyProjectTemplate.API
-    //    fetch('/weatherforecast')                                                               //... : Update to reference /lifesupportpanel
-    //        .then((res) => {
-    //            if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    //            return res.json();
-    //        })
-    //        .then((json) => mounted && setItems(json))
-    //        .catch((err) => mounted && setError(err.message))
-    //        .finally(() => mounted && setLoading(false));
-
-    //    // Cleanup pattern prevents setting state after unmount
-    //    return () => {
-    //        mounted = false;
-    //    };
-    //}, []);
-
-    //if (loading) return <div>Loading...</div>;
-    //if (error) return <div style={{ color: 'red' }}>Error: {error}</div>;
-    //if (!items || items.length === 0) return <div>No data</div>;
-
-
-    // Button handlers — later replace with API calls
-    const handleBallastFill = () => {
-        console.log("Ballast filling..."); // any console log does nothnig in the front end, thus is redundant. Only used as placeholder for API calls/implementations
-        // fetch('/api/ballast/fill', { method: 'POST' }) etc.
+    const sendPitch = (val) => {
+        fetch('/api/movement/Pitch', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ value: val })
+        });
     };
-    const handleBallastEmpty = () => {
-        console.log("Ballast emptying...");
-        // fetch('/api/ballast/empty', { method: 'POST' })
+
+    const sendThrottle = (val) => {
+        fetch('/api/movement/Throttle', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ value: val })
+        });
     };
+
+    const sendRudder = (val) => {
+        fetch('/api/movement/Rudder', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ value: val })
+        });
+    };
+
+    const sendBallast = (val) => {
+        fetch('/api/movement/Ballast', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ value: val })
+        });
+    };
+
+    // Handlers
+    const handlePitch = (val) => {
+        setPitch(val);
+        sendPitch(val);
+    };
+
+    const handleThrottle = (val) => {
+        setThrottle(val);
+        sendThrottle(val);
+    };
+
     const handleRudderLeft = () => {
-        console.log("Rudder left...");
-        // fetch('/api/rudder/left', { method: 'POST' })
+        let newVal = rudder - 15;   // decrease by 15 each click  // +- 360 (if greatre than 360 then rollover to set to 0)
+        if (newVal <= -360) {
+            newVal = 0; // rollover to 0 if rotation reaches -360 or lower
+        }
+        setRudder(newVal);
+        sendRudder(newVal);
     };
+
     const handleRudderRight = () => {
-        console.log("Rudder right...");
-        // fetch('/api/rudder/right', { method: 'POST' })
+        let newVal = rudder + 15;   // increase by 15 each click  // +- 360 (if greatre than 360 then rollover to set to 0)
+        if (newVal >= 360) {
+            newVal = 0; // rollover to 0 if rotation reaches 360 or higher
+        }
+        setRudder(newVal);
+        sendRudder(newVal);
     };
+
+    const handleBallastEmpty = () => {
+        const newVal = Math.min(ballast + 20, 100); // clamp to max 100
+        setBallast(newVal);
+        sendBallast(newVal);
+    };
+
+    const handleBallastFill = () => {
+        const newVal = Math.max(ballast - 20, -100); // clamp to min -100
+        setBallast(newVal);
+        sendBallast(newVal);
+    };
+
+
 
     return (
         <div>
@@ -64,7 +97,7 @@ export default function Controls() {
                         min={-90}
                         max={90}
                         value={pitch}
-                        onChange={setPitch}
+                        onChange={handlePitch}
                         units="°"
                         height={150}
                         legendmax="PITCH UP"
@@ -97,7 +130,7 @@ export default function Controls() {
                         min={-100}
                         max={100}
                         value={throttle}
-                        onChange={setThrottle}
+                        onChange={handleThrottle}
                         units="Knot"
                         height={150}
                     />

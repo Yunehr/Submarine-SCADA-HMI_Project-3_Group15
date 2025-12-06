@@ -9,9 +9,9 @@ public partial class SubLog
 
     public Guid SubId { get; set; }
 
-    public string? ActionTaken { get; set; }
+    public string? Level { get; set; }     // INFO, DANGER, ERROR, etc...
 
-    public string? Command { get; set; }
+    public string? Message { get; set; }   // “Oxygen dropped below safe levels”
 
     public string? PerformedBy { get; set; }
 

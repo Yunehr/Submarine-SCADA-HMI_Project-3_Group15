@@ -145,12 +145,13 @@ namespace MyProjectTemplate.API.Migrations
                         .HasColumnType("INTEGER")
                         .HasColumnName("LogID");
 
-                    b.Property<string>("ActionTaken")
-                        .HasMaxLength(200)
+                    b.Property<string>("Level")
+                        .HasMaxLength(50)
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Command")
-                        .HasColumnType("json");
+                    b.Property<string>("Message")
+                        .HasMaxLength(500)
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("PerformedBy")
                         .HasMaxLength(100)
@@ -198,9 +199,13 @@ namespace MyProjectTemplate.API.Migrations
 
             modelBuilder.Entity("MyProjectTemplate.API.Models.SubReactorDatum", b =>
                 {
-                    b.Property<int>("ReactorId")
+                    b.Property<int>("ReactorReadingId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER")
                         .HasColumnName("ReactorID");
+
+                    b.Property<double?>("Battery")
+                        .HasColumnType("REAL");
 
                     b.Property<double?>("CoolantLevel")
                         .HasColumnType("REAL");
@@ -211,6 +216,9 @@ namespace MyProjectTemplate.API.Migrations
                     b.Property<double?>("Radiation")
                         .HasColumnType("REAL");
 
+                    b.Property<double?>("ReactorOutput")
+                        .HasColumnType("REAL");
+
                     b.Property<Guid>("SubId")
                         .HasColumnType("TEXT")
                         .HasColumnName("SubID");
@@ -218,7 +226,11 @@ namespace MyProjectTemplate.API.Migrations
                     b.Property<double?>("Temperature")
                         .HasColumnType("REAL");
 
-                    b.HasKey("ReactorId")
+                    b.Property<string>("TimeData")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("ReactorReadingId")
                         .HasName("PRIMARY");
 
                     b.HasIndex(new[] { "SubId" }, "SubID")

@@ -1,9 +1,30 @@
-﻿/* app shell */
+﻿/* Main submarine background theme */
 .app-root {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    background: linear-gradient(180deg, #9b9a97 0%, #6f6d6b 100%); /* submarine grey gradient */
+    color: #2b2b2b;
+}
+
+/* Panels now sit on top of the grey casing */
+.panel,
+.center-top,
+.center-bottom,
+.sidebar-top,
+.sidebar-bottom {
+    background: linear-gradient(180deg, #bcb9b6 0%, #8f8c8a 100%); /* matches casing theme */
+    border-radius: 6px;
+    box-shadow: inset 0 2px 6px rgba(0,0,0,0.4), 0 6px 14px rgba(0,0,0,0.45);
+    color: #2b2b2b;
+}
+
+.panel-frame {
+    border: 2px solid rgba(0,0,0,0.3);
+    border-radius: 8px;
+    padding: 0.5rem;
+    box-shadow: inset 0 1px 2px rgba(255,255,255,0.1), inset 0 -1px 2px rgba(0,0,0,0.3);
 }
 
 .app-header {
@@ -29,7 +50,6 @@
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
-    background: #f5f5f7;
     padding: 0.75rem;
     box-sizing: border-box;
     border-radius: 6px;
@@ -43,8 +63,6 @@
     padding: 0.5rem;
     border-radius: 6px;
     overflow: auto;
-    box-shadow: 0 0 0 1px rgba(0,0,0,0.03) inset;
-    background: #ffffff;
 }
 
     /* sensible defaults for sizing; you can mix/use classes per-sidebar-region */
@@ -83,20 +101,29 @@
 /* Center split into two stacked sections */
 .center-top {
     flex: 2 1 50%; /* larger top area */
-    background: #ffffff;
     padding: 0.75rem;
     border-radius: 6px;
-    overflow: auto;
+    overflow: hidden;
     box-shadow: 0 0 0 1px rgba(0,0,0,0.03) inset;
 }
 
 .center-bottom {
     flex: 1 1 50%; /* smaller bottom area */
-    background: #fbfbfd;
     padding: 0.75rem;
     border-radius: 6px;
-    overflow: auto;
+    overflow: hidden;
     box-shadow: 0 0 0 1px rgba(0,0,0,0.02) inset;
+}
+
+.center-top, /* Color Scheme */
+.center-bottom,
+.sidebar-top,
+.sidebar-bottom {
+    background: linear-gradient(180deg, #bcb9b6 0%, #8f8c8a 100%);
+    border-radius: 6px;
+    border: 1px solid #334155;
+    box-shadow: inset 0 2px 6px rgba(0,0,0,0.4), 0 6px 14px rgba(0,0,0,0.45);
+    color: #2b2b2b;
 }
 
 /* small helper panel style used by example components */
@@ -129,16 +156,15 @@
 .gauge-row.switch-row {
     display: flex;
     justify-content: center;
-    margin-left: 5px;
-    margin-top:10px;
-    gap: 0px;
+    gap: 5px;
+    position: relative;
 }
 
 .gauge-label {
     margin-top: -50px;
     font-size: 14px;
     font-weight: 600;
-    color: #345243;
+    color: black;
     text-align: center;
 }
 
@@ -155,7 +181,7 @@
     height: 47px;
     border-radius: 50%;
     background: radial-gradient(circle at 30% 30%, #d9d5d2, #a19e9c);
-    border: 1px solid #d9d5d2;
+    border: 1px solid rgba(0,0,0,0.4);
     align-content: center;
 }
 .status-indicator-central-warning {
@@ -233,7 +259,7 @@
 
 .switch-label {
     font-size: 13px;
-    color: #345243;
+    color: black;
     font-weight: 600;
 }
 
@@ -298,6 +324,10 @@
             background: linear-gradient(180deg, #fff1f1 0%, #ffdcdc 100%);
             box-shadow: 0 6px 18px rgba(255,43,43,0.25), inset 0 1px 0 rgba(255,255,255,0.9);
         }
+
+.vs-pressurize {
+    margin-top: 30px;
+}
 
 
 /* Old-school green submarine climate monitor */
@@ -374,21 +404,22 @@
     margin-top: 0px;
     font-size: 14px;
     font-weight: 600;
-    color: #345243;
+    color: black;
     text-align: center;
 }
 
 .gauge-readout {
     font-size: 14px;
-    color: #345243;
+    color: black;
     font-weight: 500;
 }
 
 .gauge-body {
     padding: 8px;
-    background: #f0f4f8;
+    background: #d9d5d2;
+    border: 1px solid #2b2b2b;
     border-radius: 20px;
-    box-shadow: inset 0 0 0 1px rgba(0,0,0,0.03);
+    box-shadow: inset 0 2px 6px rgba(0,0,0,0.4), 0 6px 14px rgba(0,0,0,0.45);
 }
 
 .gauge-casing {
@@ -427,7 +458,7 @@
         appearance: none;
         width: 22px;
         height: 22px;
-        background: #cbd5e1;
+        background: radial-gradient(circle at 30% 30%, #d9d5d2, #a19e9c);
         border-radius: 6px;
         border: 1px solid #334155;
         box-shadow: 0 3px 8px rgba(0,0,0,0.35);
@@ -447,12 +478,12 @@
 .gauge-tick-line {
     width: 10px;
     height: 1px;
-    background: #8aa0af;
+    background: black;
 }
 
 .gauge-tick-label {
     font-size: 11px;
-    color: #5f7a8a;
+    color: black;
 }
 
 .gauge-legends {
@@ -464,7 +495,7 @@
     flex-direction: column;
     justify-content: space-between;
     font-size: 11px;
-    color: #5f7a8a;
+    color: black;
 }
 
 /* Submarine control button */
@@ -498,7 +529,273 @@
     text-align: center;
     margin-top: 5px;
     font-size: 13px;
-    color: #345243;
+    color: black;
     font-weight: 600;
 
+}
+
+
+/* Old-school green submarine Radar/Map */
+.map-console-background {
+    flex:2 1 50%;
+    background: #bcb9b6; /* matches vertical-switch off casing */
+    border: 1px solid rgba(0,0,0,0.6);
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: inset 0 2px 6px rgba(0,0,0,0.4), 0 6px 14px rgba(0,0,0,0.45);
+}
+
+.map-console-screen {
+    position: relative;
+    height: 15.75rem;
+    place-items:center;
+    padding: 0.5rem;
+    background: radial-gradient(circle at 30% 30%, #00ff6a, #00cc55);
+    border-radius: 8px;
+    box-shadow: inset 0 0 6px rgba(0,0,0,0.6), inset 0 0 6px rgba(0,0,0,0.65);
+}
+
+.map-console-label {
+    position: absolute;
+    bottom: 0.25rem;
+    right: 0.5rem;
+    font-size: 13px;
+    font-weight: 600;
+    color: #2b2b2b;
+    text-shadow: 0 0 4px rgba(0,255,102,0.4);
+}
+.map-console-depth-label {
+    position: absolute;
+    bottom: 1.25rem;
+    right: 0.5rem;
+    font-size: 13px;
+    font-weight: 600;
+    color: #2b2b2b;
+    text-shadow: 0 0 4px rgba(0,255,102,0.4);
+}
+
+.map-console-warning-bar { /* Not Necessary for now, but may be needed */
+    font-size: 18px;
+    font-weight: 700;
+    color: #2b2b2b;
+    text-align: center;
+    text-shadow: 0 0 6px rgba(0,255,102,0.6);
+}
+
+.map-console-map {
+    position: absolute; /* important: allows children to be positioned absolutely */
+    bottom: 2.25rem;
+    width: 22rem;
+    height: 12rem;
+    border-style: solid;
+    border-width: 1.5px;
+    border-color: #2b2b2b;
+    overflow: hidden; /* prevents dot from spilling outside */
+}
+.map-submarine {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, #2b2b2b, #1a1a1a); /* dark text-like tone */
+    box-shadow: 0 0 8px rgba(0, 255, 102, 0.6), /* subtle green glow to tie into theme */
+    inset -2px -2px 4px rgba(0,0,0,0.6), /* inner shadow for depth */
+    inset 2px 2px 4px rgba(255,255,255,0.15); /* highlight for 3D */
+    animation: sonarPulse 2.5s infinite ease-in-out;
+}
+
+@keyframes sonarPulse {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 8px rgba(0, 255, 102, 0.6), 0 0 16px rgba(0, 255, 102, 0.4), inset -2px -2px 4px rgba(0,0,0,0.6), inset 2px 2px 4px rgba(255,255,255,0.15);
+    }
+
+    50% {
+        transform: scale(1.15);
+        box-shadow: 0 0 16px rgba(0, 255, 102, 0.7), 0 0 32px rgba(0, 255, 102, 0.5), inset -2px -2px 4px rgba(0,0,0,0.6), inset 2px 2px 4px rgba(255,255,255,0.15);
+    }
+
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 8px rgba(0, 255, 102, 0.6), 0 0 16px rgba(0, 255, 102, 0.4), inset -2px -2px 4px rgba(0,0,0,0.6), inset 2px 2px 4px rgba(255,255,255,0.15);
+    }
+}
+
+
+
+/* Submarine Reactor Scram Button */
+/* Reactor Scram Panel */
+.scram-panel {
+    position: relative;
+    width: 220px;
+    height: 220px;
+    margin: auto;
+    margin-top: 2rem;
+    background: linear-gradient(180deg, #bcb9b6 0%, #8f8c8a 100%);
+    border: 1px solid rgba(0,0,0,0.6);
+    border-radius: 10px;
+    box-shadow: inset 0 2px 6px rgba(0,0,0,0.4), 0 6px 14px rgba(0,0,0,0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Corner warning lights */
+.scram-light {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(0,0,0,0.4);
+}
+
+    .scram-light.warning {
+        background-color: #ffe900;
+        box-shadow: 0 0 20px #ffff00;
+    }
+
+    .scram-light.danger {
+        background-color: #ca0B00;
+        box-shadow: 0 0 12px #F32013;
+    }
+
+    .scram-light.on {
+        background-color: #02c245;
+        box-shadow: 0 0 6px #02c22f;
+    }
+
+    /* Positioning lights */
+    .scram-light.top-left {
+        top: 8px;
+        left: 8px;
+    }
+
+    .scram-light.top-right {
+        top: 8px;
+        right: 8px;
+    }
+
+    .scram-light.bottom-left {
+        bottom: 8px;
+        left: 8px;
+    }
+
+    .scram-light.bottom-right {
+        bottom: 8px;
+        right: 8px;
+    }
+
+/* Button cover with 3D and transparency */
+.scram-cover {
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    background: rgba(60, 60, 60, 0.6); /* semi-transparent */
+    border-radius: 8px;
+    border: 2px solid #222;
+    backdrop-filter: blur(2px); /* glass-like effect */
+    box-shadow: inset 0 4px 8px rgba(255,255,255,0.15), inset 0 -4px 8px rgba(0,0,0,0.6), 0 6px 14px rgba(0,0,0,0.7);
+    cursor: pointer;
+    transition: transform 0.6s ease, opacity 0.4s ease;
+    z-index: 2;
+    transform-origin: top;
+}
+
+    /* Cover open state (hinged upward) */
+    .scram-cover.open {
+        transform: rotateX(120deg) translateY(-20px);
+        opacity: 0.5;
+        z-index: 0;
+    }
+
+    /* Cover closed state */
+    .scram-cover.closed {
+        transform: rotateX(0deg);
+        opacity: 1;
+        z-index: 2;
+    }
+
+
+/* SCRAM button */
+.scram-button {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, #ff4d4d, #8b0000);
+    border: 2px solid #2b2b2b;
+    box-shadow: inset 0 -4px 8px rgba(0,0,0,0.6), 0 6px 14px rgba(0,0,0,0.45);
+    font-weight: 700;
+    font-size: 18px;
+    color: #fff;
+    cursor: pointer;
+    transition: transform 120ms ease, box-shadow 200ms ease;
+    z-index: 1;
+}
+
+    .scram-button:active {
+        transform: translateY(2px);
+        box-shadow: inset 0 -2px 6px rgba(0,0,0,0.6), 0 4px 10px rgba(0,0,0,0.45);
+    }
+
+/* Scenario Buttons */
+.scene-panel {
+    position: relative;
+    width: 40px;
+    height: 50px;
+    margin-left: 20px;
+    margin-top: 20px;
+    background: linear-gradient(180deg, #8f8c8a 0%, #6f6d6b 100%); /* duller casing */
+    border: 1px solid rgba(0,0,0,0.6);
+    border-radius: 8px; /* less blocky */
+    box-shadow: inset 0 2px 6px rgba(0,0,0,0.4), 0 4px 10px rgba(0,0,0,0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Base button: darker, flatter red */
+.scene-button {
+    width: 30px;
+    height: 40px;
+    border-radius: 6px; /* less spherical */
+    background: linear-gradient(180deg, #5a0f0f 0%, #3a0a0a 100%);
+    border: 1px solid #2b2b2b;
+    box-shadow: inset 0 -2px 4px rgba(0,0,0,0.6), 0 2px 6px rgba(0,0,0,0.45);
+    cursor: pointer;
+    transition: transform 150ms ease, box-shadow 200ms ease, background 200ms ease;
+}
+
+    /* Click animation: subtle press */
+    .scene-button:active {
+        transform: scale(0.92);
+        box-shadow: inset 0 -1px 3px rgba(0,0,0,0.6), 0 1px 4px rgba(0,0,0,0.45);
+    }
+
+    /* Alert state: lights up when backend says "needs pressing" */
+    .scene-button.alert {
+        background: linear-gradient(180deg, #d62828 0%, #8b0000 100%);
+        box-shadow: 0 0 12px #ff3b3b, inset 0 -2px 6px rgba(0,0,0,0.6);
+        animation: pulseGlow 1.5s infinite ease-in-out;
+    }
+
+/* Glowing pulse animation */
+@keyframes pulseGlow {
+    0% {
+        box-shadow: 0 0 6px #ff3b3b;
+    }
+
+    50% {
+        box-shadow: 0 0 14px #ff3b3b;
+    }
+
+    100% {
+        box-shadow: 0 0 6px #ff3b3b;
+    }
+}
+
+.scene-label {
+    font-size: 13px;
+    color: black;
+    font-weight: 600;
+    margin-left: 0.85rem
 }

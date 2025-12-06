@@ -119,8 +119,8 @@ public partial class AppDbContext : DbContext
             entity.HasIndex(e => e.SubId, "SubID");
 
             entity.Property(e => e.LogId).HasColumnName("LogID");
-            entity.Property(e => e.ActionTaken).HasMaxLength(200);
-            entity.Property(e => e.Command).HasColumnType("json");
+            entity.Property(e => e.Level).HasMaxLength(50);
+            entity.Property(e => e.Message).HasMaxLength(500);
             entity.Property(e => e.PerformedBy).HasMaxLength(100);
             entity.Property(e => e.SubId).HasColumnName("SubID");
             entity.Property(e => e.TimeData).HasMaxLength(40);
@@ -150,14 +150,14 @@ public partial class AppDbContext : DbContext
 
         modelBuilder.Entity<SubReactorDatum>(entity =>
         {
-            entity.HasKey(e => e.ReactorId).HasName("PRIMARY");
+            entity.HasKey(e => e.ReactorReadingId).HasName("PRIMARY");
 
             entity.ToTable("sub_reactor_data");
 
             entity.HasIndex(e => e.SubId, "SubID");
 
-            entity.Property(e => e.ReactorId)
-                .ValueGeneratedNever()
+            entity.Property(e => e.ReactorReadingId)
+                .ValueGeneratedOnAdd()
                 .HasColumnName("ReactorID");
             entity.Property(e => e.SubId).HasColumnName("SubID");
 

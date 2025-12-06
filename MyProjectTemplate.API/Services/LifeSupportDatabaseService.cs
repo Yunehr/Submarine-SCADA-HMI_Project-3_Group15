@@ -23,8 +23,8 @@ namespace MyProjectTemplate.API.Services
         {
             _serviceProvider = serviceProvider;
             _eventBus = eventBus;
-            
-            // Map device keys to their IDs for later lookup
+
+            // Map device keys to their IDs for the later lookup in "GetDeviceValue"
             _deviceIdMap = new Dictionary<string, Guid>
             {
                 ["O2"] = devices["O2"].Id,
@@ -46,6 +46,7 @@ namespace MyProjectTemplate.API.Services
             _saveTimer.Start();
         }
 
+        // More of the timer thingy
         public void StopPeriodicSave()
         {
             _saveTimer?.Stop();
@@ -80,16 +81,16 @@ namespace MyProjectTemplate.API.Services
             }
         }
 
-        private double? GetDeviceValue(string deviceKey)
+        private double GetDeviceValue(string deviceName)
         {
-            if (_deviceIdMap.TryGetValue(deviceKey, out var deviceId))
+            if (_deviceIdMap.TryGetValue(deviceName, out var deviceId)) // Try to get the device ID (Making sure it actual made it to the map)
             {
                 if (_eventBus.TryGetLatest(deviceId, out var reading))
                 {
                     return Math.Round(reading.Value, 2); // Round that thang 
                 }
             }
-            return null;
+            return 0;
         }
     }
 }

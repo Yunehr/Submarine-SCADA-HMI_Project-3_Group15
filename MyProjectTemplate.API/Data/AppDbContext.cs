@@ -150,14 +150,14 @@ public partial class AppDbContext : DbContext
 
         modelBuilder.Entity<SubReactorDatum>(entity =>
         {
-            entity.HasKey(e => e.ReactorId).HasName("PRIMARY");
+            entity.HasKey(e => e.ReactorReadingId).HasName("PRIMARY");
 
             entity.ToTable("sub_reactor_data");
 
             entity.HasIndex(e => e.SubId, "SubID");
 
-            entity.Property(e => e.ReactorId)
-                .ValueGeneratedNever()
+            entity.Property(e => e.ReactorReadingId)
+                .ValueGeneratedOnAdd()
                 .HasColumnName("ReactorID");
             entity.Property(e => e.SubId).HasColumnName("SubID");
 

@@ -62,6 +62,7 @@ builder.Services.AddControllers();
 builder.Services.AddScoped<Logger>();
 builder.Services.AddScoped<DeviceLoggingService>();
 builder.Services.AddSingleton<LifeSupportDatabaseService>();
+builder.Services.AddSingleton<ReactorDatabaseService>();
 
 // Registers EventBus as a singleton so controllers can use it
 builder.Services.AddSingleton<IEventBus, EventBus>();   // replaces var bus = newEventBus();
@@ -240,14 +241,19 @@ foreach (DeviceType type in Enum.GetValues<DeviceType>())
 // CONTROLLER INITIALIZATION
 // ============================================================================
 
-var lifeSupport = app.Services.GetRequiredService<LifeSupportDatabaseService>();
-lifeSupport.StartPeriodicSave(subId);
+var lifeSupportService = app.Services.GetRequiredService<LifeSupportDatabaseService>();
+var reactorService = app.Services.GetRequiredService<ReactorDatabaseService>();
 
-var controller = new LifeSupportController(bus, areaNames, devices);
+lifeSupportService.StartPeriodicSave(subId);
+reactorService.StartPeriodicSave(subId);
+
+var lifeSupportController = new LifeSupportController(bus, areaNames, devices);
+var reactorController = new ReactorController(bus, areaNames, devices);
 
 var movcont = new MovementController(mov);
 
-controller.SetupSubscriptions();
+lifeSupportController.SetupSubscriptions();
+reactorController.SetupSubscriptions();
 
 Console.WriteLine("Monitors started. API is starting...");
 

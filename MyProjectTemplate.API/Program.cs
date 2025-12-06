@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore; // Remember to press tools --> NuGet Package Manager --> Package Manager Console --> type the below
 using MyProjectTemplate.API.Controllers;
-using MyProjectTemplate.API.Services; 
+using MyProjectTemplate.API.Services;
 using MyProjectTemplate.API.Data;   // Install-Package Microsoft.EntityFrameworkCore.Tools
                                     // Search for sqlite efcore.sqlite and efcore.sqlite.core and download
 using MyProjectTemplate.API;
@@ -18,19 +18,19 @@ using MyProjectTemplate.API.SubSubController;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// ============================================================================
+// CONFIGURATION SETUP
+// ============================================================================
+
 builder.Services.Configure<DeviceThresholds>(
     builder.Configuration.GetSection("DeviceThresholds")); // This gets the device thresholds from the appsettings.json
 
-// Add services to the container.
-// Register MVC controllers (attribute routed controllers live under Controllers/)
-builder.Services.AddControllers();
-
-// Register the Device Logger as a singleton so it can be used throughout the whole app
-builder.Services.AddScoped<Logger>();
-builder.Services.AddScoped<DeviceLoggingService>();
+// ============================================================================
+// DATABASE CONFIGURATION
+// ============================================================================
 
 // Add EF Core + SQlite
-// This is how we will tell the ASP.NET Core dependency injection (DI) system: “Whenever something in our app asks for an AppDbContext, create one for it automatically.”
+// This is how we will tell the ASP.NET Core dependency injection (DI) system: "Whenever something in our app asks for an AppDbContext, create one for it automatically."
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
     // This is how we can use the database password variable instead of committing it to GitHub
@@ -40,20 +40,41 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite(baseConn);
 });
 
+// ============================================================================
+// API DOCUMENTATION & SWAGGER SETUP
+// ============================================================================
+
 // Add OpenAPI/Swagger generation for development and testing.
 // In production you may want to restrict or disable the swagger endpoint.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// ============================================================================
+// CORE SERVICES REGISTRATION
+// ============================================================================
+
+// Add services to the container.
+// Register MVC controllers (attribute routed controllers live under Controllers/)
+builder.Services.AddControllers();
+
+// Register the other services used by the app
+builder.Services.AddScoped<Logger>();
+builder.Services.AddScoped<DeviceLoggingService>();
+builder.Services.AddSingleton<LifeSupportDatabaseService>();
+
 // Registers EventBus as a singleton so controllers can use it
 builder.Services.AddSingleton<IEventBus, EventBus>();   // replaces var bus = newEventBus();
-
 
 //builder.Services.AddSingleton<IMovement, Movement>();
 var mov = new Movement();
 builder.Services.AddSingleton<IMovement>(mov);
 
+
+
+// ============================================================================
+// CORS CONFIGURATION
+// ============================================================================
 
 // CORS configuration:
 // - This sample adds a named policy "AllowReactApp" that whitelists origins used by the local client (Vite).
@@ -77,6 +98,9 @@ builder.Services.AddCors(options =>
         });
 });
 
+// ============================================================================
+// DEVICE INITIALIZATION
+// ============================================================================
 
 var o2 = new OxygenMonitor();
 var co2 = new Co2Monitor();
@@ -126,11 +150,22 @@ var devices = new Dictionary<string, IDevice>
     ["ReactorTemp"] = reactorTemp
 };
 
+// ============================================================================
+// DEPENDENCY INJECTION REGISTRATION
+// ============================================================================
+
 builder.Services.AddSingleton(areaNames);
 builder.Services.AddSingleton(devices);
 
+// ============================================================================
+// BUILD APPLICATION
+// ============================================================================
 
 var app = builder.Build();
+
+// ============================================================================
+// EVENT BUS & MONITOR INITIALIZATION
+// ============================================================================
 
 // --- EventBus + monitors: set these up BEFORE app.Run() ---
 
@@ -158,13 +193,15 @@ bus.Register(radiationMonitor);
 bus.Register(batteryMonitor);
 bus.Register(reactorTemp);
 
+// ============================================================================
+// DATABASE INITIALIZATION
+// ============================================================================
+
+var subId = Guid.Parse("11111111-1111-1111-1111-111111111111");
 // This forces in a sub (just a one time thang currently)
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-
-    // Pick a fixed SubId so readings can reference it
-    var subId = Guid.Parse("11111111-1111-1111-1111-111111111111");
 
     // Check if it already exists
     if (!db.SubData.Any(s => s.SubId == subId))
@@ -185,6 +222,9 @@ using (var scope = app.Services.CreateScope())
     }
 }
 
+// ============================================================================
+// EVENT SUBSCRIPTIONS
+// ============================================================================
 
 foreach (DeviceType type in Enum.GetValues<DeviceType>())
 {
@@ -196,7 +236,12 @@ foreach (DeviceType type in Enum.GetValues<DeviceType>())
     });
 }
 
+// ============================================================================
+// CONTROLLER INITIALIZATION
+// ============================================================================
 
+var lifeSupport = app.Services.GetRequiredService<LifeSupportDatabaseService>();
+lifeSupport.StartPeriodicSave(subId);
 
 var controller = new LifeSupportController(bus, areaNames, devices);
 
@@ -204,11 +249,11 @@ var movcont = new MovementController(mov);
 
 controller.SetupSubscriptions();
 
-
 Console.WriteLine("Monitors started. API is starting...");
 
-
-Console.WriteLine("Monitors started. API is starting...");
+// ============================================================================
+// MIDDLEWARE CONFIGURATION
+// ============================================================================
 
 // Development-only middleware: show Swagger UI and OpenAPI docs.
 // Keep these inside the IsDevelopment check to avoid exposing API docs in production.
@@ -228,13 +273,18 @@ app.UseCors("AllowReactApp");
 // Map controller routes(e.g., WeatherForecastControll
 app.MapControllers();
 
+// ============================================================================
+// APPLICATION RUN
+// ============================================================================
+
 app.Run();
 
+// ============================================================================
+// NOTES / WHERE TO UPDATE
+// ============================================================================
 
-
-// Notes / Where to update:
 // - Ports & URLs: see Properties/launchSettings.json. You can alter those or set environment variables
 //   like __ASPNETCORE_URLS__ or __ASPNETCORE_HTTPS_PORT__ when launching.
 // - To trust the local certificate used by Vite & ASP.NET Core, run: __dotnet dev-certs https --trust__
 // - If you want the SPA to be launched automatically by the server, see the client project __SpaProxyLaunchCommand__
-//   setting in the client server project (.csproj) and the 
+//   setting in the client server project (.csproj) and the

@@ -239,29 +239,8 @@ namespace MyProjectTemplate.API.LifeSupportSystems
             return Ok(new { status = "Reactor Critical Scenario activated" });
         }
 
-        // Scen
 
-        // Ryan's OG stuff below
-        // GET latest reading for a device
-        //[HttpGet("{deviceType}")]
-        //public IActionResult GetLatest(Guid deviceId)   // I don't want to break this, but idk if we need it
-        //{
-        //    if (_bus.TryGetLatest(deviceId, out var reading))
-        //        return Ok(reading);
-
-        //    return Ok(new { deviceId, value = 1, unit = "N/A" });
-        //}
-
-        //// POST a command (e.g. switch toggles)
-        //[HttpPost("command")]
-        //public IActionResult SendCommand([FromBody] DeviceCommand command)
-        //{
-        //    // For now, just log or forward to device
-        //    Console.WriteLine($"Command received: {command.DeviceType} -> {command.Action}");
-        //    return Ok(new { status = "accepted" });
-        //}
-
-        // fix attempt
+        
         [HttpGet("Oxygen")]
         public IActionResult GetOxygen()
         {
@@ -330,6 +309,53 @@ namespace MyProjectTemplate.API.LifeSupportSystems
 
             return NotFound();
         }
+
+
+
+        // Reactor Coolant
+        [HttpGet("Coolant")]
+        public IActionResult GetCoolant()
+        {
+            var coolantMonitor = (CoolantMonitor)_devices["Coolant"];
+            if (_bus.TryGetLatest(coolantMonitor.Id, out var reading))
+                return Ok(reading);
+
+            return NotFound();
+        }
+
+        // Reactor Fuel Rod Integrity
+        [HttpGet("FuelRod")]
+        public IActionResult GetFuelRod()
+        {
+            var fuelRodMonitor = (FuelRodMonitor)_devices["FuelRod"];
+            if (_bus.TryGetLatest(fuelRodMonitor.Id, out var reading))
+                return Ok(reading);
+
+            return NotFound();
+        }
+
+        // Reactor Radiation
+        [HttpGet("Radiation")]
+        public IActionResult GetRadiation()
+        {
+            var radMonitor = (RadMonitor)_devices["Radiation"];
+            if (_bus.TryGetLatest(radMonitor.Id, out var reading))
+                return Ok(reading);
+
+            return NotFound();
+        }
+
+        // Reactor Temperature (framework in place, not yet implemented)
+        [HttpGet("ReactorTemp")]
+        public IActionResult GetReactorTemp()
+        {
+            var reactorTempMonitor = (TemperatureMonitor)_devices["ReactorTemp"];
+            if (_bus.TryGetLatest(reactorTempMonitor.Id, out var reading))
+                return Ok(reading);
+
+            return NotFound();
+        }
+
 
     }
 

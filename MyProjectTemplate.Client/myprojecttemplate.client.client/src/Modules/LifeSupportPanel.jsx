@@ -94,11 +94,11 @@ export default function LifeSupportPanel() {
                 <div className="gauge-row switch-row">
                     <SceneButton
                         label="O2 Valve"
-                        alert={o2 && (o2.value < 19 || o2.value > 22)}
+                        alert={o2 && (o2.value < 19)}
                     />
                     <SceneButton
                         label="Scrubber"
-                        alert={co2 && (co2.value < 0 || co2.value > 1000)}
+                        alert={co2 && (co2.value > 1000)}
                     />
                 </div>
 
@@ -119,7 +119,7 @@ export default function LifeSupportPanel() {
                 <div className="gauge-item">
                     <div className="gauge-item">
                         <CustomGauge
-                            warning={IntPressure && (IntPressure.value < 0.76 || IntPressure.value > 2)}
+                            warning={IntPressure && (IntPressure.value < 0.76)}
                             label="Internal."
                             value={IntPressure ? IntPressure.value : 0}
                             min={0} max={4}
@@ -128,11 +128,11 @@ export default function LifeSupportPanel() {
                             labelType="bar"
                         />
                         <CustomGauge
-                            warning={ExPressure && ((ExPressure.value) < 1.2 || (ExPressure.value) > 20)}
+                            warning={ExPressure && ((ExPressure.value) < 0 || (ExPressure.value) > 20)}
                             label="External."
                             value={ExPressure ? ExPressure.value : 0}
-                            min={1} max={40}
-                            wLow={1.2} dLow={1.1}
+                            min={0} max={40}
+                            wLow={0.2} dLow={0.1}
                             wHigh={20} dHigh={30}
                             labelType="bar" />
                     </div>

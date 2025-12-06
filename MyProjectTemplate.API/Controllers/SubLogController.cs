@@ -1,9 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-
-// using Microsoft.Extensions.Logging; could maybe use this
-
 using MyProjectTemplate.API.Data;
 using MyProjectTemplate.API.LifeSupportSystems;
 using MyProjectTemplate.API.Models;
@@ -23,11 +20,14 @@ namespace MyProjectTemplate.API.Controllers
 
         private readonly List<IDisposable> subs = new();
 
-        public SubLogController(AppDbContext db, Logger logger, IOptions<DeviceThresholds> thresholds) {
+        public SubLogController(AppDbContext db, 
+                                Logger logger, 
+                                IOptions<DeviceThresholds> thresholds,
+                                DeviceLoggingService loggingService) {
             _db = db;
             _logger = logger;
             _thresh = thresholds.Value;
-            _loggingService = new DeviceLoggingService(_logger, thresholds);
+            _loggingService = loggingService;
         }
 
 

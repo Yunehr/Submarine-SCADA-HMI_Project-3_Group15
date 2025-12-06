@@ -14,6 +14,9 @@ public sealed class BatteryMonitor : MonitorBase
             // Simulate battery charge fluctuations
             var variation = (Random.Shared.NextDouble() - 0.5) * 2.0; // +/- 1%
             _currentCharge = Math.Max(0, Math.Min(100, _currentCharge + variation));
+            // var variation = (Random.Shared.NextDouble() - 0.5) * 2.0; // +/- 1%
+            // _currentCharge = Math.Max(0, Math.Min(100, _currentCharge + variation));
+            // or just return for a stable charge reading
             return _currentCharge;
         }
         else
@@ -22,6 +25,10 @@ public sealed class BatteryMonitor : MonitorBase
             _currentCharge = Math.Max(0, _currentCharge - 0.5); // Decrease by 0.5% each sample
             return _currentCharge;
         }
+    }
+    public double SampleSensorForTest()
+    {
+        return SampleSensor();
     }
 
     public void SCRAMBatteryDisconnect()

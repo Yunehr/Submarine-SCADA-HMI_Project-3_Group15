@@ -5,7 +5,7 @@
 
 using System;
 
-namespace MyProjectTemplate.API.SubSubController.SubControls
+namespace MyProjectTemplate.API.SubMovement.SubControls
 {
 
     //I don't want to make 7 different files when they all practically do one thing
@@ -65,16 +65,16 @@ namespace MyProjectTemplate.API.SubSubController.SubControls
         protected override double OffsetLimit { get; } = Math.PI * 2;
         //this should limit it to 360 deg in either direction
         
-
+        //what i'm changing is that instead of getting stuck at max, it rolls over instead
         public override double Offset
         {
             get => _offset; 
             set
             {  //technically I think this isn't necessary cus trig functions work above 360, but I didn't want to deal with stuff like that
                 if (value > OffsetLimit)
-                    _offset = 0;
+                    _offset = value%OffsetLimit;
                 else if (value < -OffsetLimit) 
-                    _offset = 0;
+                    _offset = value % (-OffsetLimit);
                 else
                     _offset = value;
             }

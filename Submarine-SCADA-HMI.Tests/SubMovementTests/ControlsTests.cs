@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MyProjectTemplate.API.SubSubController.SubControls;
+using MyProjectTemplate.API.SubMovement.SubControls;
 
-namespace Submarine_SCADA_HMI.Tests.SubControlsTests
+namespace Submarine_SCADA_HMI.Tests.SubMovementTests
 {
     [TestClass]
     public class ControlsTests
@@ -21,7 +21,11 @@ namespace Submarine_SCADA_HMI.Tests.SubControlsTests
             double[] actual = ct.CalcVelocity();
 
             //assert
-            CollectionAssert.AreEqual(expected, actual);
+                //collectionassert is really annoying and doesn't properly tell you whats wrong
+            Assert.AreEqual(expected[0], actual[0]);
+            Assert.AreEqual(expected[1], actual[1]);
+            Assert.AreEqual(expected[2], actual[2]);
+            Assert.AreEqual(expected[3], actual[3]);
         }
 
         [TestMethod]
@@ -38,7 +42,10 @@ namespace Submarine_SCADA_HMI.Tests.SubControlsTests
             double[] actual = ct.CalcVelocity();
 
             //assert
-            CollectionAssert.AreEqual(expected, actual);
+            Assert.AreEqual(expected[0], actual[0]);
+            Assert.AreEqual(expected[1], actual[1]);
+            Assert.AreEqual(expected[2], actual[2]);
+            Assert.AreEqual(expected[3], actual[3]);
         }
 
         [TestMethod]
@@ -47,7 +54,7 @@ namespace Submarine_SCADA_HMI.Tests.SubControlsTests
             //arrange
             IControls ct = new Controls();
             double offset = 40.0;
-            double[] expected = { 0.0, 0.0, offset, 0.0 };
+            double[] expected = { 0.0, 0.0, offset/20, 0.0 };
 
             //act
             ct.Pitch(2.1);
@@ -57,7 +64,10 @@ namespace Submarine_SCADA_HMI.Tests.SubControlsTests
             double[] actual = ct.CalcVelocity();
 
             //assert
-            CollectionAssert.AreEqual(expected, actual);
+            Assert.AreEqual(expected[0], actual[0]);
+            Assert.AreEqual(expected[1], actual[1]);
+            Assert.AreEqual(expected[2], actual[2]);
+            Assert.AreEqual(expected[3], actual[3]);
         }
 
         [TestMethod]
@@ -66,7 +76,7 @@ namespace Submarine_SCADA_HMI.Tests.SubControlsTests
             //arrange
             IControls ct = new Controls();
             double offset = 40.0;
-            double[] expected = { offset, 0.0, 0.0, offset };
+            double[] expected = { offset/10, 0.0, 0.0, offset/10 };
 
             //act
             ct.Thrust(offset);
@@ -74,7 +84,10 @@ namespace Submarine_SCADA_HMI.Tests.SubControlsTests
             double[] actual = ct.CalcVelocity();
 
             //assert
-            CollectionAssert.AreEqual(expected, actual);
+            Assert.AreEqual(expected[0], actual[0]);
+            Assert.AreEqual(expected[1], actual[1]);
+            Assert.AreEqual(expected[2], actual[2]);
+            Assert.AreEqual(expected[3], actual[3]);
         }
 
         [TestMethod]
@@ -93,7 +106,10 @@ namespace Submarine_SCADA_HMI.Tests.SubControlsTests
             double[] actual = ct.CalcVelocity();
 
             //assert
-            CollectionAssert.AreEqual(expected, actual);
+            Assert.AreEqual(expected[0], actual[0]);
+            Assert.AreEqual(expected[1], actual[1]);
+            Assert.AreEqual(expected[2], actual[2]);
+            Assert.AreEqual(expected[3], actual[3]);
         }
 
         [TestMethod]
@@ -101,7 +117,7 @@ namespace Submarine_SCADA_HMI.Tests.SubControlsTests
         {
             //arrange
             IControls ct = new Controls();
-            double[] expected = { 86.60254038, 0.0, 50.0, 100.0 };
+            double[] expected = { 8.66025404, 0.0, 5.0, 10.0};
 
             //act
             ct.PowerOn();
@@ -113,7 +129,10 @@ namespace Submarine_SCADA_HMI.Tests.SubControlsTests
             actual[2] = double.Round(actual[2], 8);
 
             //Assert
-            CollectionAssert.AreEqual(expected, actual);
+            Assert.AreEqual(expected[0], actual[0]);
+            Assert.AreEqual(expected[1], actual[1]);
+            Assert.AreEqual(expected[2], actual[2]);
+            Assert.AreEqual(expected[3], actual[3]);
         }
 
         [TestMethod]
@@ -121,7 +140,7 @@ namespace Submarine_SCADA_HMI.Tests.SubControlsTests
         {
             //arrange
             IControls ct = new Controls();
-            double[] expected = { 50.0, 0.0, -86.60254038, 100.0 };
+            double[] expected = { 5.0, 0.0, -8.66025404, 10.0 };
 
             //act
             ct.PowerOn();
@@ -133,7 +152,10 @@ namespace Submarine_SCADA_HMI.Tests.SubControlsTests
             actual[2] = double.Round(actual[2], 8);
 
             //assert
-             CollectionAssert.AreEqual(expected, actual);
+            Assert.AreEqual(expected[0], actual[0]);
+            Assert.AreEqual(expected[1], actual[1]);
+            Assert.AreEqual(expected[2], actual[2]);
+            Assert.AreEqual(expected[3], actual[3]);
         }
 
         [TestMethod]
@@ -141,7 +163,7 @@ namespace Submarine_SCADA_HMI.Tests.SubControlsTests
         {
             //arrange
             IControls ct = new Controls();
-            double[] expected = { 0.0, 0.0, 100.0, 100.0 };
+            double[] expected = { 0.0, 0.0, 10.0, 10.0 };
 
             //act
             ct.PowerOn();
@@ -153,7 +175,10 @@ namespace Submarine_SCADA_HMI.Tests.SubControlsTests
             actual[2] = double.Round(actual[2], 8);
 
             //assert
-            CollectionAssert.AreEqual(expected, actual);
+            Assert.AreEqual(expected[0], actual[0]);
+            Assert.AreEqual(expected[1], actual[1]);
+            Assert.AreEqual(expected[2], actual[2]);
+            Assert.AreEqual(expected[3], actual[3]);
         }
 
         [TestMethod]
@@ -161,7 +186,7 @@ namespace Submarine_SCADA_HMI.Tests.SubControlsTests
         {
             //arrange
             IControls ct = new Controls();
-            double[] expected = { 70.71067812, 70.71067812, 0.0, 100.0 };
+            double[] expected = { 7.07106781, 7.07106781, 0.0, 10.0 };
 
             //act
             ct.PowerOn();
@@ -173,7 +198,10 @@ namespace Submarine_SCADA_HMI.Tests.SubControlsTests
             actual[1] = double.Round(actual[1], 8);
 
             //assert
-            CollectionAssert.AreEqual(expected, actual);
+            Assert.AreEqual(expected[0], actual[0]);
+            Assert.AreEqual(expected[1], actual[1]);
+            Assert.AreEqual(expected[2], actual[2]);
+            Assert.AreEqual(expected[3], actual[3]);
         }
 
         [TestMethod]
@@ -181,7 +209,7 @@ namespace Submarine_SCADA_HMI.Tests.SubControlsTests
         {
             //arrange
             IControls ct = new Controls();
-            double[] expected = { 96.59258263, -25.88190451, 0.0, 100.0 };
+            double[] expected = { 9.65925826, -2.58819045, 0.0, 10.0 };
 
             //act
             ct.PowerOn();
@@ -193,27 +221,54 @@ namespace Submarine_SCADA_HMI.Tests.SubControlsTests
             actual[1] = double.Round(actual[1], 8);
 
             //assert
-            CollectionAssert.AreEqual(expected, actual);
+            Assert.AreEqual(expected[0], actual[0]);
+            Assert.AreEqual(expected[1], actual[1]);
+            Assert.AreEqual(expected[2], actual[2]);
+            Assert.AreEqual(expected[3], actual[3]);
         }
 
         [TestMethod]
-        public void Controls_YawLimit_IsValidMostly()
+        public void Controls_YawRollover_IsValidMostly()
         {
             //arrange
             IControls ct = new Controls();
-            double[] expected = { 0.0, 100.0, 0.0, 100.0 };
-
+            double[] expected = { 0.0, 10.0, 0.0, 10.0 };
             //act
             ct.PowerOn();
             ct.Thrust(100.0);
-            ct.Turn(90.0);
+            ct.Turn(450);//should resolve to 90d
             double[] actual = ct.CalcVelocity();
 
             actual[0] = double.Round(actual[0], 8);//amount of precision my calculator gives
             actual[1] = double.Round(actual[1], 8);
 
             //assert
-            CollectionAssert.AreEqual(expected, actual);
+            Assert.AreEqual(expected[0], actual[0]);
+            Assert.AreEqual(expected[1], actual[1]);
+            Assert.AreEqual(expected[2], actual[2]);
+            Assert.AreEqual(expected[3], actual[3]);
+        }
+
+        [TestMethod]
+        public void Controls_YawNegRollover_IsValidMostly()
+        {
+            //arrange
+            IControls ct = new Controls();
+            double[] expected = { 0.0, -10.0, 0.0, 10.0 };
+            //act
+            ct.PowerOn();
+            ct.Thrust(100.0);
+            ct.Turn(-450);//should resolve to -90d
+            double[] actual = ct.CalcVelocity();
+
+            actual[0] = double.Round(actual[0], 8);//amount of precision my calculator gives
+            actual[1] = double.Round(actual[1], 8);
+
+            //assert
+            Assert.AreEqual(expected[0], actual[0]);
+            Assert.AreEqual(expected[1], actual[1]);
+            Assert.AreEqual(expected[2], actual[2]);
+            Assert.AreEqual(expected[3], actual[3]);
         }
 
         [TestMethod]
@@ -221,7 +276,7 @@ namespace Submarine_SCADA_HMI.Tests.SubControlsTests
         {
             //arrange
             IControls ct = new Controls();
-            double[] expected = { 43.30127019, 75.0, 50.0, 100.0 };
+            double[] expected = { 4.33012702, 7.5, 5.0, 10.0 };
 
             //act
             ct.PowerOn();
@@ -235,7 +290,10 @@ namespace Submarine_SCADA_HMI.Tests.SubControlsTests
             actual[2] = double.Round(actual[2], 8);
 
             //assert
-            CollectionAssert.AreEqual(expected, actual);
+            Assert.AreEqual(expected[0], actual[0]);
+            Assert.AreEqual(expected[1], actual[1]);
+            Assert.AreEqual(expected[2], actual[2]);
+            Assert.AreEqual(expected[3], actual[3]);
         }
 
 
@@ -244,7 +302,7 @@ namespace Submarine_SCADA_HMI.Tests.SubControlsTests
         {
             //arrange
             IControls ct = new Controls();
-            double[] expected = { 70.71067812, 0.0, 170.71067812, 100.0 };
+            double[] expected = { 7.07106781, 0.0, 12.07106781, 10.0 };
 
             //act
             ct.PowerOn();
@@ -257,8 +315,10 @@ namespace Submarine_SCADA_HMI.Tests.SubControlsTests
             actual[2] = double.Round(actual[2], 8);
 
             //assert
-            CollectionAssert.AreEqual(expected, actual);
-
+            Assert.AreEqual(expected[0], actual[0]);
+            Assert.AreEqual(expected[1], actual[1]);
+            Assert.AreEqual(expected[2], actual[2]);
+            Assert.AreEqual(expected[3], actual[3]);
         }
     }
     }

@@ -128,11 +128,11 @@ export default function LifeSupportPanel() {
                             labelType="bar"
                         />
                         <CustomGauge
-                            warning={ExPressure && ((ExPressure.value) < 1.2 || (ExPressure.value) > 20)}
+                            warning={ExPressure && ((ExPressure.value) < 0 || (ExPressure.value) > 20)}
                             label="External."
                             value={ExPressure ? ExPressure.value : 0}
-                            min={1} max={40}
-                            wLow={1.2} dLow={1.1}
+                            min={0} max={40}
+                            wLow={0.2} dLow={0.1}
                             wHigh={20} dHigh={30}
                             labelType="bar" />
                     </div>

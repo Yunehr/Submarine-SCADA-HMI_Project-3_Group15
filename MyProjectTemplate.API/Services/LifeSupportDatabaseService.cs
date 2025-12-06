@@ -76,7 +76,7 @@ namespace MyProjectTemplate.API.Services
                     };
 
                     db.SubLifeSupportData.Add(lifeSupport);
-                    db.SaveChanges();
+                    //db.SaveChanges();
                 }
             }
         }

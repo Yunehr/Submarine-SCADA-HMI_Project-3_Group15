@@ -659,6 +659,11 @@
         box-shadow: 0 0 12px #F32013;
     }
 
+    .scram-light.on {
+        background-color: #02c245;
+        box-shadow: 0 0 6px #02c22f;
+    }
+
     /* Positioning lights */
     .scram-light.top-left {
         top: 8px;

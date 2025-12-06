@@ -1,12 +1,15 @@
 import React from "react";
 import "../App.css";
 
-export default function SceneButton({ label = "Scenario" }) {
+export default function SceneButton({ label = "Scenario", alert = false }) {
     // Map labels to backend endpoints
     const endpointMap = {
         "Scene 1": "/api/lifesupport/Oxygen Low",
         "Scene 2": "/api/lifesupport/Pressure Loss",
         "Scene 3": "/api/lifesupport/CO2 Spike",
+        Scrubber: '/api/lifesupport/scrubber',
+        'O2 Valve': '/api/lifesupport/OxygenGeneration',
+        'Pressurize': '/api/lifesupport/Pressurize'
         //"Scene 4": "/api/lifesupport/Reactor Critical Scenario"
     };
 
@@ -29,10 +32,13 @@ export default function SceneButton({ label = "Scenario" }) {
     return (
         <div>
             <div className="scene-panel">
-                <button className="scene-button" onClick={handleClick}>
-                </button>
+                <button
+                    className={`scene-button ${alert ? "alert" : ""}`}
+                    onClick={handleClick}
+                />
             </div>
             <div className="scene-label">{label}</div>
         </div>
+
     );
 }

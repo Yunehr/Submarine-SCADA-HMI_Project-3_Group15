@@ -156,9 +156,8 @@
 .gauge-row.switch-row {
     display: flex;
     justify-content: center;
-    margin-left: 5px;
-    margin-top:10px;
-    gap: 0px;
+    gap: 5px;
+    position: relative;
 }
 
 .gauge-label {
@@ -737,41 +736,61 @@
 .scene-panel {
     position: relative;
     width: 40px;
-    height: 40px;
+    height: 50px;
     margin-left: 20px;
     margin-top: 20px;
-    background: linear-gradient(180deg, #bcb9b6 0%, #8f8c8a 100%);
+    background: linear-gradient(180deg, #8f8c8a 0%, #6f6d6b 100%); /* duller casing */
     border: 1px solid rgba(0,0,0,0.6);
-    border-radius: 10px;
-    box-shadow: inset 0 2px 6px rgba(0,0,0,0.4), 0 6px 14px rgba(0,0,0,0.45);
+    border-radius: 8px; /* less blocky */
+    box-shadow: inset 0 2px 6px rgba(0,0,0,0.4), 0 4px 10px rgba(0,0,0,0.45);
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
+/* Base button: darker, flatter red */
 .scene-button {
     width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    background: radial-gradient(circle at 30% 30%, #ff4d4d, #8b0000);
+    height: 40px;
+    border-radius: 6px; /* less spherical */
+    background: linear-gradient(180deg, #5a0f0f 0%, #3a0a0a 100%);
     border: 1px solid #2b2b2b;
-    box-shadow: inset 0 -4px 8px rgba(0,0,0,0.6), 0 6px 14px rgba(0,0,0,0.45);
-    font-weight: 700;
-    font-size: 18px;
-    color: #fff;
+    box-shadow: inset 0 -2px 4px rgba(0,0,0,0.6), 0 2px 6px rgba(0,0,0,0.45);
     cursor: pointer;
-    transition: transform 120ms ease, box-shadow 200ms ease;
-    z-index: 1;
-    margin: auto;
+    transition: transform 150ms ease, box-shadow 200ms ease, background 200ms ease;
 }
-    .scene-button::after active {
-        transform: translateY(5px);
-        box-shadow: inset 0 -2px 6px rgba(0,0,0,0.6), 0 4px 10px rgba(0,0,0,0.45);
+
+    /* Click animation: subtle press */
+    .scene-button:active {
+        transform: scale(0.92);
+        box-shadow: inset 0 -1px 3px rgba(0,0,0,0.6), 0 1px 4px rgba(0,0,0,0.45);
     }
+
+    /* Alert state: lights up when backend says "needs pressing" */
+    .scene-button.alert {
+        background: linear-gradient(180deg, #d62828 0%, #8b0000 100%);
+        box-shadow: 0 0 12px #ff3b3b, inset 0 -2px 6px rgba(0,0,0,0.6);
+        animation: pulseGlow 1.5s infinite ease-in-out;
+    }
+
+/* Glowing pulse animation */
+@keyframes pulseGlow {
+    0% {
+        box-shadow: 0 0 6px #ff3b3b;
+    }
+
+    50% {
+        box-shadow: 0 0 14px #ff3b3b;
+    }
+
+    100% {
+        box-shadow: 0 0 6px #ff3b3b;
+    }
+}
 
 .scene-label {
     font-size: 13px;
     color: black;
     font-weight: 600;
-    margin-left: 20px;
+    margin-left: 0.85rem
 }

@@ -54,12 +54,12 @@ export default function Map() {
     const dotSize = 10;        // matches CSS width/height
 
     // Avoid divide-by-zero by checking range
-    const range = 2000; // since posx/posy go from -1000 to +1000
+    const range = 1000; // since posx/posy go from -1000 to +1000
     const safeRange = range === 0 ? 1 : range;
 
-    // Scale logical coordinates (-1000..1000) to pixel space
-    let pixelX = ((posy + 1000) / safeRange) * mapWidth;
-    let pixelY = (((-posx) + 1000) / safeRange) * mapHeight;
+    // Scale logical coordinates (-500..500) to pixel space
+    let pixelX = ((posy + 500) / safeRange) * mapWidth;
+    let pixelY = (((-posx) + 500) / safeRange) * mapHeight;
 
     // Center the dot (subtract half its size)
     pixelX -= dotSize / 2;
@@ -84,10 +84,10 @@ export default function Map() {
                 />
             </div>
             <div className="map-console-depth-label">
-                Depth: {posz}
+                Depth: {posz ? Number(posz).toFixed(0): 0}
             </div>
             <div className="map-console-label">
-                Position: {posy}, {posx}
+                Position: {posy ? Number(posy).toFixed(3) : 0 }, {posx ? Number(posx).toFixed(3): 0}
             </div>
         </div>
     );

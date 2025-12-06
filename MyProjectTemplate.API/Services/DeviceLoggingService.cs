@@ -33,25 +33,25 @@ public class DeviceLoggingService
 
         if (t.VeryLow is double vLow && r.Value < vLow)
         {
-            _logger.Danger(Guid.Parse("11111111-1111-1111-1111-111111111111"), $": {r.DeviceId} - {r.DeviceType} VERY low: {r.Value:F2}{r.Unit}");
+            _logger.Danger(Guid.Parse("11111111-1111-1111-1111-111111111111"), $": [DEVICE_ID]:{r.DeviceId} - [MSG]:{r.DeviceType} VERY low: {r.Value:F2} {r.Unit}");
             return;
         }
 
         if (t.Low is double low && r.Value < low)
         {
-            _logger.Warning(Guid.Parse("11111111-1111-1111-1111-111111111111"), $": {r.DeviceId} - {r.DeviceType} low: {r.Value:F2}{r.Unit}");
+            _logger.Warning(Guid.Parse("11111111-1111-1111-1111-111111111111"), $": [DEVICE_ID]:{r.DeviceId} - [MSG]:{r.DeviceType} low: {r.Value:F2} {r.Unit}");
             return;
         }
 
         if (t.High is double high && r.Value > high)
         {
-            _logger.Danger(Guid.Parse("11111111-1111-1111-1111-111111111111"), $": {r.DeviceId} - {r.DeviceType} high: {r.Value:F2}{r.Unit}");
+            _logger.Danger(Guid.Parse("11111111-1111-1111-1111-111111111111"), $": [DEVICE_ID]:{r.DeviceId} - [MSG]:{r.DeviceType} high: {r.Value:F2} {r.Unit}");
             return;
         }
 
         if (t.VeryHigh is double vHigh && r.Value > vHigh)
         {
-            _logger.Warning(Guid.Parse("11111111-1111-1111-1111-111111111111"), $": {r.DeviceId} - {r.DeviceType} VERY high: {r.Value:F2}{r.Unit}");
+            _logger.Warning(Guid.Parse("11111111-1111-1111-1111-111111111111"), $": [DEVICE_ID]:{r.DeviceId} - [MSG]:{r.DeviceType} - VERY high: {r.Value:F2} {r.Unit}");
             return;
         }
     }

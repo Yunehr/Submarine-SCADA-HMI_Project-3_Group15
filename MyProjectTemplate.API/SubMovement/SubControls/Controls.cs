@@ -6,7 +6,7 @@
 //how do namespaces work? no clue
 using System;
 
-namespace MyProjectTemplate.API.SubSubController.SubControls //capitals? iunno
+namespace MyProjectTemplate.API.SubMovement.SubControls //capitals? iunno
 {
 
     //ugghhh how do permissions work

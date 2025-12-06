@@ -1,9 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using MyProjectTemplate.API.SubMovement;
-using MyProjectTemplate.API.SubSubController.SubControls;
-using MyProjectTemplate.API.SubSubController.SubNav;
+using MyProjectTemplate.API.SubMovement.SubControls;
+using MyProjectTemplate.API.SubMovement.SubNav;
 
-namespace MyProjectTemplate.API.SubSubController
+namespace MyProjectTemplate.API.SubMovement
 {
     public class Movement:IMovement
     {
@@ -53,7 +52,7 @@ namespace MyProjectTemplate.API.SubSubController
         {
             double[] temp = helm.CalcVelocity();
 
-            return temp[4];//loc of speed
+            return temp[3];//loc of speed
         }//might be useless since the thruster bar should tell you this
 
 
@@ -91,6 +90,20 @@ namespace MyProjectTemplate.API.SubSubController
 
             clock.AutoReset = true;
             clock.Start(); //same as clock.enabled= true
+        }
+
+
+        //TESTING
+        //timer doesn't work in the unit tests, use these instead (they work the same)
+        private void TestingUpdatePos()
+        {
+            double[] temp = helm.CalcVelocity(); //the only way to get helm's values I think
+            navi.UpdatePos(temp[0], temp[1], temp[2]); //moves sub by that much
+        }
+
+        public void TestingRunStartOnce()
+        {
+            TestingUpdatePos();
         }
 
 

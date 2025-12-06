@@ -1,7 +1,7 @@
 ﻿//sebastian solorzano -- pr3j group 15 (sebastian, sam, evan, ryan) -- CSCN72030 f25
 //imp for navi
 //pretty sure I don't need includes i'm doing fairly basic math
-namespace MyProjectTemplate.API.SubSubController.SubNav
+namespace MyProjectTemplate.API.SubMovement.SubNav
 {
     public class Navi:INavi
     {

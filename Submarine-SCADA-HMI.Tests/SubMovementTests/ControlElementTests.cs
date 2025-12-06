@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MyProjectTemplate.API.SubSubController.SubControls;
+using MyProjectTemplate.API.SubMovement.SubControls;
 
-namespace Submarine_SCADA_HMI.Tests.SubControlsTests
+namespace Submarine_SCADA_HMI.Tests.SubMovementTests
 {
     [TestClass]
     public class CTRLElements_Tests
@@ -76,7 +76,7 @@ namespace Submarine_SCADA_HMI.Tests.SubControlsTests
             double expected = (Math.PI/2.0);
 
             //act
-            ControlElement ce = new SternPlate(); //either rudder or sternp work for this test
+            ControlElement ce = new SternPlate(); 
             ce.Offset = difference;
 
             //assert
@@ -148,6 +148,52 @@ namespace Submarine_SCADA_HMI.Tests.SubControlsTests
 
             //assert
             Assert.AreEqual(expected, pp.IsOn);
+        }
+    }
+
+    [TestClass]
+    public class Rudder_Tests
+    {
+        [TestMethod]
+        public void Rudder_Rollover_IsValid()
+        {
+            //arrange
+            double difference = Math.PI*2 + Math.PI/4; //360+45d
+
+            //act
+            ControlElement ce = new Rudder(); //ballast has no modifications, so using it
+            ce.Offset = difference;
+
+            //assert
+            Assert.AreEqual(Math.PI/4, ce.Offset);
+        }
+
+        [TestMethod]
+        public void Rudder_NegRollover_IsValid()
+        {
+            //arrange
+            double difference = -(Math.PI * 2 + Math.PI / 4); //-(360+45d)
+
+            //act
+            ControlElement ce = new Rudder(); //ballast has no modifications, so using it
+            ce.Offset = difference;
+
+            //assert
+            Assert.AreEqual(-(Math.PI / 4), ce.Offset);
+        }
+
+        [TestMethod]
+        public void Rudder_Rolloverlimit_IsValid()
+        {
+            //arrange
+            double difference = Math.PI * 2 ; //360
+
+            //act
+            ControlElement ce = new Rudder(); //ballast has no modifications, so using it
+            ce.Offset = difference;
+
+            //assert
+            Assert.AreEqual(Math.PI*2, ce.Offset);
         }
     }
 }

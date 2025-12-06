@@ -11,20 +11,25 @@ export default function ScramPanel() {
     const toggleCover = () => setCoverOpen(!coverOpen);
 
     const handleScramClick = () => {
-        fetch("/api/LifeSupport/SCRAM Reactor", { method: "POST" })
+        fetch("/api/Reactor/SCRAM Reactor", { method: "POST" })
             .then(res => res.json())
-            .then(data => console.log("SCRAM executed:", data))
+            .then(data => {
+                console.log("SCRAM executed:", data);
+                // Show popup alert
+                window.alert("Scram Button Pressed: Resetting Reactor to Nominal State!");
+            })
             .catch(err => console.error("SCRAM failed:", err));
     };
+
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const [coolantRes, fuelRes, radRes/*, tempRes*/] = await Promise.all([
-                    fetch("/api/LifeSupport/Coolant"),
-                    fetch("/api/LifeSupport/FuelRod"),
-                    fetch("/api/LifeSupport/Radiation"),
-                    fetch("/api/LifeSupport/ReactorTemp")
+                    fetch("/api/Reactor/Coolant"),
+                    fetch("/api/Reactor/FuelRod"),
+                    fetch("/api/Reactor/Radiation"),
+                    fetch("/api/Reactor/ReactorTemp")
                 ]);
 
                 if (coolantRes.ok) setCoolant(await coolantRes.json());
@@ -80,9 +85,9 @@ export default function ScramPanel() {
     const coolantLight = getLightClass(coolant, {
         min: COOLANT_MIN,              // safe minimum coolant level
         critical: COOLANT_CRITICAL,    // critical low coolant level
-        max: 100.2,                    // absolute maximum (overfill)
+        max: 101.2,                    // absolute maximum (overfill)
         warnLow: COOLANT_MIN,          // warning if at minimum
-        warnHigh: 100.1                // warning if approaching max
+        warnHigh: 101.1                // warning if approaching max
     });
 
     // Fuel rod integrity light
@@ -90,9 +95,9 @@ export default function ScramPanel() {
     const fuelRodLight = getLightClass(fuelRod, {
         min: FUEL_ROD_MIN,
         critical: FUEL_ROD_CRITICAL,
-        max: 100.2,
+        max: 101.2,
         warnLow: FUEL_ROD_MIN,
-        warnHigh: 100.1
+        warnHigh: 101.1
     });
 
     // Radiation level light

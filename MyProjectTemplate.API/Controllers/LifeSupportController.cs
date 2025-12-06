@@ -163,32 +163,7 @@ namespace MyProjectTemplate.API.LifeSupportSystems
             return Ok(new { status = "Air Reserve Reset activated" });
         }
 
-        [HttpPost("SCRAM Reactor")]
-        public IActionResult SCRAMReactor()
-        {
-            // Reset reactor output to 0
-            var reactorOutputMonitor = (ReactorOutputMonitor)_devices["ReactorOutput"];
-            reactorOutputMonitor.SCRAMReactorOutput();
-
-            var coolantMonitor = (CoolantMonitor)_devices["Coolant"];
-            coolantMonitor.SCRAMCoolantLevel();
-
-            var fuelRodMonitor = (FuelRodMonitor)_devices["FuelRod"];
-            fuelRodMonitor.SCRAMFuelRodIntegrity();
-
-            var radiationMonitor = (RadMonitor)_devices["Radiation"];
-            radiationMonitor.SCRAMRadiationLevel();
-
-            // This one requires more refactoring than time permits to get the 
-            // different temp devices to be set separately
-            // var reactorTempMonitor = (TemperatureMonitor)_devices["ReactorTemp"];
-            // reactorTempMonitor.SCRAMReactorTemperature();
-
-            var batteryMonitor = (BatteryMonitor)_devices["Battery"];
-            batteryMonitor.SCRAMBatteryDisconnect();
-
-            return Ok(new { status = "Reactor SCRAM activated" });
-        }
+        
 
         // Scenario 1
         [HttpPost("Oxygen Low")]
@@ -227,14 +202,14 @@ namespace MyProjectTemplate.API.LifeSupportSystems
             // var reactorOutputMonitor = (ReactorOutputMonitor)_devices["ReactorOutput"];
             // reactorOutputMonitor.ReactorOutputSpike();
 
-            // var coolantMonitor = (CoolantMonitor)_devices["Coolant"];
-            // coolantMonitor.CoolantLevelDrop();
+            var coolantMonitor = (CoolantMonitor)_devices["Coolant"];
+            coolantMonitor.CoolantLevelDrop();
 
             var fuelRodMonitor = (FuelRodMonitor)_devices["FuelRod"];
             fuelRodMonitor.FuelRodIntegrityDrop();
 
-            // var radiationMonitor = (RadMonitor)_devices["Radiation"];
-            // radiationMonitor.RadiationLevelSpike();
+            var radiationMonitor = (RadMonitor)_devices["Radiation"];
+            radiationMonitor.RadiationLevelSpike();
 
             return Ok(new { status = "Reactor Critical Scenario activated" });
         }

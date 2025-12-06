@@ -9,8 +9,8 @@ export default function SceneButton({ label = "Scenario", alert = false }) {
         "Scene 3": "/api/lifesupport/CO2 Spike",
         Scrubber: '/api/lifesupport/scrubber',
         'O2 Valve': '/api/lifesupport/OxygenGeneration',
-        'Pressurize': '/api/lifesupport/Pressurize'
-        //"Scene 4": "/api/lifesupport/Reactor Critical Scenario"
+        'Pressurize': '/api/lifesupport/Pressurize',
+        "Scene 4": "/api/lifesupport/Reactor Critical Scenario"
     };
 
     const handleClick = () => {

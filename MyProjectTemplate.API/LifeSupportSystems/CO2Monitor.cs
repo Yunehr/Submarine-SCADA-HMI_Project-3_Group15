@@ -12,6 +12,11 @@ public sealed class Co2Monitor : MonitorBase
         return value;
     }
 
+    public double SampleSensorForTest()
+    {
+        return SampleSensor();
+    }
+
     public void resetCo2Level()
     {
         _currentLevel = 0; // Reset to normal CO2 level

@@ -11,6 +11,11 @@ public sealed class OxygenMonitor : MonitorBase
         _currentLevel -= 0.02;  // Simulate oxygen decrease each sample
         return value;
     }
+    
+    public double SampleSensorForTest()
+    {
+        return SampleSensor();
+    }
 
     public void resetOxygenLevel()
     {

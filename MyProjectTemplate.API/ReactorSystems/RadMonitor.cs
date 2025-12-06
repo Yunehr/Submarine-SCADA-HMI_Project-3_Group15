@@ -21,6 +21,11 @@ public sealed class RadMonitor : MonitorBase
             return _currentLevel;
         }
     }
+    public double SampleSensorForTest()
+    {
+        return SampleSensor();
+    }
+
     public void SCRAMRadiationLevel()
     {
         _isSCRAMmed = true;

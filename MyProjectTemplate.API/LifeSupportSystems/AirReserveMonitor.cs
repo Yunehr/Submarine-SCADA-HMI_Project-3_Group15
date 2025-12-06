@@ -13,6 +13,12 @@ public sealed class AirReserveMonitor : MonitorBase
         //_currentLevel -= 0.05; // Simulate air reserve decrease each sample
         return value;
     }
+
+    public double SampleSensorForTest()
+    {
+        return SampleSensor();
+    }
+    
     public void resetAirReserveLevel()
     {
         _currentLevel = 100.0; // Reset to normal air reserve level

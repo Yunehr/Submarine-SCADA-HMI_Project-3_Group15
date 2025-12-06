@@ -26,5 +26,10 @@ namespace MyProjectTemplate.API.LifeSupportSystems
                 _currentLevel = externalPressure;
             return _currentLevel;
         }
+
+        public double SampleSensorForTest()
+        {
+            return SampleSensor();
+        }
     }
 }

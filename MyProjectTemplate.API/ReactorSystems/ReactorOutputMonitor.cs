@@ -22,6 +22,10 @@ public sealed class ReactorOutputMonitor : MonitorBase
         }
         
     }
+    public double SampleSensorForTest()
+    {
+        return SampleSensor();
+    }
 
     public void SCRAMReactorOutput()
     {

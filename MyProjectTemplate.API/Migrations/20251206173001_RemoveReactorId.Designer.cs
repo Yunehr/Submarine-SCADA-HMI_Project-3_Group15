@@ -11,7 +11,7 @@ using MyProjectTemplate.API.Data;
 namespace MyProjectTemplate.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251206164144_RemoveReactorId")]
+    [Migration("20251206173001_RemoveReactorId")]
     partial class RemoveReactorId
     {
         /// <inheritdoc />

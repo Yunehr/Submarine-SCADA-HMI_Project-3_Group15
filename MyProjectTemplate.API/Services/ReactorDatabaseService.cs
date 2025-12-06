@@ -40,7 +40,7 @@ namespace MyProjectTemplate.API.Services
         // The timer method is used to prevent billions of writes to the DB (because of the 5 subscriptions)
         public void StartPeriodicSave(Guid subId)
         {
-            _saveTimer = new System.Timers.Timer(500);
+            _saveTimer = new System.Timers.Timer(1000);
             _saveTimer.Elapsed += (sender, e) => SaveConsolidatedReading(subId);
             _saveTimer.AutoReset = true;
             _saveTimer.Start();

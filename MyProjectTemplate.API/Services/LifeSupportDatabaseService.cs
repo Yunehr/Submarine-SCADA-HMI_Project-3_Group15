@@ -2,69 +2,94 @@
 using MyProjectTemplate.API.Models;
 using MyProjectTemplate.API.LifeSupportSystems;
 using MyProjectTemplate.API;
+using System.Collections.Generic;
 
 namespace MyProjectTemplate.API.Services
 {
     public class LifeSupportDatabaseService
     {
         private readonly IServiceProvider _serviceProvider;
-        private Dictionary<string, IDevice> _devices;
-        private System.Diagnostics.Stopwatch _lastSaveTime;
-        private readonly object _lockObj = new object();
-        private const int SaveIntervalMs = 500;
+        private readonly IEventBus _eventBus;
+        private readonly Dictionary<string, Guid> _deviceIdMap;
 
-        public LifeSupportDatabaseService(IServiceProvider serviceProvider, Dictionary<string, IDevice> devices)
+        // Got this timer method from online
+        private System.Timers.Timer? _saveTimer;
+        private readonly object _lockObj = new object();
+
+        public LifeSupportDatabaseService(
+            IServiceProvider serviceProvider, 
+            IEventBus eventBus,
+            Dictionary<string, IDevice> devices)
         {
             _serviceProvider = serviceProvider;
-            _devices = devices;
-            _lastSaveTime = System.Diagnostics.Stopwatch.StartNew();
+            _eventBus = eventBus;
+            
+            // Map device keys to their IDs for later lookup
+            _deviceIdMap = new Dictionary<string, Guid>
+            {
+                ["O2"] = devices["O2"].Id,
+                ["CO2"] = devices["CO2"].Id,
+                ["Air"] = devices["Air"].Id,
+                ["IntPressure"] = devices["IntPressure"].Id,
+                ["ExPressure"] = devices["ExPressure"].Id,
+                ["Temperature"] = devices["Temperature"].Id,
+                ["Humidity"] = devices["Humidity"].Id
+            };
         }
 
-        // Called from event bus subscription - saves only if 500ms has passed since last save
-        public void OnDeviceReadingReceived(DeviceReading reading)
+        // The timer method is used to prevent billions of writes to the DB (because of the 5 subscriptions)
+        public void StartPeriodicSave(Guid subId)
         {
-            lock (_lockObj)
+            _saveTimer = new System.Timers.Timer(500);
+            _saveTimer.Elapsed += (sender, e) => SaveConsolidatedReading(subId);
+            _saveTimer.AutoReset = true;
+            _saveTimer.Start();
+        }
+
+        public void StopPeriodicSave()
+        {
+            _saveTimer?.Stop();
+            _saveTimer?.Dispose();
+            _saveTimer = null;
+        }
+
+        private void SaveConsolidatedReading(Guid subId)
+        {
+            lock (_lockObj) // Using the timer
             {
-                // Only save if enough time has passed (debounce multiple rapid events)
-                if (_lastSaveTime.ElapsedMilliseconds >= SaveIntervalMs)
+                using (var scope = _serviceProvider.CreateScope())
                 {
-                    SaveConsolidatedReading(Guid.Parse("11111111-1111-1111-1111-111111111111"));
-                    _lastSaveTime.Restart();
+                    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+                    var lifeSupport = new SubLifeSupportDatum
+                    {
+                        SubId = subId,
+                        O2level = GetDeviceValue("O2"),
+                        Co2level = GetDeviceValue("CO2"),
+                        AirTanklevel = GetDeviceValue("Air"),
+                        InternalPressure = GetDeviceValue("IntPressure"),
+                        ExternalPressure = GetDeviceValue("ExPressure"),
+                        Temperature = GetDeviceValue("Temperature"),
+                        Humidity = GetDeviceValue("Humidity"),
+                        TimeData = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
+                    };
+
+                    db.SubLifeSupportData.Add(lifeSupport);
+                    db.SaveChanges();
                 }
             }
         }
 
-        public void SaveConsolidatedReading(Guid subId)
+        private double? GetDeviceValue(string deviceKey)
         {
-            using (var scope = _serviceProvider.CreateScope())
+            if (_deviceIdMap.TryGetValue(deviceKey, out var deviceId))
             {
-                var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-
-                var lifeSupport = new SubLifeSupportDatum
+                if (_eventBus.TryGetLatest(deviceId, out var reading))
                 {
-                    SubId = subId,
-                    O2level = GetDeviceValue("O2"),
-                    Co2level = GetDeviceValue("CO2"),
-                    AirTanklevel = GetDeviceValue("Air"),
-                    InternalPressure = GetDeviceValue("IntPressure"),
-                    ExternalPressure = GetDeviceValue("ExPressure"),
-                    Temperature = GetDeviceValue("Temperature"),
-                    Humidity = GetDeviceValue("Humidity"),
-                    TimeData = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
-                };
-
-                db.SubLifeSupportData.Add(lifeSupport);
-                db.SaveChanges();
+                    return Math.Round(reading.Value, 2); // Round that thang 
+                }
             }
-        }
-
-        private double GetDeviceValue(string deviceKey)
-        {
-            if (_devices.TryGetValue(deviceKey, out var device))
-            {
-                return device.CurrentValue;
-            }
-            return 0.0;
+            return null;
         }
     }
 }

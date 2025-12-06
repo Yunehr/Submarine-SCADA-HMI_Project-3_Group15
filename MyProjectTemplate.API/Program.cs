@@ -54,12 +54,23 @@ builder.Services.AddSwaggerGen();
 // CORE SERVICES REGISTRATION
 // ============================================================================
 
+// Add services to the container.
+// Register MVC controllers (attribute routed controllers live under Controllers/)
+builder.Services.AddControllers();
+
+// Register the other services used by the app
+builder.Services.AddScoped<Logger>();
+builder.Services.AddScoped<DeviceLoggingService>();
+builder.Services.AddSingleton<LifeSupportDatabaseService>();
+
 // Registers EventBus as a singleton so controllers can use it
 builder.Services.AddSingleton<IEventBus, EventBus>();   // replaces var bus = newEventBus();
 
 //builder.Services.AddSingleton<IMovement, Movement>();
 var mov = new Movement();
 builder.Services.AddSingleton<IMovement>(mov);
+
+
 
 // ============================================================================
 // CORS CONFIGURATION
@@ -143,17 +154,6 @@ var devices = new Dictionary<string, IDevice>
 // DEPENDENCY INJECTION REGISTRATION
 // ============================================================================
 
-// Register the Device Logger as a singleton so it can be used throughout the whole app
-// Add services to the container.
-// Register MVC controllers (attribute routed controllers live under Controllers/)
-builder.Services.AddControllers();
-builder.Services.AddScoped<Logger>();
-
-builder.Services.AddSingleton<LifeSupportDatabaseService>(provider =>
-{
-    return new LifeSupportDatabaseService(provider, devices);
-});
-
 builder.Services.AddSingleton(areaNames);
 builder.Services.AddSingleton(devices);
 
@@ -226,25 +226,22 @@ using (var scope = app.Services.CreateScope())
 // EVENT SUBSCRIPTIONS
 // ============================================================================
 
-var lifeSupport = app.Services.GetRequiredService<LifeSupportDatabaseService>();
-
-// Subscribing devices
 foreach (DeviceType type in Enum.GetValues<DeviceType>())
 {
     bus.Subscribe(type, reading =>
     {
         using var scope = app.Services.CreateScope();
-        var logAlerts = scope.ServiceProvider.GetRequiredService<DeviceLoggingService>();
-        logAlerts.HandleReading(reading);
-
-        // Save consolidated data to database (debounced to max 1 save per 500ms)
-        lifeSupport.OnDeviceReadingReceived(reading);
+        var alerts = scope.ServiceProvider.GetRequiredService<DeviceLoggingService>();
+        alerts.HandleReading(reading);
     });
 }
 
 // ============================================================================
 // CONTROLLER INITIALIZATION
 // ============================================================================
+
+var lifeSupport = app.Services.GetRequiredService<LifeSupportDatabaseService>();
+lifeSupport.StartPeriodicSave(subId);
 
 var controller = new LifeSupportController(bus, areaNames, devices);
 
@@ -290,4 +287,4 @@ app.Run();
 //   like __ASPNETCORE_URLS__ or __ASPNETCORE_HTTPS_PORT__ when launching.
 // - To trust the local certificate used by Vite & ASP.NET Core, run: __dotnet dev-certs https --trust__
 // - If you want the SPA to be launched automatically by the server, see the client project __SpaProxyLaunchCommand__
-//   setting in the client server project (.csproj) and the 
+//   setting in the client server project (.csproj) and the
